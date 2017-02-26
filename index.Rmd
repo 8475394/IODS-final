@@ -5,6 +5,7 @@ date: "26 helmikuuta 2017"
 output: 
   html_document:
     theme: sandstone
+    highlight: tango
     toc: true
     toc_float:
       collapsed: false
@@ -24,3 +25,7 @@ Some writing
 ## other testing
 
 Some writing 
+
+https://www.r-bloggers.com/ 
+
+
