@@ -1,7 +1,9 @@
 ---
 title: "IODS-final"
-author: "Heidimaa"
-date: "26 helmikuuta 2017"
+author: 
+- Heidi Maanonen
+- heidi.maanonen@helsinki.fi
+date: "26.2.2017"
 output: 
   html_document:
     theme: sandstone
