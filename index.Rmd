@@ -1,0 +1,26 @@
+---
+title: "IODS-final"
+author: "Heidimaa"
+date: "26 helmikuuta 2017"
+output: 
+  html_document:
+    theme: sandstone
+    toc: true
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
+    number_sections: true
+    toc_depth: 2
+    fig_caption: true
+    fig_width: 6
+    fig_height: 4
+    code_folding: hide
+---
+
+# Testing
+
+Some writing
+
+## other testing
+
+Some writing 
