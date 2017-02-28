@@ -71,7 +71,21 @@ You can find all of the datasets from my [GitHub Repository](https://github.com/
 &nbsp;
 
 
+```{r, message=FALSE, warning=FALSE}
+# Reading the data with interests and demographics
+interests_dem <- read.table(file.path("C:/Users/heidi/Documents/YLIOPISTO/TILASTOTIEDE/INTRODUCTION TO OPEN DATA SCIENCE/IODS-final/data", "interests_dem.txt"), header = TRUE)
 
+# Printing the data structure
+library(dplyr)
+glimpse(interests_dem)
+```
+
+
+&nbsp;
+
+
+
+  
 
 &nbsp;
 
