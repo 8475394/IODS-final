@@ -70,6 +70,14 @@ You can find all of the datasets from my [GitHub Repository](https://github.com/
 
 &nbsp;
 
+From the structure table below you see that after data wrangling part there are 881 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people and were measured on the [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale) from 1 to 5. Last two variables contains information about age and gender. 
+
+Some of these variables may need some additional information, thus I made a table for Interest and according variable short names. See this after the structure table.
+
+&nbsp;
+
+<p class="text-warning">DATA STRUCTURE</p>
+
 
 ```{r, message=FALSE, warning=FALSE}
 # Reading the data with interests and demographics
@@ -83,11 +91,39 @@ glimpse(interests_dem)
 
 &nbsp;
 
+<p class="text-warning">INTERESTS AND THEIR SHORT NAMES</p> 
 
 
-  
+
+INTEREST        | Short name          | INTEREST    | Short name
+----------------|---------------------|-------------|-------------
+1. History           | History        | 18. Religion     | Religion
+2. Psychology        | Psychology     | 19. Outdoor activities | Outdoor
+3. Politics          | Politics       | 20. Dancing     | Dancing
+4. Mathematics       | Mathematics    | 21. Playing musical instruments | Instruments
+5. Physics           | Physics        | 22. Poetry writing | wPoetry
+6. Internet          | Internet       | 23. Sport and leisure activities | sLeisure
+7. PC Software, Hardware| PC          | 24. Sport at competitive level | sCompetitive
+8. Economy, Management | Economy      | 25. Gardening | Gardening
+9. Biology           | Biology        | 26. Celebrity lifestyle | Celebrities
+10. Chemistry         | Chemistry     | 27. Shopping | Shopping
+11. Poetry reading    | rPoetry       | 28. Science and technology | SciTec
+12. Geography         | Geography     | 29. Theatre | Theatre
+13. Foreign languages | Languages     | 30. Socializing with friends | Social
+14. Medicine          | Medicine      | 31. Adrenaline sports | sAdrenaline
+15. Law               | Law           | 32. Pets | Pets
+16. Cars              | Cars          | 33. Age | Age
+17. Art exhibitions   | Art           | 34. Gender | Gender
+
 
 &nbsp;
+
+## Summary tables 
+
+&nbsp;
+
+
+
 
 
 

@@ -313,6 +313,12 @@ BRIEF DESCRIPTION OF DATA WRANGLING PHASES:
 <div id="introducing-the-variables" class="section level2">
 <h2><span class="header-section-number">2.2</span> Introducing the variables</h2>
 <p> </p>
+<p>From the structure table below you see that after data wrangling part there are 881 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people and were measured on the <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert Scale</a> from 1 to 5. Last two variables contains information about age and gender.</p>
+<p>Some of these variables may need some additional information, thus I made a table for Interest and according variable short names. See this after the structure table.</p>
+<p> </p>
+<p class="text-warning">
+DATA STRUCTURE
+</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Reading the data with interests and demographics</span>
 interests_dem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<span class="kw">file.path</span>(<span class="st">&quot;C:/Users/heidi/Documents/YLIOPISTO/TILASTOTIEDE/INTRODUCTION TO OPEN DATA SCIENCE/IODS-final/data&quot;</span>, <span class="st">&quot;interests_dem.txt&quot;</span>), <span class="dt">header =</span> <span class="ot">TRUE</span>)
 
@@ -356,6 +362,127 @@ interests_dem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<
 ## $ Age          &lt;int&gt; 20, 19, 20, 22, 20, 20, 20, 19, 18, 19, 19, 17, 2...
 ## $ Gender       &lt;fctr&gt; female, female, female, female, female, male, fe...</code></pre>
 <p> </p>
+<p class="text-warning">
+INTERESTS AND THEIR SHORT NAMES
+</p>
+<table>
+<thead>
+<tr class="header">
+<th>INTEREST</th>
+<th>Short name</th>
+<th>INTEREST</th>
+<th>Short name</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1. History</td>
+<td>History</td>
+<td>18. Religion</td>
+<td>Religion</td>
+</tr>
+<tr class="even">
+<td>2. Psychology</td>
+<td>Psychology</td>
+<td>19. Outdoor activities</td>
+<td>Outdoor</td>
+</tr>
+<tr class="odd">
+<td>3. Politics</td>
+<td>Politics</td>
+<td>20. Dancing</td>
+<td>Dancing</td>
+</tr>
+<tr class="even">
+<td>4. Mathematics</td>
+<td>Mathematics</td>
+<td>21. Playing musical instruments</td>
+<td>Instruments</td>
+</tr>
+<tr class="odd">
+<td>5. Physics</td>
+<td>Physics</td>
+<td>22. Poetry writing</td>
+<td>wPoetry</td>
+</tr>
+<tr class="even">
+<td>6. Internet</td>
+<td>Internet</td>
+<td>23. Sport and leisure activities</td>
+<td>sLeisure</td>
+</tr>
+<tr class="odd">
+<td>7. PC Software, Hardware</td>
+<td>PC</td>
+<td>24. Sport at competitive level</td>
+<td>sCompetitive</td>
+</tr>
+<tr class="even">
+<td>8. Economy, Management</td>
+<td>Economy</td>
+<td>25. Gardening</td>
+<td>Gardening</td>
+</tr>
+<tr class="odd">
+<td>9. Biology</td>
+<td>Biology</td>
+<td>26. Celebrity lifestyle</td>
+<td>Celebrities</td>
+</tr>
+<tr class="even">
+<td>10. Chemistry</td>
+<td>Chemistry</td>
+<td>27. Shopping</td>
+<td>Shopping</td>
+</tr>
+<tr class="odd">
+<td>11. Poetry reading</td>
+<td>rPoetry</td>
+<td>28. Science and technology</td>
+<td>SciTec</td>
+</tr>
+<tr class="even">
+<td>12. Geography</td>
+<td>Geography</td>
+<td>29. Theatre</td>
+<td>Theatre</td>
+</tr>
+<tr class="odd">
+<td>13. Foreign languages</td>
+<td>Languages</td>
+<td>30. Socializing with friends</td>
+<td>Social</td>
+</tr>
+<tr class="even">
+<td>14. Medicine</td>
+<td>Medicine</td>
+<td>31. Adrenaline sports</td>
+<td>sAdrenaline</td>
+</tr>
+<tr class="odd">
+<td>15. Law</td>
+<td>Law</td>
+<td>32. Pets</td>
+<td>Pets</td>
+</tr>
+<tr class="even">
+<td>16. Cars</td>
+<td>Cars</td>
+<td>33. Age</td>
+<td>Age</td>
+</tr>
+<tr class="odd">
+<td>17. Art exhibitions</td>
+<td>Art</td>
+<td>34. Gender</td>
+<td>Gender</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+</div>
+<div id="summary-tables" class="section level2">
+<h2><span class="header-section-number">2.3</span> Summary tables</h2>
 <p> </p>
 </div>
 </div>
