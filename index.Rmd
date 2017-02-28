@@ -54,7 +54,7 @@ You can find all of the datasets from my [GitHub Repository](https://github.com/
 
 &nbsp;
 
-<p class="text-danger">BRIEF DESCRIPTION OF DATA WRANGLING PHASES:</p>
+<p class="text-warning">BRIEF DESCRIPTION OF DATA WRANGLING PHASES:</p>
 
 1. Reading the whole dataset
 2. Selecting the variables of interests and hobbies including age and gender
