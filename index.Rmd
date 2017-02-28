@@ -50,7 +50,7 @@ If you take a look at the Kaggle link you can see that there are huge amount of 
 &nbsp;
 
 
-You can find all of the datasets from my [GitHub Repository](https://github.com/8475394/IODS-final/tree/master/Data). The CSV-file called "raw_young_people_survey" is the original dataset from Kaggle. The "create_interests.R" is the R Script file of my data wrangling and the "interests.txt" is the file what I'm going to use here.
+You can find all of the datasets from my [GitHub Repository](https://github.com/8475394/IODS-final/tree/master/Data). The CSV-file called "raw_young_people_survey" is the original dataset from Kaggle. The "create_interests.R" is the R Script file of my data wrangling and the "interests_dem.txt" is the file what I'm going to use here.
 
 &nbsp;
 
@@ -70,9 +70,9 @@ You can find all of the datasets from my [GitHub Repository](https://github.com/
 
 &nbsp;
 
-From the structure table below you see that after data wrangling part there are 881 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people and were measured on the [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale) from 1 to 5. Last two variables contains information about age and gender. 
+From the structure table below you see that after data wrangling part there are 878 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people which were measured on the [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale) from 1 to 5 (Not interested - Very interested). Last two variables contains information about age and gender, where the former varies between 15 and 30 years. The latter contains categories of female and male.
 
-Some of these variables may need some additional information, thus I made a table for Interest and according variable short names. See this after the structure table.
+Some of these variables may need some additional information, thus I made a table for their longer and short names. However, most of the variables have same longer and shorter name. See the table after exploring the structure of the data.
 
 &nbsp;
 
@@ -123,9 +123,20 @@ INTEREST        | Short name          | INTEREST    | Short name
 
 &nbsp;
 
+The dataset contains a lot of variables, also producing many summary tables. 
+
+As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables, besides age. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include **History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and  Adrenaline sports**.  
+
+Then there are some variables with quite low average interest, including for example **Physics, Chemistry, Poetry writing and Gardening** and very high interest, including **Internet, Languages, Outdoor activities and Socializing with friends**. 
+
+The last tiny table informs us that there are 520 females and 358 males.
+
+When exploring the distributions, it is good to remember that the participants were not just the students but also their friends. This means that the participants can come from the University, working life, etc.   
+
+
 
 ```{r, fig.width=10, message=FALSE, warning=FALSE, results='asis'}
-library(knitr)
+library(knitr); library(dplyr)
 kable(summary(interests_dem[,1:7]), format = "pandoc", digits = 2,  caption = 'Summary 1', align = "l")
 
 kable(summary(interests_dem[,8:14]), format = "pandoc", digits = 2,  caption = 'Summary 2', align = "l")
@@ -134,13 +145,32 @@ kable(summary(interests_dem[,15:21]), format = "pandoc", digits = 2,  caption = 
 
 kable(summary(interests_dem[,22:28]), format = "pandoc", digits = 2,  caption = 'Summary 4', align = "l")
 
-kable(summary(interests_dem[,29:32]), format = "pandoc", digits = 2,  caption = 'Summary 5', align = "l")
+kable(summary(interests_dem[,29:33]), format = "pandoc", digits = 2,  caption = 'Summary 5', align = "l")
+
+
+Gender <- interests_dem$Gender
+table(Gender)
 
 ```
 
+&nbsp;
+
+# Graphical overview
+
+&nbsp;
 
 
 
+```{r}
+library(ggplot2)
+
+# check palettes
+
+h1 <- ggplot(interests_dem, aes(x=interests_dem$History, fill = Gender)) + geom_bar(position="identity", alpha = 0.8) + scale_fill_brewer(palette="Spectral") + theme(legend.position="top")
+h1
+
+
+```
 
 
 

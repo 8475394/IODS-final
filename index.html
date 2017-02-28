@@ -295,7 +295,7 @@ div.tocify {
 <div id="first-part-of-data-wrangling" class="section level2">
 <h2><span class="header-section-number">2.1</span> First part of data wrangling</h2>
 <p> </p>
-<p>You can find all of the datasets from my <a href="https://github.com/8475394/IODS-final/tree/master/Data">GitHub Repository</a>. The CSV-file called “raw_young_people_survey” is the original dataset from Kaggle. The “create_interests.R” is the R Script file of my data wrangling and the “interests.txt” is the file what I’m going to use here.</p>
+<p>You can find all of the datasets from my <a href="https://github.com/8475394/IODS-final/tree/master/Data">GitHub Repository</a>. The CSV-file called “raw_young_people_survey” is the original dataset from Kaggle. The “create_interests.R” is the R Script file of my data wrangling and the “interests_dem.txt” is the file what I’m going to use here.</p>
 <p> </p>
 <p class="text-warning">
 BRIEF DESCRIPTION OF DATA WRANGLING PHASES:
@@ -313,8 +313,8 @@ BRIEF DESCRIPTION OF DATA WRANGLING PHASES:
 <div id="introducing-the-variables" class="section level2">
 <h2><span class="header-section-number">2.2</span> Introducing the variables</h2>
 <p> </p>
-<p>From the structure table below you see that after data wrangling part there are 881 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people and were measured on the <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert Scale</a> from 1 to 5. Last two variables contains information about age and gender.</p>
-<p>Some of these variables may need some additional information, thus I made a table for Interest and according variable short names. See this after the structure table.</p>
+<p>From the structure table below you see that after data wrangling part there are 878 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people which were measured on the <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert Scale</a> from 1 to 5 (Not interested - Very interested). Last two variables contains information about age and gender, where the former varies between 15 and 30 years. The latter contains categories of female and male.</p>
+<p>Some of these variables may need some additional information, thus I made a table for their longer and short names. However, most of the variables have same longer and shorter name. See the table after exploring the structure of the data.</p>
 <p> </p>
 <p class="text-warning">
 DATA STRUCTURE
@@ -325,7 +325,7 @@ interests_dem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<
 <span class="co"># Printing the data structure</span>
 <span class="kw">library</span>(dplyr)
 <span class="kw">glimpse</span>(interests_dem)</code></pre></div>
-<pre><code>## Observations: 881
+<pre><code>## Observations: 878
 ## Variables: 34
 ## $ History      &lt;int&gt; 1, 1, 1, 4, 3, 5, 3, 5, 3, 3, 3, 2, 4, 2, 2, 5, 1...
 ## $ Psychology   &lt;int&gt; 5, 3, 2, 4, 2, 3, 3, 2, 2, 2, 3, 2, 4, 2, 5, 5, 1...
@@ -485,7 +485,12 @@ INTERESTS AND THEIR SHORT NAMES
 <div id="summary-tables" class="section level2">
 <h2><span class="header-section-number">2.3</span> Summary tables</h2>
 <p> </p>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
+<p>The dataset contains a lot of variables, also producing many summary tables.</p>
+<p>As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables, besides age. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include <strong>History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and Adrenaline sports</strong>.</p>
+<p>Then there are some variables with quite low average interest, including for example <strong>Physics, Chemistry, Poetry writing and Gardening</strong> and very high interest, including <strong>Internet, Languages, Outdoor activities and Socializing with friends</strong>.</p>
+<p>The last tiny table informs us that there are 520 females and 358 males.</p>
+<p>When exploring the distributions, it is good to remember that the participants were not just the students but also their friends. This means that the participants can come from the University, working life, etc.</p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr); <span class="kw">library</span>(dplyr)
 <span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 1'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
 <table>
 <caption>Summary 1</caption>
@@ -507,7 +512,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
-<td align="center">Min. :1.00</td>
+<td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
@@ -517,7 +522,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">1st Qu.:2.000</td>
 <td align="center">1st Qu.:2.000</td>
 <td align="center">1st Qu.:1.000</td>
-<td align="center">1st Qu.:1.00</td>
+<td align="center">1st Qu.:1.000</td>
 <td align="center">1st Qu.:1.000</td>
 <td align="center">1st Qu.:4.000</td>
 <td align="center">1st Qu.:2.000</td>
@@ -527,19 +532,19 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">Median :3.000</td>
 <td align="center">Median :3.000</td>
 <td align="center">Median :2.000</td>
-<td align="center">Median :2.00</td>
+<td align="center">Median :2.000</td>
 <td align="center">Median :2.000</td>
 <td align="center">Median :4.000</td>
 <td align="center">Median :3.000</td>
 </tr>
 <tr class="even">
 <td></td>
-<td align="center">Mean :3.208</td>
-<td align="center">Mean :3.117</td>
-<td align="center">Mean :2.613</td>
-<td align="center">Mean :2.37</td>
-<td align="center">Mean :2.082</td>
-<td align="center">Mean :4.177</td>
+<td align="center">Mean :3.207</td>
+<td align="center">Mean :3.112</td>
+<td align="center">Mean :2.614</td>
+<td align="center">Mean :2.372</td>
+<td align="center">Mean :2.083</td>
+<td align="center">Mean :4.174</td>
 <td align="center">Mean :3.131</td>
 </tr>
 <tr class="odd">
@@ -547,7 +552,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">3rd Qu.:4.000</td>
 <td align="center">3rd Qu.:4.000</td>
 <td align="center">3rd Qu.:4.000</td>
-<td align="center">3rd Qu.:3.00</td>
+<td align="center">3rd Qu.:3.000</td>
 <td align="center">3rd Qu.:3.000</td>
 <td align="center">3rd Qu.:5.000</td>
 <td align="center">3rd Qu.:4.000</td>
@@ -557,7 +562,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
-<td align="center">Max. :5.00</td>
+<td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
@@ -612,13 +617,13 @@ INTERESTS AND THEIR SHORT NAMES
 </tr>
 <tr class="even">
 <td></td>
-<td align="center">Mean :2.646</td>
-<td align="center">Mean :2.652</td>
-<td align="center">Mean :2.149</td>
-<td align="center">Mean :3.161</td>
+<td align="center">Mean :2.641</td>
+<td align="center">Mean :2.656</td>
+<td align="center">Mean :2.151</td>
+<td align="center">Mean :3.159</td>
 <td align="center">Mean :3.104</td>
-<td align="center">Mean :3.791</td>
-<td align="center">Mean :2.511</td>
+<td align="center">Mean :3.788</td>
+<td align="center">Mean :2.514</td>
 </tr>
 <tr class="odd">
 <td></td>
@@ -662,7 +667,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td></td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
-<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.0</td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
@@ -672,7 +677,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td></td>
 <td align="center">1st Qu.:1.000</td>
 <td align="center">1st Qu.:1.000</td>
-<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.0</td>
 <td align="center">1st Qu.:1.000</td>
 <td align="center">1st Qu.:3.000</td>
 <td align="center">1st Qu.:1.000</td>
@@ -682,7 +687,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td></td>
 <td align="center">Median :2.000</td>
 <td align="center">Median :2.000</td>
-<td align="center">Median :2.000</td>
+<td align="center">Median :2.0</td>
 <td align="center">Median :2.000</td>
 <td align="center">Median :4.000</td>
 <td align="center">Median :2.000</td>
@@ -690,19 +695,19 @@ INTERESTS AND THEIR SHORT NAMES
 </tr>
 <tr class="even">
 <td></td>
-<td align="center">Mean :2.251</td>
+<td align="center">Mean :2.248</td>
 <td align="center">Mean :2.664</td>
-<td align="center">Mean :2.599</td>
-<td align="center">Mean :2.264</td>
+<td align="center">Mean :2.6</td>
+<td align="center">Mean :2.267</td>
 <td align="center">Mean :3.674</td>
-<td align="center">Mean :2.437</td>
-<td align="center">Mean :2.323</td>
+<td align="center">Mean :2.438</td>
+<td align="center">Mean :2.319</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td align="center">3rd Qu.:3.000</td>
 <td align="center">3rd Qu.:4.000</td>
-<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:4.0</td>
 <td align="center">3rd Qu.:3.000</td>
 <td align="center">3rd Qu.:5.000</td>
 <td align="center">3rd Qu.:3.000</td>
@@ -712,7 +717,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td></td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
-<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.0</td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
@@ -768,20 +773,20 @@ INTERESTS AND THEIR SHORT NAMES
 </tr>
 <tr class="even">
 <td></td>
-<td align="center">Mean :1.891</td>
-<td align="center">Mean :3.412</td>
-<td align="center">Mean :3.276</td>
-<td align="center">Mean :1.894</td>
-<td align="center">Mean :2.348</td>
+<td align="center">Mean :1.888</td>
+<td align="center">Mean :3.413</td>
+<td align="center">Mean :3.274</td>
+<td align="center">Mean :1.896</td>
+<td align="center">Mean :2.346</td>
 <td align="center">Mean :3.263</td>
-<td align="center">Mean :3.251</td>
+<td align="center">Mean :3.249</td>
 </tr>
 <tr class="odd">
 <td></td>
 <td align="center">3rd Qu.:3.000</td>
 <td align="center">3rd Qu.:5.000</td>
 <td align="center">3rd Qu.:5.000</td>
-<td align="center">3rd Qu.:2.000</td>
+<td align="center">3rd Qu.:2.750</td>
 <td align="center">3rd Qu.:3.000</td>
 <td align="center">3rd Qu.:4.000</td>
 <td align="center">3rd Qu.:4.000</td>
@@ -798,7 +803,7 @@ INTERESTS AND THEIR SHORT NAMES
 </tr>
 </tbody>
 </table>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">29</span><span class="op">:</span><span class="dv">32</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 5'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">29</span><span class="op">:</span><span class="dv">33</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 5'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
 <table>
 <caption>Summary 5</caption>
 <thead>
@@ -808,6 +813,7 @@ INTERESTS AND THEIR SHORT NAMES
 <th align="center">Social</th>
 <th align="center">sAdrenaline</th>
 <th align="center">Pets</th>
+<th align="center">Age</th>
 </tr>
 </thead>
 <tbody>
@@ -817,6 +823,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">Min. :2.000</td>
 <td align="center">Min. :1.000</td>
 <td align="center">Min. :1.000</td>
+<td align="center">Min. :15.00</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -824,6 +831,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">1st Qu.:4.000</td>
 <td align="center">1st Qu.:2.000</td>
 <td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:19.00</td>
 </tr>
 <tr class="odd">
 <td></td>
@@ -831,13 +839,15 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">Median :5.000</td>
 <td align="center">Median :3.000</td>
 <td align="center">Median :4.000</td>
+<td align="center">Median :20.00</td>
 </tr>
 <tr class="even">
 <td></td>
-<td align="center">Mean :3.026</td>
-<td align="center">Mean :4.557</td>
-<td align="center">Mean :2.933</td>
-<td align="center">Mean :3.335</td>
+<td align="center">Mean :3.024</td>
+<td align="center">Mean :4.556</td>
+<td align="center">Mean :2.937</td>
+<td align="center">Mean :3.334</td>
+<td align="center">Mean :20.39</td>
 </tr>
 <tr class="odd">
 <td></td>
@@ -845,6 +855,7 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">3rd Qu.:5.000</td>
 <td align="center">3rd Qu.:4.000</td>
 <td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:21.00</td>
 </tr>
 <tr class="even">
 <td></td>
@@ -852,10 +863,26 @@ INTERESTS AND THEIR SHORT NAMES
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
 <td align="center">Max. :5.000</td>
+<td align="center">Max. :30.00</td>
 </tr>
 </tbody>
 </table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Gender &lt;-<span class="st"> </span>interests_dem<span class="op">$</span>Gender
+<span class="kw">table</span>(Gender)</code></pre></div>
+<p>Gender female male 520 358</p>
+<p> </p>
 </div>
+</div>
+<div id="graphical-overview" class="section level1">
+<h1><span class="header-section-number">3</span> Graphical overview</h1>
+<p> </p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2)
+
+<span class="co"># check palettes</span>
+
+h1 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(interests_dem, <span class="kw">aes</span>(<span class="dt">x=</span>interests_dem<span class="op">$</span>History, <span class="dt">fill =</span> Gender)) <span class="op">+</span><span class="st"> </span><span class="kw">geom_bar</span>(<span class="dt">position=</span><span class="st">&quot;identity&quot;</span>, <span class="dt">alpha =</span> <span class="fl">0.8</span>) <span class="op">+</span><span class="st"> </span><span class="kw">scale_fill_brewer</span>(<span class="dt">palette=</span><span class="st">&quot;Spectral&quot;</span>) <span class="op">+</span><span class="st"> </span><span class="kw">theme</span>(<span class="dt">legend.position=</span><span class="st">&quot;top&quot;</span>)
+h1</code></pre></div>
+<p><img src="data:image/png;base64,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/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/nczwK3nR0ABCEjS+v53M8Ct50dAAQhI0vr+dzPAredHQAEISNL6/ncz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" width="576" /></p>
 </div>
 
 
