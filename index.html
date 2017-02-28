@@ -365,6 +365,7 @@ interests_dem &lt;-<span class="st"> </span><span class="kw">read.table</span>(<
 <p class="text-warning">
 INTERESTS AND THEIR SHORT NAMES
 </p>
+<p> </p>
 <table>
 <thead>
 <tr class="header">
@@ -484,6 +485,376 @@ INTERESTS AND THEIR SHORT NAMES
 <div id="summary-tables" class="section level2">
 <h2><span class="header-section-number">2.3</span> Summary tables</h2>
 <p> </p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr)
+<span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 1'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<table>
+<caption>Summary 1</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">History</th>
+<th align="center">Psychology</th>
+<th align="center">Politics</th>
+<th align="center">Mathematics</th>
+<th align="center">Physics</th>
+<th align="center">Internet</th>
+<th align="center">PC</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.00</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.00</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:4.000</td>
+<td align="center">1st Qu.:2.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.00</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :4.000</td>
+<td align="center">Median :3.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean :3.208</td>
+<td align="center">Mean :3.117</td>
+<td align="center">Mean :2.613</td>
+<td align="center">Mean :2.37</td>
+<td align="center">Mean :2.082</td>
+<td align="center">Mean :4.177</td>
+<td align="center">Mean :3.131</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:3.00</td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:4.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.00</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">8</span><span class="op">:</span><span class="dv">14</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 2'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<table>
+<caption>Summary 2</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Economy</th>
+<th align="center">Biology</th>
+<th align="center">Chemistry</th>
+<th align="center">rPoetry</th>
+<th align="center">Geography</th>
+<th align="center">Languages</th>
+<th align="center">Medicine</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:3.000</td>
+<td align="center">1st Qu.:1.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :4.000</td>
+<td align="center">Median :2.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean :2.646</td>
+<td align="center">Mean :2.652</td>
+<td align="center">Mean :2.149</td>
+<td align="center">Mean :3.161</td>
+<td align="center">Mean :3.104</td>
+<td align="center">Mean :3.791</td>
+<td align="center">Mean :2.511</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:3.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">15</span><span class="op">:</span><span class="dv">21</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 3'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<table>
+<caption>Summary 3</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Law</th>
+<th align="center">Cars</th>
+<th align="center">Art</th>
+<th align="center">Religion</th>
+<th align="center">Outdoor</th>
+<th align="center">Dancing</th>
+<th align="center">Instruments</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:3.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :4.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :2.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean :2.251</td>
+<td align="center">Mean :2.664</td>
+<td align="center">Mean :2.599</td>
+<td align="center">Mean :2.264</td>
+<td align="center">Mean :3.674</td>
+<td align="center">Mean :2.437</td>
+<td align="center">Mean :2.323</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:4.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">22</span><span class="op">:</span><span class="dv">28</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 4'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<table>
+<caption>Summary 4</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">wPoetry</th>
+<th align="center">sLeisure</th>
+<th align="center">sCompetitive</th>
+<th align="center">Gardening</th>
+<th align="center">Celebrities</th>
+<th align="center">Shopping</th>
+<th align="center">SciTec</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:1.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:2.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median :1.000</td>
+<td align="center">Median :4.000</td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :1.000</td>
+<td align="center">Median :2.000</td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :3.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean :1.891</td>
+<td align="center">Mean :3.412</td>
+<td align="center">Mean :3.276</td>
+<td align="center">Mean :1.894</td>
+<td align="center">Mean :2.348</td>
+<td align="center">Mean :3.263</td>
+<td align="center">Mean :3.251</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:2.000</td>
+<td align="center">3rd Qu.:3.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:4.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">29</span><span class="op">:</span><span class="dv">32</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 5'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
+<table>
+<caption>Summary 5</caption>
+<thead>
+<tr class="header">
+<th></th>
+<th align="center">Theatre</th>
+<th align="center">Social</th>
+<th align="center">sAdrenaline</th>
+<th align="center">Pets</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td></td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :2.000</td>
+<td align="center">Min. :1.000</td>
+<td align="center">Min. :1.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:4.000</td>
+<td align="center">1st Qu.:2.000</td>
+<td align="center">1st Qu.:2.000</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :5.000</td>
+<td align="center">Median :3.000</td>
+<td align="center">Median :4.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Mean :3.026</td>
+<td align="center">Mean :4.557</td>
+<td align="center">Mean :2.933</td>
+<td align="center">Mean :3.335</td>
+</tr>
+<tr class="odd">
+<td></td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:5.000</td>
+<td align="center">3rd Qu.:4.000</td>
+<td align="center">3rd Qu.:5.000</td>
+</tr>
+<tr class="even">
+<td></td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+<td align="center">Max. :5.000</td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 

@@ -93,6 +93,7 @@ glimpse(interests_dem)
 
 <p class="text-warning">INTERESTS AND THEIR SHORT NAMES</p> 
 
+&nbsp;
 
 
 INTEREST        | Short name          | INTEREST    | Short name
@@ -121,6 +122,25 @@ INTEREST        | Short name          | INTEREST    | Short name
 ## Summary tables 
 
 &nbsp;
+
+
+```{r, fig.width=10, message=FALSE, warning=FALSE, results='asis'}
+library(knitr)
+kable(summary(interests_dem[,1:7]), format = "pandoc", digits = 2,  caption = 'Summary 1', align = "l")
+
+kable(summary(interests_dem[,8:14]), format = "pandoc", digits = 2,  caption = 'Summary 2', align = "l")
+
+kable(summary(interests_dem[,15:21]), format = "pandoc", digits = 2,  caption = 'Summary 3', align = "l")
+
+kable(summary(interests_dem[,22:28]), format = "pandoc", digits = 2,  caption = 'Summary 4', align = "l")
+
+kable(summary(interests_dem[,29:32]), format = "pandoc", digits = 2,  caption = 'Summary 5', align = "l")
+
+```
+
+
+
+
 
 
 
