@@ -68,7 +68,7 @@ dim(interest) # Now there are 881 observations and 34 variables
 setwd("C:/Users/heidi/Documents/YLIOPISTO/TILASTOTIEDE/INTRODUCTION TO OPEN DATA SCIENCE/IODS-final/data")
 getwd() # Verifying the path
 
-write.table(interest, file = "interests.txt") # saving
-interests <- read.table("interests.txt", header = TRUE) # reading
+write.table(interest, file = "interests_dem.txt") # saving
+interests <- read.table("interests_dem.txt", header = TRUE) # reading
 str(interests) # and again verifying and everything seem to right
 
