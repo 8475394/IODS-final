@@ -11,7 +11,7 @@ library(dplyr)
 
 # Reading the data from my computer
 young_people <- read.table(file.path("C:/Users/heidi/Documents/YLIOPISTO/TILASTOTIEDE/INTRODUCTION TO OPEN DATA SCIENCE/IODS-final/data", "raw_young_people_survey.csv"),
-                        header = TRUE, sep = ",")
+                           header = TRUE, sep = ",")
 
 # 
 str(young_people) # Original data contains 1010 observations and 150 variables
