@@ -13,7 +13,7 @@ library(dplyr)
 young_people <- read.table(file.path("C:/Users/heidi/Documents/YLIOPISTO/TILASTOTIEDE/INTRODUCTION TO OPEN DATA SCIENCE/IODS-final/data", "raw_young_people_survey.csv"),
                            header = TRUE, sep = ",")
 
-# 
+# Exploring the content
 str(young_people) # Original data contains 1010 observations and 150 variables
 colnames(young_people) # checking the column names to see the correct names of variables
 
@@ -68,7 +68,33 @@ dim(interest) # Now there are 881 observations and 34 variables
 setwd("C:/Users/heidi/Documents/YLIOPISTO/TILASTOTIEDE/INTRODUCTION TO OPEN DATA SCIENCE/IODS-final/data")
 getwd() # Verifying the path
 
+# Saving the dataset
 write.table(interest, file = "interests_dem.txt") # saving
 interests <- read.table("interests_dem.txt", header = TRUE) # reading
 str(interests) # and again verifying and everything seem to right
+
+
+# DATA WRANGLING PART 2
+
+# I noticed that the gender factor contains the third empty category, which wasn't assigned to NA, it was just empty
+
+# Recoding empty values as NA:s
+recode <- c(male = "male", female = "female")
+(interests_dem$Gender <- factor(interests_dem$Gender, levels = recode, labels = names(recode)))
+
+# Verifying that 3 of the values belong to NA:s
+table(is.na(interests_dem$Gender)) # Now there are 3 NA:s
+
+# Removing the "new" rows with missing values
+comp2 <- complete.cases(interests_dem)
+comp2
+int <- filter(interests_dem, comp2 == TRUE)
+complete.cases(int) # verifying that all cases are TRUE
+dim(int) # Now there are 8 observations and 34 variables
+
+
+# Saving the dataset again
+write.table(int, file = "interests_dem.txt") # saving
+Hobbies <- read.table("interests_dem.txt", header = TRUE) # reading
+str(Hobbies) # Yes, i did it. Gender has now two levels
 
