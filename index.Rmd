@@ -22,18 +22,34 @@ output:
 
 &nbsp;
 
-# Testing
+# The purpose of the final work
 
 &nbsp;
 
-Some writing
+The idea of the this final work is to show and demonstrate what I have been learning about R, data visualizing and statistics during this course called **Introduction to Open Data Science**. The course is organized by [University of Helsinki](https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science,+spring+2017). I really want highlight that this was and is my first course and work with R programming. Considering this I like to believe that I have learnt a lot of very interesting ways of using R, RStudio and Rpackages.
 
-## other testing
+In this final work We have 2 options of choosing our data. First we could use one of the the datasets which we had already applied. Alternatively we could try to find a new dataset from internet in terms of our interests or just to raise the degree of difficulty, I think. And because I'm very interested in research I wanted to find a new dataset to learn how to do the whole data wrangling and exploring process by myself. 
 
 &nbsp;
 
-Some writing 
+# Description of the dataset
 
-https://www.r-bloggers.com/ 
+&nbsp;
 
+```{r, message=FALSE, warning=FALSE, include=FALSE}
+library(emojifont)
+
+```
+
+
+I choose the dataset from [Kaggle](https://www.kaggle.com/miroslavsabo/young-people-survey), which is about **Preferencies, interests, habits, opinions and fears of young people** in Slovakia. In 2013, students of the Statistics class at [FSEV UK](https://fses.uniba.sk/en/) were asked to invite their friends to participate in this survey. Accordingly they managed to get 1 010 participants for this purpose. 
+
+If you take a look at the Kaggle link you can see that there are huge amount of variables, that is 150 columns mainly integers but also some categorical variables. Thus for the purpose of this assignment I had to choose some interesting content which is funny because I choose the interests and hobbies of these young people :D
+
+&nbsp;
+
+## Data wrangling 
+
+ 
+&nbsp;
 
