@@ -160,13 +160,20 @@ table(Gender)
 &nbsp;
 
 
+```{r, message=FALSE, warning=FALSE}
+library(ggplot2)
+h1 <- ggplot(interests_dem, aes(interests_dem$History, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.7)
+h1
+```
+
+
 
 ```{r}
 library(ggplot2)
 
 # check palettes
 
-h1 <- ggplot(interests_dem, aes(x=interests_dem$History, fill = Gender)) + geom_bar(position="identity", alpha = 0.8) + scale_fill_brewer(palette="Spectral") + theme(legend.position="top")
+h <- ggplot(interests_dem, aes(x=interests_dem$History, fill = Gender)) + geom_bar(position="identity", alpha = 0.8) + scale_fill_brewer(palette="Spectral") + theme(legend.position="top")
 h1
 
 
