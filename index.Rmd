@@ -166,11 +166,11 @@ library(ggplot2); library(gridExtra)
 # Nice  plave to learn about ggplot: https://sesync-ci.github.io/graphics-with-ggplot2-lesson/2016/08/25/
 # Palettes and colors: http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#palettes-color-brewer 
 
-h1 <- ggplot(interests_dem, aes(interests_dem$History, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward history") + xlab("History")
+h1 <- ggplot(interests_dem, aes(interests_dem$History, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("orangered", "forestgreen")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward history") + xlab("History")
 
-h2 <- ggplot(interests_dem, aes(interests_dem$Psychology, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward psychology") + xlab("Psychology")
+h2 <- ggplot(interests_dem, aes(interests_dem$Psychology, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("orangered", "forestgreen")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward psychology") + xlab("Psychology")
 
-h3 <- ggplot(interests_dem, aes(interests_dem$Politics, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.9, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward politics") + xlab("Politics")
+h3 <- ggplot(interests_dem, aes(interests_dem$Politics, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.9, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward politics") + xlab("Politics")
 
 h4 <- ggplot(interests_dem, aes(interests_dem$Mathematics, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward mathematics") + xlab("Mathematics")
 
@@ -180,7 +180,7 @@ h6 <- ggplot(interests_dem, aes(interests_dem$Internet, fill = Gender)) + geom_h
 
 h7 <- ggplot(interests_dem, aes(interests_dem$PC, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("darkorange", "#CC6600")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward PC") + xlab("PC")
 
-h8 <- ggplot(interests_dem, aes(interests_dem$Economy, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.85, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward economy") + xlab("Economy, Management")
+h8 <- ggplot(interests_dem, aes(interests_dem$Economy, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.85, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward economy") + xlab("Economy, Management")
 
 h9 <- ggplot(interests_dem, aes(interests_dem$Biology, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.85, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward biology") + xlab("Biology")
 
@@ -200,9 +200,9 @@ h10 <- ggplot(interests_dem, aes(interests_dem$Chemistry, fill = Gender)) + geom
 
 h11 <- ggplot(interests_dem, aes(interests_dem$rPoetry, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.4, 0.9), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward rPoetry") + xlab("Poetry reading")
 
-h12 <- ggplot(interests_dem, aes(interests_dem$Geography, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward geography") + xlab("Geography")
+h12 <- ggplot(interests_dem, aes(interests_dem$Geography, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("orangered", "forestgreen")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward geography") + xlab("Geography")
 
-h13 <- ggplot(interests_dem, aes(interests_dem$Languages, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.2, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward languages") + xlab("Foreign languages")
+h13 <- ggplot(interests_dem, aes(interests_dem$Languages, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("yellow", "dimgray")) + theme(legend.position=c(0.2, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward languages") + xlab("Foreign languages")
 
 h14 <- ggplot(interests_dem, aes(interests_dem$Medicine, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward medicine") + xlab("Medicine")
 
@@ -210,9 +210,9 @@ h15 <- ggplot(interests_dem, aes(interests_dem$Law, fill = Gender)) + geom_histo
 
 h16 <- ggplot(interests_dem, aes(interests_dem$Cars, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("darkorange", "#CC6600")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward cars") + xlab("Cars")
 
-h17 <- ggplot(interests_dem, aes(interests_dem$Art, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward art") + xlab("Art exhibitions")
+h17 <- ggplot(interests_dem, aes(interests_dem$Art, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward art") + xlab("Art exhibitions")
 
-h18 <- ggplot(interests_dem, aes(interests_dem$Religion, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward religion") + xlab("Religion")
+h18 <- ggplot(interests_dem, aes(interests_dem$Religion, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward religion") + xlab("Religion")
 
 grid.arrange(h10, h11, h12, h13, h14, h15, h16, h17, h18, ncol = 3, nrow =3)
 ```
@@ -231,19 +231,19 @@ h19 <- ggplot(interests_dem, aes(interests_dem$Outdoor, fill = Gender)) + geom_h
 
 h20 <- ggplot(interests_dem, aes(interests_dem$Dancing, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("tan1", "greenyellow")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward dancing") + xlab("Dancing")
 
-h21 <- ggplot(interests_dem, aes(interests_dem$Instruments, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward instruments") + xlab("Playing musical instruments")
+h21 <- ggplot(interests_dem, aes(interests_dem$Instruments, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward instruments") + xlab("Playing musical instruments")
 
-h22 <- ggplot(interests_dem, aes(interests_dem$wPoetry, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward wPoetry") + xlab("Poetry writing")
+h22 <- ggplot(interests_dem, aes(interests_dem$wPoetry, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward wPoetry") + xlab("Poetry writing")
 
 h23 <- ggplot(interests_dem, aes(interests_dem$sLeisure, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("yellow", "dimgray")) + theme(legend.position=c(0.2, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward sLeisure") + xlab("Sport and leisure activities")
 
 h24 <- ggplot(interests_dem, aes(interests_dem$sCompetitive, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("yellow", "dimgray")) + theme(legend.position=c(0.3, 0.85), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward sCompetitive") + xlab("Sport at competitive level")
 
-h25 <- ggplot(interests_dem, aes(interests_dem$Gardening, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF6666", "#66CC99")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward gardening") + xlab("Gardening")
+h25 <- ggplot(interests_dem, aes(interests_dem$Gardening, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward gardening") + xlab("Gardening")
 
 h26 <- ggplot(interests_dem, aes(interests_dem$Celebrities, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("tan1", "greenyellow")) + theme(legend.position=c(0.82, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward Celebrities") + xlab("Celebrity lifestyle")
 
-h27 <- ggplot(interests_dem, aes(interests_dem$Shopping, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("yellow", "dimgray")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward shopping") + xlab("Shopping")
+h27 <- ggplot(interests_dem, aes(interests_dem$Shopping, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward shopping") + xlab("Shopping")
 
 grid.arrange(h19, h20, h21, h22, h23, h24, h25, h26, h27, ncol = 3, nrow =3)
 ```
@@ -257,7 +257,7 @@ library(ggplot2); library(gridExtra)
 # Nice  plave to learn about ggplot: https://sesync-ci.github.io/graphics-with-ggplot2-lesson/2016/08/25/
 # Palettes and colors: http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/#palettes-color-brewer 
 
-h28 <- ggplot(interests_dem, aes(interests_dem$SciTec, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#CC79A7", "#0072B2")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward SciTec") + xlab("Science and technology")
+h28 <- ggplot(interests_dem, aes(interests_dem$SciTec, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("darkorange", "#CC6600")) + theme(legend.position=c(0.11, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward SciTec") + xlab("Science and technology")
 
 h29 <- ggplot(interests_dem, aes(interests_dem$Theatre, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("#FF0000", "blue")) + theme(legend.position=c(0.11, 0.85), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward theatre") + xlab("Theatre")
 
@@ -267,7 +267,7 @@ h31 <- ggplot(interests_dem, aes(interests_dem$sAdrenaline, fill = Gender)) + ge
 
 h32 <- ggplot(interests_dem, aes(interests_dem$Pets, fill = Gender)) + geom_histogram(binwidth = 1, color = "white", alpha = 0.8) + scale_fill_manual(values=c("yellow", "dimgray")) + theme(legend.position=c(0.2, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Interest toward pets") + xlab("Pets")
 
-h33 <- ggplot(interests_dem, aes(interests_dem$Age, fill = Gender)) + geom_histogram(binwidth = 2, color = "white", alpha = 0.8) + scale_fill_manual(values=c("deeppink", "darkviolet")) + theme(legend.position=c(0.8, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Age of participants") + xlab("Age")
+h33 <- ggplot(interests_dem, aes(interests_dem$Age, fill = Gender)) + geom_histogram(binwidth = 2, color = "white", alpha = 0.8) + scale_fill_manual(values=c("pink", "skyblue")) + theme(legend.position=c(0.8, 0.8), legend.title=element_text(size=8), legend.text = element_text(size = 8)) + ggtitle("Age of participants") + xlab("Age")
 
 grid.arrange(h28, h29, h30, h31, h32, h33, ncol = 3, nrow =3)
 ```
