@@ -401,14 +401,14 @@ kable(cor_matrix1, format = "pandoc", digits = 2,  align="c")
 
 Principal Component Analysis can be seen as a method of extracting important variables from a large set of variables in a dataset. It extracts low dimensional set of features from a high dimensional dataset with a purpose to capture as much information as possible. [Analytics Vidhya Content Team, Marc 21, 2016](https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/).
 
-The dataset of **Young people's interests** contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as **p(p-1)/2** i.e. **496 plots** to explore.  
+The dataset of **Young people's interests** contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as **p(p-1)/2** i.e. **496 plots** to explore. This actually makes visible the meaning of PCA, since it allows  deal with high dimensional data.  
 
-PCA is performed with a numeric and standardized data, which is the reason why I have to scale the data before running the analysis.
+A principal component can be seen as a normalized linear combination or the original predictors in a dataset. The first principal component captures the most of the variance in the dataset. The second principal component captures the maximum variance of the dataset that are uncorrelated with the first component. Futhermore, all succeeding principal components follow the similar concept. They capture the remaining variance without being correlated with the previous component. Note that capturing amount of variance corresponds to capturing amount of information. 
 
 
 ## Scaling the data of interests
 
-
+PCA is performed with a numeric and standardized data, which is the reason why I have to scale the data before running the analysis.
 
 Show summaries here
 
@@ -427,14 +427,37 @@ std_interests <- scale(interests)
 
 &nbsp;
 
+First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.
+
+The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in.
+
+
+&nbsp;
+
+```{r, fig.width=8, message=FALSE, warning=FALSE}
+
+# Performing the PCA with Singular Value Decomposition (SVD) method
+pca_interests <- prcomp(std_interests)
+
+# Allows us to see the measures of PCA
+names(pca_interests)
+
+# A subset of loadings
+rotation <- round(pca_interests$rotation[, 1:7], digits = 2)
+kable(rotation)
+```
+
+
+&nbsp;
+
 The summary method describe the importance of the PCs. The first row describe again the standard deviation associated with each PC. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.
 
 &nbsp;
 
+
 ```{r, message=FALSE, warning=FALSE}
 
-# Performing the PCA with Singular Value Decomposition (SVD) method
-pca_interests <- prcomp(std_interests)
+# Printing a summary of PCA
 s <- summary(pca_interests)
 s
 
@@ -442,6 +465,7 @@ s
 pca_pr <- round(100*s$importance[2, ], digits = 1)
 print(pca_pr)
 ```
+
 
 &nbsp;
 

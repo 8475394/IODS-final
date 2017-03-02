@@ -2248,10 +2248,11 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 <div id="principal-component-analysis-pca" class="section level1">
 <h1><span class="header-section-number">5</span> Principal Component Analysis, PCA</h1>
 <p>Principal Component Analysis can be seen as a method of extracting important variables from a large set of variables in a dataset. It extracts low dimensional set of features from a high dimensional dataset with a purpose to capture as much information as possible. <a href="https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/">Analytics Vidhya Content Team, Marc 21, 2016</a>.</p>
-<p>The dataset of <strong>Young people’s interests</strong> contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as <strong>p(p-1)/2</strong> i.e. <strong>496 plots</strong> to explore.</p>
-<p>PCA is performed with a numeric and standardized data, which is the reason why I have to scale the data before running the analysis.</p>
+<p>The dataset of <strong>Young people’s interests</strong> contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as <strong>p(p-1)/2</strong> i.e. <strong>496 plots</strong> to explore. This actually makes visible the meaning of PCA, since it allows deal with high dimensional data.</p>
+<p>A principal component can be seen as a normalized linear combination or the original predictors in a dataset. The first principal component captures the most of the variance in the dataset. The second principal component captures the maximum variance of the dataset that are uncorrelated with the first component. Futhermore, all succeeding principal components follow the similar concept. They capture the remaining variance without being correlated with the previous component. Note that capturing amount of variance corresponds to capturing amount of information.</p>
 <div id="scaling-the-data-of-interests" class="section level2">
 <h2><span class="header-section-number">5.1</span> Scaling the data of interests</h2>
+<p>PCA is performed with a numeric and standardized data, which is the reason why I have to scale the data before running the analysis.</p>
 <p>Show summaries here</p>
 <p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Standardizing the data of interests</span>
@@ -2261,10 +2262,358 @@ std_interests &lt;-<span class="st"> </span><span class="kw">scale</span>(intere
 <div id="performing-pca-with-singular-value-decomposition-method" class="section level2">
 <h2><span class="header-section-number">5.2</span> Performing PCA with Singular Value Decomposition method</h2>
 <p> </p>
-<p>The summary method describe the importance of the PCs. The first row describe again the standard deviation associated with each PC. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.</p>
+<p>First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.</p>
+<p>The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in.</p>
 <p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Performing the PCA with Singular Value Decomposition (SVD) method</span>
 pca_interests &lt;-<span class="st"> </span><span class="kw">prcomp</span>(std_interests)
+
+<span class="co"># Allows us to see the measures of PCA</span>
+<span class="kw">names</span>(pca_interests)</code></pre></div>
+<pre><code>## [1] &quot;sdev&quot;     &quot;rotation&quot; &quot;center&quot;   &quot;scale&quot;    &quot;x&quot;</code></pre>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># A subset of loadings</span>
+rotation &lt;-<span class="st"> </span><span class="kw">round</span>(pca_interests<span class="op">$</span>rotation[, <span class="dv">1</span><span class="op">:</span><span class="dv">7</span>], <span class="dt">digits =</span> <span class="dv">2</span>)
+<span class="kw">kable</span>(rotation)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
+<th align="right">PC1</th>
+<th align="right">PC2</th>
+<th align="right">PC3</th>
+<th align="right">PC4</th>
+<th align="right">PC5</th>
+<th align="right">PC6</th>
+<th align="right">PC7</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>History</td>
+<td align="right">-0.19</td>
+<td align="right">0.10</td>
+<td align="right">-0.19</td>
+<td align="right">0.24</td>
+<td align="right">-0.13</td>
+<td align="right">0.24</td>
+<td align="right">-0.17</td>
+</tr>
+<tr class="even">
+<td>Psychology</td>
+<td align="right">-0.25</td>
+<td align="right">0.01</td>
+<td align="right">-0.08</td>
+<td align="right">0.11</td>
+<td align="right">-0.11</td>
+<td align="right">-0.03</td>
+<td align="right">0.10</td>
+</tr>
+<tr class="odd">
+<td>Politics</td>
+<td align="right">-0.13</td>
+<td align="right">0.20</td>
+<td align="right">-0.26</td>
+<td align="right">0.20</td>
+<td align="right">-0.27</td>
+<td align="right">0.15</td>
+<td align="right">-0.07</td>
+</tr>
+<tr class="even">
+<td>Mathematics</td>
+<td align="right">-0.04</td>
+<td align="right">0.29</td>
+<td align="right">0.12</td>
+<td align="right">0.13</td>
+<td align="right">0.01</td>
+<td align="right">-0.31</td>
+<td align="right">0.25</td>
+</tr>
+<tr class="odd">
+<td>Physics</td>
+<td align="right">-0.08</td>
+<td align="right">0.34</td>
+<td align="right">0.24</td>
+<td align="right">0.14</td>
+<td align="right">0.03</td>
+<td align="right">-0.16</td>
+<td align="right">0.16</td>
+</tr>
+<tr class="even">
+<td>Internet</td>
+<td align="right">0.07</td>
+<td align="right">0.24</td>
+<td align="right">-0.12</td>
+<td align="right">-0.09</td>
+<td align="right">0.02</td>
+<td align="right">-0.40</td>
+<td align="right">-0.14</td>
+</tr>
+<tr class="odd">
+<td>PC</td>
+<td align="right">0.07</td>
+<td align="right">0.37</td>
+<td align="right">0.00</td>
+<td align="right">0.04</td>
+<td align="right">0.13</td>
+<td align="right">-0.29</td>
+<td align="right">-0.15</td>
+</tr>
+<tr class="even">
+<td>Economy</td>
+<td align="right">0.01</td>
+<td align="right">0.18</td>
+<td align="right">-0.31</td>
+<td align="right">-0.02</td>
+<td align="right">-0.21</td>
+<td align="right">-0.18</td>
+<td align="right">0.20</td>
+</tr>
+<tr class="odd">
+<td>Biology</td>
+<td align="right">-0.27</td>
+<td align="right">0.02</td>
+<td align="right">0.37</td>
+<td align="right">-0.15</td>
+<td align="right">-0.22</td>
+<td align="right">0.02</td>
+<td align="right">0.00</td>
+</tr>
+<tr class="even">
+<td>Chemistry</td>
+<td align="right">-0.20</td>
+<td align="right">0.06</td>
+<td align="right">0.42</td>
+<td align="right">-0.09</td>
+<td align="right">-0.23</td>
+<td align="right">0.03</td>
+<td align="right">0.08</td>
+</tr>
+<tr class="odd">
+<td>rPoetry</td>
+<td align="right">-0.28</td>
+<td align="right">-0.18</td>
+<td align="right">-0.06</td>
+<td align="right">0.17</td>
+<td align="right">-0.02</td>
+<td align="right">-0.07</td>
+<td align="right">0.03</td>
+</tr>
+<tr class="even">
+<td>Geography</td>
+<td align="right">-0.16</td>
+<td align="right">0.15</td>
+<td align="right">-0.15</td>
+<td align="right">0.07</td>
+<td align="right">-0.02</td>
+<td align="right">0.22</td>
+<td align="right">-0.24</td>
+</tr>
+<tr class="odd">
+<td>Languages</td>
+<td align="right">-0.21</td>
+<td align="right">-0.02</td>
+<td align="right">-0.22</td>
+<td align="right">0.03</td>
+<td align="right">-0.05</td>
+<td align="right">-0.11</td>
+<td align="right">0.15</td>
+</tr>
+<tr class="even">
+<td>Medicine</td>
+<td align="right">-0.27</td>
+<td align="right">0.05</td>
+<td align="right">0.31</td>
+<td align="right">-0.12</td>
+<td align="right">-0.26</td>
+<td align="right">0.07</td>
+<td align="right">0.02</td>
+</tr>
+<tr class="odd">
+<td>Law</td>
+<td align="right">-0.14</td>
+<td align="right">0.15</td>
+<td align="right">-0.28</td>
+<td align="right">-0.01</td>
+<td align="right">-0.36</td>
+<td align="right">0.11</td>
+<td align="right">0.01</td>
+</tr>
+<tr class="even">
+<td>Cars</td>
+<td align="right">0.07</td>
+<td align="right">0.35</td>
+<td align="right">-0.06</td>
+<td align="right">-0.17</td>
+<td align="right">0.00</td>
+<td align="right">0.09</td>
+<td align="right">-0.10</td>
+</tr>
+<tr class="odd">
+<td>Art</td>
+<td align="right">-0.31</td>
+<td align="right">-0.07</td>
+<td align="right">-0.10</td>
+<td align="right">0.05</td>
+<td align="right">0.20</td>
+<td align="right">-0.09</td>
+<td align="right">0.07</td>
+</tr>
+<tr class="even">
+<td>Religion</td>
+<td align="right">-0.23</td>
+<td align="right">0.03</td>
+<td align="right">0.01</td>
+<td align="right">0.17</td>
+<td align="right">0.04</td>
+<td align="right">-0.05</td>
+<td align="right">-0.12</td>
+</tr>
+<tr class="odd">
+<td>Outdoor</td>
+<td align="right">-0.19</td>
+<td align="right">0.02</td>
+<td align="right">0.02</td>
+<td align="right">-0.10</td>
+<td align="right">0.33</td>
+<td align="right">0.07</td>
+<td align="right">-0.18</td>
+</tr>
+<tr class="even">
+<td>Dancing</td>
+<td align="right">-0.24</td>
+<td align="right">-0.05</td>
+<td align="right">-0.07</td>
+<td align="right">-0.23</td>
+<td align="right">0.10</td>
+<td align="right">-0.01</td>
+<td align="right">0.14</td>
+</tr>
+<tr class="odd">
+<td>Instruments</td>
+<td align="right">-0.21</td>
+<td align="right">0.03</td>
+<td align="right">0.01</td>
+<td align="right">0.08</td>
+<td align="right">0.36</td>
+<td align="right">-0.09</td>
+<td align="right">-0.06</td>
+</tr>
+<tr class="even">
+<td>wPoetry</td>
+<td align="right">-0.23</td>
+<td align="right">-0.06</td>
+<td align="right">-0.07</td>
+<td align="right">0.17</td>
+<td align="right">0.19</td>
+<td align="right">-0.11</td>
+<td align="right">-0.20</td>
+</tr>
+<tr class="odd">
+<td>sLeisure</td>
+<td align="right">0.02</td>
+<td align="right">0.16</td>
+<td align="right">-0.04</td>
+<td align="right">-0.22</td>
+<td align="right">0.14</td>
+<td align="right">0.10</td>
+<td align="right">-0.09</td>
+</tr>
+<tr class="even">
+<td>sCompetitive</td>
+<td align="right">-0.06</td>
+<td align="right">0.20</td>
+<td align="right">-0.04</td>
+<td align="right">-0.24</td>
+<td align="right">0.14</td>
+<td align="right">0.34</td>
+<td align="right">0.01</td>
+</tr>
+<tr class="odd">
+<td>Gardening</td>
+<td align="right">-0.19</td>
+<td align="right">-0.02</td>
+<td align="right">0.09</td>
+<td align="right">-0.18</td>
+<td align="right">0.09</td>
+<td align="right">-0.10</td>
+<td align="right">-0.43</td>
+</tr>
+<tr class="even">
+<td>Celebrities</td>
+<td align="right">-0.03</td>
+<td align="right">-0.09</td>
+<td align="right">-0.18</td>
+<td align="right">-0.35</td>
+<td align="right">-0.18</td>
+<td align="right">-0.29</td>
+<td align="right">-0.23</td>
+</tr>
+<tr class="odd">
+<td>Shopping</td>
+<td align="right">-0.10</td>
+<td align="right">-0.14</td>
+<td align="right">-0.17</td>
+<td align="right">-0.40</td>
+<td align="right">-0.15</td>
+<td align="right">-0.24</td>
+<td align="right">0.01</td>
+</tr>
+<tr class="even">
+<td>SciTec</td>
+<td align="right">-0.07</td>
+<td align="right">0.35</td>
+<td align="right">0.10</td>
+<td align="right">0.03</td>
+<td align="right">0.00</td>
+<td align="right">-0.06</td>
+<td align="right">-0.06</td>
+</tr>
+<tr class="odd">
+<td>Theatre</td>
+<td align="right">-0.30</td>
+<td align="right">-0.13</td>
+<td align="right">-0.09</td>
+<td align="right">0.02</td>
+<td align="right">0.14</td>
+<td align="right">-0.08</td>
+<td align="right">0.24</td>
+</tr>
+<tr class="even">
+<td>Social</td>
+<td align="right">-0.07</td>
+<td align="right">0.05</td>
+<td align="right">-0.13</td>
+<td align="right">-0.26</td>
+<td align="right">0.16</td>
+<td align="right">0.04</td>
+<td align="right">0.47</td>
+</tr>
+<tr class="odd">
+<td>sAdrenaline</td>
+<td align="right">-0.06</td>
+<td align="right">0.25</td>
+<td align="right">-0.08</td>
+<td align="right">-0.22</td>
+<td align="right">0.21</td>
+<td align="right">0.31</td>
+<td align="right">0.18</td>
+</tr>
+<tr class="even">
+<td>Pets</td>
+<td align="right">-0.09</td>
+<td align="right">-0.02</td>
+<td align="right">0.02</td>
+<td align="right">-0.26</td>
+<td align="right">-0.09</td>
+<td align="right">0.02</td>
+<td align="right">-0.16</td>
+</tr>
+</tbody>
+</table>
+<p> </p>
+<p>The summary method describe the importance of the PCs. The first row describe again the standard deviation associated with each PC. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.</p>
+<p> </p>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Printing a summary of PCA</span>
 s &lt;-<span class="st"> </span><span class="kw">summary</span>(pca_interests)
 s</code></pre></div>
 <pre><code>## Importance of components:
