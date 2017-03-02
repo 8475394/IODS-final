@@ -2250,6 +2250,7 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 <p>Principal Component Analysis can be seen as a method of extracting important variables from a large set of variables in a dataset. It extracts low dimensional set of features from a high dimensional dataset with a purpose to capture as much information as possible. <a href="https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/">Analytics Vidhya Content Team, Marc 21, 2016</a>.</p>
 <p>The dataset of <strong>Young people’s interests</strong> contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as <strong>p(p-1)/2</strong> i.e. <strong>496 plots</strong> to explore. This actually makes visible the meaning of PCA, since it allows deal with high dimensional data.</p>
 <p>A principal component can be seen as a normalized linear combination or the original predictors in a dataset. The first principal component captures the most of the variance in the dataset. The second principal component captures the maximum variance of the dataset that are uncorrelated with the first component. Futhermore, all succeeding principal components follow the similar concept. They capture the remaining variance without being correlated with the previous component. Note that capturing amount of variance corresponds to capturing amount of information.</p>
+<p> </p>
 <div id="scaling-the-data-of-interests" class="section level2">
 <h2><span class="header-section-number">5.1</span> Scaling the data of interests</h2>
 <p>PCA is performed with a numeric and standardized data, which is the reason why I have to scale the data before running the analysis.</p>
@@ -2263,7 +2264,8 @@ std_interests &lt;-<span class="st"> </span><span class="kw">scale</span>(intere
 <h2><span class="header-section-number">5.2</span> Performing PCA with Singular Value Decomposition method</h2>
 <p> </p>
 <p>First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.</p>
-<p>The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in.</p>
+<p>The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in. I printed the loadings of each variable considering the initial amount of dimensions regarding my hypotheses. This means a huge amount of measures while the table still can be informative since you can explore where the variables are loading the most and the least. Just for an example I can perceive that matematics and physics are both loading positively to the second component whereas chemistry loads mostly to the third component which is actually against my initial hypothesis.</p>
+<p>The “x” prints the principal component score vector and the “sdev” provides the standard deviavtion of components which I’m not using as such. Instead of this I’m going to print the summary of these measures. Thus let’s continue to the next section.</p>
 <p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Performing the PCA with Singular Value Decomposition (SVD) method</span>
 pca_interests &lt;-<span class="st"> </span><span class="kw">prcomp</span>(std_interests)
@@ -2611,6 +2613,11 @@ rotation &lt;-<span class="st"> </span><span class="kw">round</span>(pca_interes
 </tbody>
 </table>
 <p> </p>
+</div>
+<div id="the-summary-of-pca-with-singular-value-decomposition-method" class="section level2">
+<h2><span class="header-section-number">5.3</span> The summary of PCA with Singular Value Decomposition method</h2>
+<p> </p>
+<p><a href="https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/" class="uri">https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/</a></p>
 <p>The summary method describe the importance of the PCs. The first row describe again the standard deviation associated with each PC. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.</p>
 <p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="co"># Printing a summary of PCA</span>

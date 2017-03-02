@@ -405,6 +405,7 @@ The dataset of **Young people's interests** contains multitude dimensions corres
 
 A principal component can be seen as a normalized linear combination or the original predictors in a dataset. The first principal component captures the most of the variance in the dataset. The second principal component captures the maximum variance of the dataset that are uncorrelated with the first component. Futhermore, all succeeding principal components follow the similar concept. They capture the remaining variance without being correlated with the previous component. Note that capturing amount of variance corresponds to capturing amount of information. 
 
+&nbsp;
 
 ## Scaling the data of interests
 
@@ -429,7 +430,9 @@ std_interests <- scale(interests)
 
 First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.
 
-The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in.
+The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in. I printed the loadings of each variable considering the initial amount of dimensions regarding my hypotheses. This means a huge amount of measures while the table still can be informative since you can explore where the variables are loading the most and the least. Just for an example I can perceive that matematics and physics are both loading positively to the second component whereas chemistry loads mostly to the third component which is actually against my initial hypothesis. 
+
+The "x" prints the principal component score vector and the "sdev" provides the standard deviavtion of components which I'm not using as such. Instead of this I'm going to print the summary of these measures. Thus let's continue to the next section.  
 
 
 &nbsp;
@@ -449,6 +452,12 @@ kable(rotation)
 
 
 &nbsp;
+
+## The summary of PCA with Singular Value Decomposition method
+
+&nbsp;
+
+https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/
 
 The summary method describe the importance of the PCs. The first row describe again the standard deviation associated with each PC. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.
 
