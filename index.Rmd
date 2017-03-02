@@ -169,17 +169,14 @@ table(Gender)
 
 The research problem is to reduce the dimensions of the data by **young people's interests and hobbies** and identify and express a meaningful pattern of components in terms of clarity and exploratory fashion. First I offer some general backround information of my initial proposal and after this I present the initial hypotheses or proposal together with the colored histograms.
 
-&nbsp;
-
-## Initial proposal of latent structure and hypotheses
-
-&nbsp;
-
 In this section you can see the ditributions more visually. The coloring might seem confucing at first but there is actually a strategy behind this. As I mentioned earlier, my intention is to deepen my knowledge in terms of Principal Component Analysis (PCA), hence the coloring points to **initial proposal** of the latent structure inside the data. I'm highlighting the word initial because the structure is based partially on my personal intuition and partially on the "behaviour" of the distributions. Additionally, I want to form my perception of the structure from beginning to end, rather than perform the statistical methods first and then look back and write these chapters. Thus I could call this as my learnings process.
 
 Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the imformative purposes.
 
 
+&nbsp;
+
+## Initial proposal of latent structure and hypotheses
 
 &nbsp;
 
@@ -225,7 +222,54 @@ Then, my intention at first was to create one more dimension for variables below
 
 <p class="text-warning">FOURTH DIMENSION</p>
 
+At this point, the fourth dimension contains the futher variables:
 
+* Internet
+* Foreign languages
+* Outdoor activities
+* Sport and leisure activities
+* Sport at competitive level
+* Socializing with friends
+* Pets
+
+There is more variablity in this dimension considering the distributions. However, I think that all these variables share some **interest toward socializing** with one way or other. 
+
+&nbsp;
+
+<p class="text-warning">FIFTH DIMENSION</p>
+
+I think that this dimension contains at least PC and interest toward science and techology, since PC can be considered as technology. This can be true also in terms of cars but its ditribution doesn't fit. Finally it seems that the Andrenaline sports doesn't fit nowhere. Nevertheless, if it belongs here, the dimension could be called for example **interest toward speed and technology**.
+
+* PC
+* Science and technology
+* Cars
+* Adrenaline sports
+
+&nbsp;
+
+<p class="text-warning">SIXTH DIMENSION</p>
+
+These variables can be close with socializing aspects regarding their actual content or meaning. However their distributions seem to somewhat different and for that reason I separated the variables below as their own dimension. It seems that within this data, these interests are more important to women than men, which could be the common nominator. Hope nobody gets hurt if I call these as **feminine activities**. 
+
+* Poetry reading
+* Shopping
+* Theatre
+
+
+&nbsp;
+
+<p class="text-warning">SEVENTH DIMENSION</p>
+
+This last dimension may contain the following variables:
+
+* Dancing
+* Celebrity lifestyle
+
+I think that these share the most obvious relationship regarding their content but let's see later if the PCA agrees with me.
+
+&nbsp;
+
+## Histograms considering the latent structure
 
 &nbsp;
 
@@ -334,13 +378,7 @@ h33 <- ggplot(interests_dem, aes(interests_dem$Age, fill = Gender)) + geom_histo
 grid.arrange(h28, h29, h30, h31, h32, h33, ncol = 3, nrow =2)
 ```
 
-
-```{r}
-table(interests_dem$Politics)
-```
+&nbsp;
 
 
-
-
-
-
+&nbsp;
