@@ -488,7 +488,6 @@ INTERESTS AND THEIR SHORT NAMES
 <p>The dataset contains a lot of variables, also producing many summary tables.</p>
 <p>As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables, besides age. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include <strong>History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and Adrenaline sports</strong>.</p>
 <p>Then there are some variables with quite low average interest, including for example <strong>Physics, Chemistry, Poetry writing and Gardening</strong> and very high interest, including <strong>Internet, Languages, Outdoor activities and Socializing with friends</strong>.</p>
-<p>The last tiny table informs us that there are 520 females and 358 males.</p>
 <p>When exploring the distributions, it is good to remember that the participants were not just the students but also their friends. This means that the participants can come from the University, working life, etc.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr); <span class="kw">library</span>(dplyr)
 <span class="kw">kable</span>(<span class="kw">summary</span>(interests_dem[,<span class="dv">1</span><span class="op">:</span><span class="dv">7</span>]), <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">caption =</span> <span class="st">'Summary 1'</span>, <span class="dt">align =</span> <span class="st">&quot;l&quot;</span>)</code></pre></div>
@@ -867,14 +866,75 @@ INTERESTS AND THEIR SHORT NAMES
 </tr>
 </tbody>
 </table>
+<p> </p>
+<p class="text-warning">
+SUMMARY OF GENDER
+</p>
+<p>This last tiny table informs us that there are 520 females and 358 males.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">Gender &lt;-<span class="st"> </span>interests_dem<span class="op">$</span>Gender
 <span class="kw">table</span>(Gender)</code></pre></div>
-<p>Gender female male 520 358</p>
+<pre><code>## Gender
+## female   male 
+##    520    358</code></pre>
 <p> </p>
 </div>
 </div>
-<div id="graphical-overview" class="section level1">
-<h1><span class="header-section-number">3</span> Graphical overview</h1>
+<div id="reasearch-problem-and-initial-hypotheses" class="section level1">
+<h1><span class="header-section-number">3</span> Reasearch problem and initial hypotheses</h1>
+<p> </p>
+<p>The research problem is to reduce the dimensions of the data by <strong>young people’s interests and hobbies</strong> and identify and express a meaningful pattern of components in terms of clarity and exploratory fashion. First I offer some general backround information of my initial proposal and after this I present the initial hypotheses or proposal together with the colored histograms.</p>
+<p> </p>
+<div id="initial-proposal-of-the-latent-structure-and-of-the-hypotheses" class="section level2">
+<h2><span class="header-section-number">3.1</span> Initial proposal of the latent structure and of the hypotheses</h2>
+<p> </p>
+<p>In this section you can see the ditributions more visually. The coloring might seem confucing at first but there is actually a strategy behind this. As I mentioned earlier, my intention is to deepen my knowledge in terms of Principal Component Analysis (PCA), hence the coloring points to <strong>initial proposal</strong> of the latent structure inside the data. I’m highlighting the word initial because the structure is based partially on my personal intuition and partially on the “behaviour” of the distributions. Additionally, I want to form my perception of the structure from beginning to end, rather than perform the statistical methods first and then look back and write these chapters. Thus I could call this as my learnings process.</p>
+<p>Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the imformative purposes.</p>
+<p> </p>
+<p class="text-warning">
+FIRST DIMENSION
+</p>
+<p>In the beginning I maybe wouldn’t have chosen the psychology here but I think it’s important that these variables share somewhat similar distributions. If these variables belong to same component, the dimension could be called something like ** interest toward base disciplines of cultural characteristics with respect to human beings**.</p>
+<ul>
+<li>History</li>
+<li>Psychology</li>
+<li>Geography</li>
+</ul>
+<p> </p>
+<p class="text-warning">
+SECOND DIMENSION
+</p>
+<p>Also this dimension contains variables with somewhat equivalent distributions and I think they share some common parts of <strong>intellectual elements</strong>.</p>
+<ul>
+<li>Politics<br />
+</li>
+<li>Economy, management</li>
+<li>Biology<br />
+</li>
+<li>Medicine</li>
+<li>Art exhibition</li>
+</ul>
+<p> </p>
+<p class="text-warning">
+THIRD DIMENSION
+</p>
+<p>This dimension is a bit tricky. To me, it makes sense that the math, physics and chemistry could belong to the same scope. The variable of being interest toward law is more complicated. It could belong here or to the earlier dimension of “intellectual features”. In terms of this third dimension the content of law contains a lot of details and complex attributes as well as math, physics and chemistry. Thus, if a person is interested in putting effort to calculate details and logical problems, this dimension can make sense (so far).</p>
+<ul>
+<li>Mathematics</li>
+<li>Physics</li>
+<li>Chemistry</li>
+<li>Law</li>
+</ul>
+<p>Then, my intention at first was to create one more dimension for variables below until I noticed that their distribution is likely to be similar with the above variables. First I thought that religion, playing instruments, poetry writing and gardening relate to some artistic features which still could be the explanation. But according to the information of similarities in their distributions, it could be “true” that some people are interested in all of these contents. There might be a situation that people interested in math, physics, chemistry and law would like to have some counterbalance hobbies or worldview in terms of religion. However, it is not very easy to figure out a name representing all these variables, thus I think I need to ensure the results first.</p>
+<ul>
+<li>Religion</li>
+<li>Playing musical instruments</li>
+<li>Poetry writing</li>
+<li>Gardening</li>
+</ul>
+<p> </p>
+<p class="text-warning">
+FOURTH DIMENSION
+</p>
 <p> </p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(ggplot2); <span class="kw">library</span>(gridExtra)
 
@@ -969,6 +1029,7 @@ h33 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(interests_dem, 
 <pre><code>## 
 ##   1   2   3   4   5 
 ## 222 222 204 133  97</code></pre>
+</div>
 </div>
 
 
