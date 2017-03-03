@@ -281,8 +281,8 @@ div.tocify {
 <div id="the-purpose-of-the-final-work" class="section level1">
 <h1><span class="header-section-number">1</span> The purpose of the final work</h1>
 <p> </p>
-<p>The idea of the this final work is to show and demonstrate what I have been learning about R, data visualizing and statistics during this course called <strong>Introduction to Open Data Science</strong>. The course is organized by <a href="https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science,+spring+2017">University of Helsinki</a>. I really want highlight that this was and is my first course and work with R programming. Considering this I like to believe that I have learnt a lot of very interesting ways of using R, RStudio and Rpackages.</p>
-<p>In this final work We have 2 options of choosing our data. First we could use one of the the datasets which we had already applied. Alternatively we could try to find a new dataset from internet in terms of our interests or just to raise the degree of difficulty, I think. And because I’m very interested in research I wanted to find a new dataset to learn how to do the whole data wrangling and exploring process by myself.</p>
+<p>The idea of the this final work is to show and demonstrate what I have learnt about R, data visualizing and statistics during this course called <strong>Introduction to Open Data Science</strong>. The course is organized by <a href="https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science,+spring+2017">University of Helsinki</a>. I really want highlight that this was and is my first course and work with R programming. Considering this I like to believe that I have learnt a lot of very interesting ways of using R, RStudio and Rpackages.</p>
+<p>In this final work we have 2 options to choose our data. First we could use one of the the datasets which we had already applied. Alternatively we could try to find a new dataset from internet in terms of our interests or just to raise the degree of difficulty, I think. And because I’m very interested in research, I wanted to find a new dataset to learn how to do the whole data wrangling and exploring process by myself.</p>
 <p>My intention here is to deepen my knowledge on <a href="https://en.wikipedia.org/wiki/Principal_component_analysis">Principal Component Analysis</a> in terms of finding some latent structure of the dataset introduced in the next chapter.</p>
 <p> </p>
 </div>
@@ -292,8 +292,8 @@ div.tocify {
 <p>I choose the dataset from <a href="https://www.kaggle.com/miroslavsabo/young-people-survey">Kaggle</a>, which is about <strong>Preferencies, interests, habits, opinions and fears of young people</strong> in Slovakia. In 2013, students of the Statistics class at <a href="https://fses.uniba.sk/en/">FSEV UK</a> were asked to invite their friends to participate in this survey. Accordingly they managed to get 1 010 participants for this purpose.</p>
 <p>If you take a look at the Kaggle link you can see that there are huge amount of variables, that is 150 columns mainly integers but also some categorical variables. Thus for the purpose of this assignment and Principal Component Analysis I had to choose some interesting content which is funny because I choose the interests and hobbies of these young people. In addition, I also wanted to count in some demographical variables to make visualizations more versatile.</p>
 <p> </p>
-<div id="first-part-of-data-wrangling" class="section level2">
-<h2><span class="header-section-number">2.1</span> First part of data wrangling</h2>
+<div id="data-wrangling" class="section level2">
+<h2><span class="header-section-number">2.1</span> Data wrangling</h2>
 <p> </p>
 <p>You can find all of the datasets from my <a href="https://github.com/8475394/IODS-final/tree/master/Data">GitHub Repository</a>. The CSV-file called “raw_young_people_survey” is the original dataset from Kaggle. The “create_interests.R” is the R Script file of my data wrangling and the “interests_dem.txt” is the file what I’m going to use here.</p>
 <p> </p>
@@ -309,11 +309,22 @@ BRIEF DESCRIPTION OF DATA WRANGLING PHASES:
 <li>Saving the new data</li>
 </ol>
 <p> </p>
+<p class="text-warning">
+SECOND PART OF DATA WRANGLING:
+</p>
+<p>While printing the summaries and plotting histograms I noticed that there is something “wrong” with the gender variable. This column consisted the third unnamed category containing only three participant. I assumed that these people didn’t want answer to this question. But the point from data wrangling perspective was that this third category was unnamed while these were not marked as missing values. Still the Kaggle pages informed that the gender is divided to females and males. Thus, I couldn’t actually know the real purpose so I made a decision to extract these particpant from the data. You can find this part from the same R Script named as “create_interests.R”. Below you can see a short description of the second part.</p>
+<ol start="7" style="list-style-type: decimal">
+<li>Recoding empty values as NA:s</li>
+<li>Verifying that 3 of the values belong to NA:s</li>
+<li>Removing the “new” rows with missing values</li>
+<li>Saving the dataset again as “interests_dem.txt”</li>
+</ol>
+<p> </p>
 </div>
 <div id="introducing-the-variables" class="section level2">
 <h2><span class="header-section-number">2.2</span> Introducing the variables</h2>
 <p> </p>
-<p>From the structure table below you see that after data wrangling part there are 878 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people which were measured on the <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert Scale</a> from 1 to 5 (Not interested - Very interested). Last two variables contains information about age and gender, where the former varies between 15 and 30 years. The latter contains categories of female and male.</p>
+<p>From the structure table below you see that after data wrangling part there are 878 observation and 34 variables, mostly integers, treated as continuous variables, and 1 factor variable. The first 32 variables represent different interests and hobbies of young people which were measured on the <a href="https://en.wikipedia.org/wiki/Likert_scale">Likert Scale</a> from 1 to 5 (Not interested - Very interested). Last two variables contains information about age and gender, where the former varies between 15 and 30 years. The latter contains categories of female and male.</p>
 <p>Some of these variables may need some additional information, thus I made a table for their longer and short names. However, most of the variables have same longer and shorter name. See the table after exploring the structure of the data.</p>
 <p> </p>
 <p class="text-warning">
@@ -486,7 +497,7 @@ INTERESTS AND THEIR SHORT NAMES
 <h2><span class="header-section-number">2.3</span> Summary tables</h2>
 <p> </p>
 <p>The dataset contains a lot of variables, also producing many summary tables.</p>
-<p>As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables, besides age. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include <strong>History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and Adrenaline sports</strong>.</p>
+<p>As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include <strong>History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and Adrenaline sports</strong>.</p>
 <p>Then there are some variables with quite low average interest, including for example <strong>Physics, Chemistry, Poetry writing and Gardening</strong> and very high interest, including <strong>Internet, Languages, Outdoor activities and Socializing with friends</strong>.</p>
 <p>When exploring the distributions, it is good to remember that the participants were not just the students but also their friends. This means that the participants can come from the University, working life, etc.</p>
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(knitr); <span class="kw">library</span>(dplyr)
@@ -884,7 +895,7 @@ SUMMARY OF GENDER
 <p> </p>
 <p>The research problem is to reduce the dimensions of the data by <strong>young people’s interests and hobbies</strong> and identify and express a meaningful pattern of components in terms of clarity and exploratory fashion. First I offer some general backround information of my initial proposal and after this I present the initial hypotheses or proposal together with the colored histograms.</p>
 <p>In this section you can see the ditributions more visually. The coloring might seem confucing at first but there is actually a strategy behind this. As I mentioned earlier, my intention is to deepen my knowledge in terms of Principal Component Analysis (PCA), hence the coloring points to <strong>initial proposal</strong> of the latent structure inside the data. I’m highlighting the word initial because the structure is based partially on my personal intuition and partially on the “behaviour” of the distributions. Additionally, I want to form my perception of the structure from beginning to end, rather than perform the statistical methods first and then look back and write these chapters. Thus I could call this as my learnings process.</p>
-<p>Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the imformative purposes.</p>
+<p>Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the informative purposes.</p>
 <p> </p>
 <div id="initial-proposal-of-latent-structure-and-hypotheses" class="section level2">
 <h2><span class="header-section-number">3.1</span> Initial proposal of latent structure and hypotheses</h2>
@@ -892,7 +903,7 @@ SUMMARY OF GENDER
 <p class="text-warning">
 FIRST DIMENSION
 </p>
-<p>In the beginning I maybe wouldn’t have chosen the psychology here but I think it’s important that these variables share somewhat similar distributions. If these variables belong to same component, the dimension could be called something like <strong>interest toward base disciplines of cultural characteristics with respect to human beings</strong>.</p>
+<p>In the beginning I maybe wouldn’t have chosen the psychology here but I thought it’s important that these variables share somewhat similar distributions. If these variables belong to same component, the dimension could be called something like <strong>interest toward base disciplines of cultural characteristics with respect to human beings</strong>.</p>
 <ul>
 <li>History</li>
 <li>Psychology</li>
@@ -923,6 +934,7 @@ THIRD DIMENSION
 <li>Chemistry</li>
 <li>Law</li>
 </ul>
+<p> </p>
 <p>Then, my intention at first was to create one more dimension for variables below until I noticed that their distribution is likely to be similar with the above variables. First I thought that religion, playing instruments, poetry writing and gardening relate to some artistic features which still could be the explanation. But according to the information of similarities in their distributions, it could be “true” that some people are interested in all of these contents. There might be a situation that <strong>people interested in math, physics, chemistry and law would like to have some counterbalance hobbies or worldview in terms of religion</strong>. However, it is not very easy to figure out a name representing all these variables, thus I think I need to ensure the results first.</p>
 <ul>
 <li>Religion</li>
@@ -944,12 +956,12 @@ FOURTH DIMENSION
 <li>Socializing with friends</li>
 <li>Pets</li>
 </ul>
-<p>There is more variablity in this dimension considering the distributions. However, I think that all these variables share some <strong>interest toward socializing</strong> with one way or other.</p>
+<p>There is more variablity in this dimension considering the distributions. However, I think that all these variables share the aspect of <strong>interest toward socializing</strong> with one way or another.</p>
 <p> </p>
 <p class="text-warning">
 FIFTH DIMENSION
 </p>
-<p>I think that this dimension contains at least PC and interest toward science and techology, since PC can be considered as technology. This can be true also in terms of cars but its ditribution doesn’t fit. Finally it seems that the Andrenaline sports doesn’t fit nowhere. Nevertheless, if it belongs here, the dimension could be called for example <strong>interest toward speed and technology</strong>.</p>
+<p>I think that this dimension contains at least PC and interest toward science and techology, since PC can be considered as technology. This can be true also in terms of cars but its ditribution doesn’t fit. Finally it seems that the Andrenaline sports doesn’t fit anyhere. Nevertheless, if it belongs here, the dimension could be called for example <strong>interest toward speed and technology</strong>.</p>
 <ul>
 <li>PC</li>
 <li>Science and technology</li>
@@ -960,7 +972,7 @@ FIFTH DIMENSION
 <p class="text-warning">
 SIXTH DIMENSION
 </p>
-<p>These variables can be close with socializing aspects regarding their actual content or meaning. However their distributions seem to somewhat different and for that reason I separated the variables below as their own dimension. It seems that within this data, these interests are more important to women than men, which could be the common nominator. Hope nobody gets hurt if I call these as <strong>feminine activities</strong>.</p>
+<p>These variables can be close with socializing aspects regarding their actual content or meaning. However their distributions seem to somewhat different and for that reason I separated the variables below as their own dimension. It seems that within this data, these interests are more important to women than men, which could be the common nominator. Hope nobody gets hurt if I call these variables as <strong>feminine activities</strong>.</p>
 <ul>
 <li>Poetry reading</li>
 <li>Shopping</li>
@@ -1078,11 +1090,18 @@ h33 &lt;-<span class="st"> </span><span class="kw">ggplot</span>(interests_dem, 
 <div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r"><span class="kw">library</span>(dplyr); <span class="kw">library</span>(knitr)
 interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(interests_dem, <span class="dv">1</span><span class="op">:</span><span class="dv">32</span>) <span class="co"># leaving age and gender out</span>
 
-<span class="kw">dim</span>(interests) <span class="co"># 878 observations and 32 variables</span></code></pre></div>
-<pre><code>## [1] 878  32</code></pre>
-<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cor_matrix1 &lt;-<span class="st"> </span><span class="kw">cor</span>(interests) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>)
-<span class="kw">kable</span>(cor_matrix1, <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">align=</span><span class="st">&quot;c&quot;</span>)</code></pre></div>
+dim_interest &lt;-<span class="st"> </span><span class="kw">dim</span>(interests) <span class="co"># 878 observations and 32 variables</span>
+
+<span class="co"># Dividing the data to groups</span>
+interests1 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(interests, <span class="dv">1</span><span class="op">:</span><span class="dv">10</span>) <span class="co"># Selecting first set of variables</span>
+interests2 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(interests, <span class="dv">11</span><span class="op">:</span><span class="dv">20</span>) <span class="co"># Selecting second set of variables</span>
+interests3 &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span class="kw">select</span>(interests, <span class="dv">21</span><span class="op">:</span><span class="dv">32</span>) <span class="co"># Selecting rest of the variables</span>
+
+<span class="co"># Presenting correlation matrixes of the 3 groups</span>
+cor_matrix1 &lt;-<span class="st"> </span><span class="kw">cor</span>(interests1) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>)
+<span class="kw">kable</span>(cor_matrix1, <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">align=</span><span class="st">&quot;c&quot;</span>, <span class="dt">caption =</span> <span class="st">'Correlations between the first 10 variables'</span>)</code></pre></div>
 <table>
+<caption>Correlations between the first 10 variables</caption>
 <thead>
 <tr class="header">
 <th></th>
@@ -1096,6 +1115,147 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 <th align="center">Economy</th>
 <th align="center">Biology</th>
 <th align="center">Chemistry</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>History</td>
+<td align="center">1.00</td>
+<td align="center">0.30</td>
+<td align="center">0.41</td>
+<td align="center">0.01</td>
+<td align="center">0.07</td>
+<td align="center">0.01</td>
+<td align="center">0.03</td>
+<td align="center">0.06</td>
+<td align="center">0.03</td>
+<td align="center">0.02</td>
+</tr>
+<tr class="even">
+<td>Psychology</td>
+<td align="center">0.30</td>
+<td align="center">1.00</td>
+<td align="center">0.20</td>
+<td align="center">0.05</td>
+<td align="center">0.07</td>
+<td align="center">0.00</td>
+<td align="center">-0.07</td>
+<td align="center">0.07</td>
+<td align="center">0.21</td>
+<td align="center">0.06</td>
+</tr>
+<tr class="odd">
+<td>Politics</td>
+<td align="center">0.41</td>
+<td align="center">0.20</td>
+<td align="center">1.00</td>
+<td align="center">0.10</td>
+<td align="center">0.13</td>
+<td align="center">0.04</td>
+<td align="center">0.10</td>
+<td align="center">0.30</td>
+<td align="center">-0.08</td>
+<td align="center">-0.05</td>
+</tr>
+<tr class="even">
+<td>Mathematics</td>
+<td align="center">0.01</td>
+<td align="center">0.05</td>
+<td align="center">0.10</td>
+<td align="center">1.00</td>
+<td align="center">0.61</td>
+<td align="center">0.16</td>
+<td align="center">0.29</td>
+<td align="center">0.23</td>
+<td align="center">0.08</td>
+<td align="center">0.17</td>
+</tr>
+<tr class="odd">
+<td>Physics</td>
+<td align="center">0.07</td>
+<td align="center">0.07</td>
+<td align="center">0.13</td>
+<td align="center">0.61</td>
+<td align="center">1.00</td>
+<td align="center">0.11</td>
+<td align="center">0.35</td>
+<td align="center">0.02</td>
+<td align="center">0.21</td>
+<td align="center">0.31</td>
+</tr>
+<tr class="even">
+<td>Internet</td>
+<td align="center">0.01</td>
+<td align="center">0.00</td>
+<td align="center">0.04</td>
+<td align="center">0.16</td>
+<td align="center">0.11</td>
+<td align="center">1.00</td>
+<td align="center">0.47</td>
+<td align="center">0.16</td>
+<td align="center">-0.11</td>
+<td align="center">-0.10</td>
+</tr>
+<tr class="odd">
+<td>PC</td>
+<td align="center">0.03</td>
+<td align="center">-0.07</td>
+<td align="center">0.10</td>
+<td align="center">0.29</td>
+<td align="center">0.35</td>
+<td align="center">0.47</td>
+<td align="center">1.00</td>
+<td align="center">0.16</td>
+<td align="center">-0.09</td>
+<td align="center">-0.04</td>
+</tr>
+<tr class="even">
+<td>Economy</td>
+<td align="center">0.06</td>
+<td align="center">0.07</td>
+<td align="center">0.30</td>
+<td align="center">0.23</td>
+<td align="center">0.02</td>
+<td align="center">0.16</td>
+<td align="center">0.16</td>
+<td align="center">1.00</td>
+<td align="center">-0.18</td>
+<td align="center">-0.19</td>
+</tr>
+<tr class="odd">
+<td>Biology</td>
+<td align="center">0.03</td>
+<td align="center">0.21</td>
+<td align="center">-0.08</td>
+<td align="center">0.08</td>
+<td align="center">0.21</td>
+<td align="center">-0.11</td>
+<td align="center">-0.09</td>
+<td align="center">-0.18</td>
+<td align="center">1.00</td>
+<td align="center">0.69</td>
+</tr>
+<tr class="even">
+<td>Chemistry</td>
+<td align="center">0.02</td>
+<td align="center">0.06</td>
+<td align="center">-0.05</td>
+<td align="center">0.17</td>
+<td align="center">0.31</td>
+<td align="center">-0.10</td>
+<td align="center">-0.04</td>
+<td align="center">-0.19</td>
+<td align="center">0.69</td>
+<td align="center">1.00</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cor_matrix2 &lt;-<span class="st"> </span><span class="kw">cor</span>(interests2) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>)
+<span class="kw">kable</span>(cor_matrix2, <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">align=</span><span class="st">&quot;c&quot;</span>)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
 <th align="center">rPoetry</th>
 <th align="center">Geography</th>
 <th align="center">Languages</th>
@@ -1106,6 +1266,147 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 <th align="center">Religion</th>
 <th align="center">Outdoor</th>
 <th align="center">Dancing</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>rPoetry</td>
+<td align="center">1.00</td>
+<td align="center">0.13</td>
+<td align="center">0.32</td>
+<td align="center">0.18</td>
+<td align="center">0.09</td>
+<td align="center">-0.31</td>
+<td align="center">0.39</td>
+<td align="center">0.24</td>
+<td align="center">0.13</td>
+<td align="center">0.18</td>
+</tr>
+<tr class="even">
+<td>Geography</td>
+<td align="center">0.13</td>
+<td align="center">1.00</td>
+<td align="center">0.25</td>
+<td align="center">0.09</td>
+<td align="center">0.19</td>
+<td align="center">0.08</td>
+<td align="center">0.16</td>
+<td align="center">0.12</td>
+<td align="center">0.19</td>
+<td align="center">0.10</td>
+</tr>
+<tr class="odd">
+<td>Languages</td>
+<td align="center">0.32</td>
+<td align="center">0.25</td>
+<td align="center">1.00</td>
+<td align="center">0.13</td>
+<td align="center">0.20</td>
+<td align="center">-0.08</td>
+<td align="center">0.24</td>
+<td align="center">0.15</td>
+<td align="center">0.14</td>
+<td align="center">0.19</td>
+</tr>
+<tr class="even">
+<td>Medicine</td>
+<td align="center">0.18</td>
+<td align="center">0.09</td>
+<td align="center">0.13</td>
+<td align="center">1.00</td>
+<td align="center">0.12</td>
+<td align="center">0.00</td>
+<td align="center">0.16</td>
+<td align="center">0.22</td>
+<td align="center">0.12</td>
+<td align="center">0.20</td>
+</tr>
+<tr class="odd">
+<td>Law</td>
+<td align="center">0.09</td>
+<td align="center">0.19</td>
+<td align="center">0.20</td>
+<td align="center">0.12</td>
+<td align="center">1.00</td>
+<td align="center">0.19</td>
+<td align="center">0.12</td>
+<td align="center">0.10</td>
+<td align="center">-0.03</td>
+<td align="center">0.12</td>
+</tr>
+<tr class="even">
+<td>Cars</td>
+<td align="center">-0.31</td>
+<td align="center">0.08</td>
+<td align="center">-0.08</td>
+<td align="center">0.00</td>
+<td align="center">0.19</td>
+<td align="center">1.00</td>
+<td align="center">-0.10</td>
+<td align="center">-0.05</td>
+<td align="center">0.01</td>
+<td align="center">-0.07</td>
+</tr>
+<tr class="odd">
+<td>Art</td>
+<td align="center">0.39</td>
+<td align="center">0.16</td>
+<td align="center">0.24</td>
+<td align="center">0.16</td>
+<td align="center">0.12</td>
+<td align="center">-0.10</td>
+<td align="center">1.00</td>
+<td align="center">0.24</td>
+<td align="center">0.25</td>
+<td align="center">0.25</td>
+</tr>
+<tr class="even">
+<td>Religion</td>
+<td align="center">0.24</td>
+<td align="center">0.12</td>
+<td align="center">0.15</td>
+<td align="center">0.22</td>
+<td align="center">0.10</td>
+<td align="center">-0.05</td>
+<td align="center">0.24</td>
+<td align="center">1.00</td>
+<td align="center">0.22</td>
+<td align="center">0.16</td>
+</tr>
+<tr class="odd">
+<td>Outdoor</td>
+<td align="center">0.13</td>
+<td align="center">0.19</td>
+<td align="center">0.14</td>
+<td align="center">0.12</td>
+<td align="center">-0.03</td>
+<td align="center">0.01</td>
+<td align="center">0.25</td>
+<td align="center">0.22</td>
+<td align="center">1.00</td>
+<td align="center">0.24</td>
+</tr>
+<tr class="even">
+<td>Dancing</td>
+<td align="center">0.18</td>
+<td align="center">0.10</td>
+<td align="center">0.19</td>
+<td align="center">0.20</td>
+<td align="center">0.12</td>
+<td align="center">-0.07</td>
+<td align="center">0.25</td>
+<td align="center">0.16</td>
+<td align="center">0.24</td>
+<td align="center">1.00</td>
+</tr>
+</tbody>
+</table>
+<div class="sourceCode"><pre class="sourceCode r"><code class="sourceCode r">cor_matrix3 &lt;-<span class="st"> </span><span class="kw">cor</span>(interests3) <span class="op">%&gt;%</span><span class="st"> </span><span class="kw">round</span>(<span class="dt">digits =</span> <span class="dv">2</span>)
+<span class="kw">kable</span>(cor_matrix3, <span class="dt">format =</span> <span class="st">&quot;pandoc&quot;</span>, <span class="dt">digits =</span> <span class="dv">2</span>,  <span class="dt">align=</span><span class="st">&quot;c&quot;</span>)</code></pre></div>
+<table>
+<thead>
+<tr class="header">
+<th></th>
 <th align="center">Instruments</th>
 <th align="center">wPoetry</th>
 <th align="center">sLeisure</th>
@@ -1122,727 +1423,7 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </thead>
 <tbody>
 <tr class="odd">
-<td>History</td>
-<td align="center">1.00</td>
-<td align="center">0.30</td>
-<td align="center">0.41</td>
-<td align="center">0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.01</td>
-<td align="center">0.03</td>
-<td align="center">0.06</td>
-<td align="center">0.03</td>
-<td align="center">0.02</td>
-<td align="center">0.28</td>
-<td align="center">0.32</td>
-<td align="center">0.16</td>
-<td align="center">0.04</td>
-<td align="center">0.30</td>
-<td align="center">0.03</td>
-<td align="center">0.21</td>
-<td align="center">0.19</td>
-<td align="center">0.08</td>
-<td align="center">0.04</td>
-<td align="center">0.09</td>
-<td align="center">0.17</td>
-<td align="center">-0.03</td>
-<td align="center">0.06</td>
-<td align="center">0.03</td>
-<td align="center">-0.09</td>
-<td align="center">-0.07</td>
-<td align="center">0.12</td>
-<td align="center">0.18</td>
-<td align="center">0.01</td>
-<td align="center">0.05</td>
-<td align="center">0.03</td>
-</tr>
-<tr class="even">
-<td>Psychology</td>
-<td align="center">0.30</td>
-<td align="center">1.00</td>
-<td align="center">0.20</td>
-<td align="center">0.05</td>
-<td align="center">0.07</td>
-<td align="center">0.00</td>
-<td align="center">-0.07</td>
-<td align="center">0.07</td>
-<td align="center">0.21</td>
-<td align="center">0.06</td>
-<td align="center">0.23</td>
-<td align="center">0.06</td>
-<td align="center">0.20</td>
-<td align="center">0.22</td>
-<td align="center">0.18</td>
-<td align="center">-0.11</td>
-<td align="center">0.30</td>
-<td align="center">0.23</td>
-<td align="center">0.08</td>
-<td align="center">0.20</td>
-<td align="center">0.12</td>
-<td align="center">0.27</td>
-<td align="center">-0.07</td>
-<td align="center">0.01</td>
-<td align="center">0.07</td>
-<td align="center">-0.01</td>
-<td align="center">0.06</td>
-<td align="center">0.06</td>
-<td align="center">0.26</td>
-<td align="center">0.01</td>
-<td align="center">0.06</td>
-<td align="center">0.08</td>
-</tr>
-<tr class="odd">
-<td>Politics</td>
-<td align="center">0.41</td>
-<td align="center">0.20</td>
-<td align="center">1.00</td>
-<td align="center">0.10</td>
-<td align="center">0.13</td>
-<td align="center">0.04</td>
-<td align="center">0.10</td>
-<td align="center">0.30</td>
-<td align="center">-0.08</td>
-<td align="center">-0.05</td>
-<td align="center">0.10</td>
-<td align="center">0.28</td>
-<td align="center">0.16</td>
-<td align="center">0.03</td>
-<td align="center">0.47</td>
-<td align="center">0.15</td>
-<td align="center">0.09</td>
-<td align="center">0.19</td>
-<td align="center">-0.05</td>
-<td align="center">0.03</td>
-<td align="center">0.07</td>
-<td align="center">0.11</td>
-<td align="center">0.03</td>
-<td align="center">0.07</td>
-<td align="center">0.00</td>
-<td align="center">-0.02</td>
-<td align="center">-0.07</td>
-<td align="center">0.19</td>
-<td align="center">0.07</td>
-<td align="center">0.01</td>
-<td align="center">0.10</td>
-<td align="center">-0.02</td>
-</tr>
-<tr class="even">
-<td>Mathematics</td>
-<td align="center">0.01</td>
-<td align="center">0.05</td>
-<td align="center">0.10</td>
-<td align="center">1.00</td>
-<td align="center">0.61</td>
-<td align="center">0.16</td>
-<td align="center">0.29</td>
-<td align="center">0.23</td>
-<td align="center">0.08</td>
-<td align="center">0.17</td>
-<td align="center">-0.03</td>
-<td align="center">0.05</td>
-<td align="center">0.00</td>
-<td align="center">0.05</td>
-<td align="center">0.04</td>
-<td align="center">0.13</td>
-<td align="center">0.01</td>
-<td align="center">0.11</td>
-<td align="center">0.02</td>
-<td align="center">-0.01</td>
-<td align="center">0.08</td>
-<td align="center">-0.02</td>
-<td align="center">0.08</td>
-<td align="center">0.05</td>
-<td align="center">0.02</td>
-<td align="center">-0.12</td>
-<td align="center">-0.18</td>
-<td align="center">0.23</td>
-<td align="center">-0.04</td>
-<td align="center">-0.04</td>
-<td align="center">0.08</td>
-<td align="center">-0.04</td>
-</tr>
-<tr class="odd">
-<td>Physics</td>
-<td align="center">0.07</td>
-<td align="center">0.07</td>
-<td align="center">0.13</td>
-<td align="center">0.61</td>
-<td align="center">1.00</td>
-<td align="center">0.11</td>
-<td align="center">0.35</td>
-<td align="center">0.02</td>
-<td align="center">0.21</td>
-<td align="center">0.31</td>
-<td align="center">-0.08</td>
-<td align="center">0.08</td>
-<td align="center">-0.11</td>
-<td align="center">0.20</td>
-<td align="center">0.03</td>
-<td align="center">0.23</td>
-<td align="center">0.04</td>
-<td align="center">0.11</td>
-<td align="center">0.05</td>
-<td align="center">-0.03</td>
-<td align="center">0.10</td>
-<td align="center">0.05</td>
-<td align="center">0.04</td>
-<td align="center">0.11</td>
-<td align="center">0.04</td>
-<td align="center">-0.21</td>
-<td align="center">-0.23</td>
-<td align="center">0.42</td>
-<td align="center">0.00</td>
-<td align="center">-0.02</td>
-<td align="center">0.15</td>
-<td align="center">-0.03</td>
-</tr>
-<tr class="even">
-<td>Internet</td>
-<td align="center">0.01</td>
-<td align="center">0.00</td>
-<td align="center">0.04</td>
-<td align="center">0.16</td>
-<td align="center">0.11</td>
-<td align="center">1.00</td>
-<td align="center">0.47</td>
-<td align="center">0.16</td>
-<td align="center">-0.11</td>
-<td align="center">-0.10</td>
-<td align="center">-0.15</td>
-<td align="center">0.08</td>
-<td align="center">0.06</td>
-<td align="center">-0.09</td>
-<td align="center">0.06</td>
-<td align="center">0.22</td>
-<td align="center">-0.08</td>
-<td align="center">-0.04</td>
-<td align="center">-0.01</td>
-<td align="center">-0.05</td>
-<td align="center">-0.05</td>
-<td align="center">-0.07</td>
-<td align="center">0.18</td>
-<td align="center">0.00</td>
-<td align="center">-0.06</td>
-<td align="center">0.11</td>
-<td align="center">0.07</td>
-<td align="center">0.19</td>
-<td align="center">-0.15</td>
-<td align="center">0.10</td>
-<td align="center">0.08</td>
-<td align="center">0.00</td>
-</tr>
-<tr class="odd">
-<td>PC</td>
-<td align="center">0.03</td>
-<td align="center">-0.07</td>
-<td align="center">0.10</td>
-<td align="center">0.29</td>
-<td align="center">0.35</td>
-<td align="center">0.47</td>
-<td align="center">1.00</td>
-<td align="center">0.16</td>
-<td align="center">-0.09</td>
-<td align="center">-0.04</td>
-<td align="center">-0.22</td>
-<td align="center">0.06</td>
-<td align="center">-0.03</td>
-<td align="center">-0.07</td>
-<td align="center">0.03</td>
-<td align="center">0.38</td>
-<td align="center">-0.09</td>
-<td align="center">-0.01</td>
-<td align="center">-0.01</td>
-<td align="center">-0.14</td>
-<td align="center">0.08</td>
-<td align="center">-0.04</td>
-<td align="center">0.08</td>
-<td align="center">0.13</td>
-<td align="center">-0.02</td>
-<td align="center">-0.06</td>
-<td align="center">-0.18</td>
-<td align="center">0.43</td>
-<td align="center">-0.19</td>
-<td align="center">0.00</td>
-<td align="center">0.17</td>
-<td align="center">-0.08</td>
-</tr>
-<tr class="even">
-<td>Economy</td>
-<td align="center">0.06</td>
-<td align="center">0.07</td>
-<td align="center">0.30</td>
-<td align="center">0.23</td>
-<td align="center">0.02</td>
-<td align="center">0.16</td>
-<td align="center">0.16</td>
-<td align="center">1.00</td>
-<td align="center">-0.18</td>
-<td align="center">-0.19</td>
-<td align="center">-0.09</td>
-<td align="center">0.10</td>
-<td align="center">0.18</td>
-<td align="center">-0.13</td>
-<td align="center">0.34</td>
-<td align="center">0.16</td>
-<td align="center">-0.03</td>
-<td align="center">-0.01</td>
-<td align="center">-0.05</td>
-<td align="center">0.08</td>
-<td align="center">-0.09</td>
-<td align="center">-0.05</td>
-<td align="center">0.06</td>
-<td align="center">0.05</td>
-<td align="center">-0.04</td>
-<td align="center">0.10</td>
-<td align="center">0.11</td>
-<td align="center">0.06</td>
-<td align="center">-0.02</td>
-<td align="center">0.06</td>
-<td align="center">0.10</td>
-<td align="center">-0.04</td>
-</tr>
-<tr class="odd">
-<td>Biology</td>
-<td align="center">0.03</td>
-<td align="center">0.21</td>
-<td align="center">-0.08</td>
-<td align="center">0.08</td>
-<td align="center">0.21</td>
-<td align="center">-0.11</td>
-<td align="center">-0.09</td>
-<td align="center">-0.18</td>
-<td align="center">1.00</td>
-<td align="center">0.69</td>
-<td align="center">0.17</td>
-<td align="center">0.08</td>
-<td align="center">0.07</td>
-<td align="center">0.71</td>
-<td align="center">0.01</td>
-<td align="center">-0.08</td>
-<td align="center">0.18</td>
-<td align="center">0.20</td>
-<td align="center">0.16</td>
-<td align="center">0.19</td>
-<td align="center">0.11</td>
-<td align="center">0.07</td>
-<td align="center">0.01</td>
-<td align="center">0.05</td>
-<td align="center">0.28</td>
-<td align="center">0.01</td>
-<td align="center">0.09</td>
-<td align="center">0.16</td>
-<td align="center">0.17</td>
-<td align="center">0.02</td>
-<td align="center">0.02</td>
-<td align="center">0.17</td>
-</tr>
-<tr class="even">
-<td>Chemistry</td>
-<td align="center">0.02</td>
-<td align="center">0.06</td>
-<td align="center">-0.05</td>
-<td align="center">0.17</td>
-<td align="center">0.31</td>
-<td align="center">-0.10</td>
-<td align="center">-0.04</td>
-<td align="center">-0.19</td>
-<td align="center">0.69</td>
-<td align="center">1.00</td>
-<td align="center">0.13</td>
-<td align="center">0.02</td>
-<td align="center">0.00</td>
-<td align="center">0.62</td>
-<td align="center">-0.02</td>
-<td align="center">-0.03</td>
-<td align="center">0.06</td>
-<td align="center">0.10</td>
-<td align="center">0.07</td>
-<td align="center">0.14</td>
-<td align="center">0.08</td>
-<td align="center">0.02</td>
-<td align="center">-0.02</td>
-<td align="center">0.04</td>
-<td align="center">0.18</td>
-<td align="center">-0.08</td>
-<td align="center">0.00</td>
-<td align="center">0.18</td>
-<td align="center">0.08</td>
-<td align="center">-0.02</td>
-<td align="center">0.01</td>
-<td align="center">0.10</td>
-</tr>
-<tr class="odd">
-<td>rPoetry</td>
-<td align="center">0.28</td>
-<td align="center">0.23</td>
-<td align="center">0.10</td>
-<td align="center">-0.03</td>
-<td align="center">-0.08</td>
-<td align="center">-0.15</td>
-<td align="center">-0.22</td>
-<td align="center">-0.09</td>
-<td align="center">0.17</td>
-<td align="center">0.13</td>
-<td align="center">1.00</td>
-<td align="center">0.13</td>
-<td align="center">0.32</td>
-<td align="center">0.18</td>
-<td align="center">0.09</td>
-<td align="center">-0.31</td>
-<td align="center">0.39</td>
-<td align="center">0.24</td>
-<td align="center">0.13</td>
-<td align="center">0.18</td>
-<td align="center">0.16</td>
-<td align="center">0.32</td>
-<td align="center">-0.17</td>
-<td align="center">-0.13</td>
-<td align="center">0.16</td>
-<td align="center">0.02</td>
-<td align="center">0.08</td>
-<td align="center">-0.11</td>
-<td align="center">0.47</td>
-<td align="center">0.02</td>
-<td align="center">-0.15</td>
-<td align="center">0.08</td>
-</tr>
-<tr class="even">
-<td>Geography</td>
-<td align="center">0.32</td>
-<td align="center">0.06</td>
-<td align="center">0.28</td>
-<td align="center">0.05</td>
-<td align="center">0.08</td>
-<td align="center">0.08</td>
-<td align="center">0.06</td>
-<td align="center">0.10</td>
-<td align="center">0.08</td>
-<td align="center">0.02</td>
-<td align="center">0.13</td>
-<td align="center">1.00</td>
-<td align="center">0.25</td>
-<td align="center">0.09</td>
-<td align="center">0.19</td>
-<td align="center">0.08</td>
-<td align="center">0.16</td>
-<td align="center">0.12</td>
-<td align="center">0.19</td>
-<td align="center">0.10</td>
-<td align="center">0.06</td>
-<td align="center">0.12</td>
-<td align="center">0.09</td>
-<td align="center">0.14</td>
-<td align="center">0.05</td>
-<td align="center">-0.01</td>
-<td align="center">-0.04</td>
-<td align="center">0.13</td>
-<td align="center">0.08</td>
-<td align="center">0.00</td>
-<td align="center">0.16</td>
-<td align="center">-0.02</td>
-</tr>
-<tr class="odd">
-<td>Languages</td>
-<td align="center">0.16</td>
-<td align="center">0.20</td>
-<td align="center">0.16</td>
-<td align="center">0.00</td>
-<td align="center">-0.11</td>
-<td align="center">0.06</td>
-<td align="center">-0.03</td>
-<td align="center">0.18</td>
-<td align="center">0.07</td>
-<td align="center">0.00</td>
-<td align="center">0.32</td>
-<td align="center">0.25</td>
-<td align="center">1.00</td>
-<td align="center">0.13</td>
-<td align="center">0.20</td>
-<td align="center">-0.08</td>
-<td align="center">0.24</td>
-<td align="center">0.15</td>
-<td align="center">0.14</td>
-<td align="center">0.19</td>
-<td align="center">0.18</td>
-<td align="center">0.17</td>
-<td align="center">-0.04</td>
-<td align="center">-0.01</td>
-<td align="center">0.00</td>
-<td align="center">0.07</td>
-<td align="center">0.18</td>
-<td align="center">0.01</td>
-<td align="center">0.24</td>
-<td align="center">0.11</td>
-<td align="center">0.04</td>
-<td align="center">-0.01</td>
-</tr>
-<tr class="even">
-<td>Medicine</td>
-<td align="center">0.04</td>
-<td align="center">0.22</td>
-<td align="center">0.03</td>
-<td align="center">0.05</td>
-<td align="center">0.20</td>
-<td align="center">-0.09</td>
-<td align="center">-0.07</td>
-<td align="center">-0.13</td>
-<td align="center">0.71</td>
-<td align="center">0.62</td>
-<td align="center">0.18</td>
-<td align="center">0.09</td>
-<td align="center">0.13</td>
-<td align="center">1.00</td>
-<td align="center">0.12</td>
-<td align="center">0.00</td>
-<td align="center">0.16</td>
-<td align="center">0.22</td>
-<td align="center">0.12</td>
-<td align="center">0.20</td>
-<td align="center">0.14</td>
-<td align="center">0.09</td>
-<td align="center">-0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.20</td>
-<td align="center">0.01</td>
-<td align="center">0.05</td>
-<td align="center">0.17</td>
-<td align="center">0.17</td>
-<td align="center">-0.01</td>
-<td align="center">0.06</td>
-<td align="center">0.12</td>
-</tr>
-<tr class="odd">
-<td>Law</td>
-<td align="center">0.30</td>
-<td align="center">0.18</td>
-<td align="center">0.47</td>
-<td align="center">0.04</td>
-<td align="center">0.03</td>
-<td align="center">0.06</td>
-<td align="center">0.03</td>
-<td align="center">0.34</td>
-<td align="center">0.01</td>
-<td align="center">-0.02</td>
-<td align="center">0.09</td>
-<td align="center">0.19</td>
-<td align="center">0.20</td>
-<td align="center">0.12</td>
-<td align="center">1.00</td>
-<td align="center">0.19</td>
-<td align="center">0.12</td>
-<td align="center">0.10</td>
-<td align="center">-0.03</td>
-<td align="center">0.12</td>
-<td align="center">0.02</td>
-<td align="center">0.05</td>
-<td align="center">0.05</td>
-<td align="center">0.12</td>
-<td align="center">0.02</td>
-<td align="center">0.12</td>
-<td align="center">0.13</td>
-<td align="center">0.07</td>
-<td align="center">0.10</td>
-<td align="center">0.06</td>
-<td align="center">0.11</td>
-<td align="center">0.07</td>
-</tr>
-<tr class="even">
-<td>Cars</td>
-<td align="center">0.03</td>
-<td align="center">-0.11</td>
-<td align="center">0.15</td>
-<td align="center">0.13</td>
-<td align="center">0.23</td>
-<td align="center">0.22</td>
-<td align="center">0.38</td>
-<td align="center">0.16</td>
-<td align="center">-0.08</td>
-<td align="center">-0.03</td>
-<td align="center">-0.31</td>
-<td align="center">0.08</td>
-<td align="center">-0.08</td>
-<td align="center">0.00</td>
-<td align="center">0.19</td>
-<td align="center">1.00</td>
-<td align="center">-0.10</td>
-<td align="center">-0.05</td>
-<td align="center">0.01</td>
-<td align="center">-0.07</td>
-<td align="center">-0.04</td>
-<td align="center">-0.17</td>
-<td align="center">0.21</td>
-<td align="center">0.25</td>
-<td align="center">-0.02</td>
-<td align="center">0.02</td>
-<td align="center">-0.02</td>
-<td align="center">0.34</td>
-<td align="center">-0.17</td>
-<td align="center">0.08</td>
-<td align="center">0.31</td>
-<td align="center">0.03</td>
-</tr>
-<tr class="odd">
-<td>Art</td>
-<td align="center">0.21</td>
-<td align="center">0.30</td>
-<td align="center">0.09</td>
-<td align="center">0.01</td>
-<td align="center">0.04</td>
-<td align="center">-0.08</td>
-<td align="center">-0.09</td>
-<td align="center">-0.03</td>
-<td align="center">0.18</td>
-<td align="center">0.06</td>
-<td align="center">0.39</td>
-<td align="center">0.16</td>
-<td align="center">0.24</td>
-<td align="center">0.16</td>
-<td align="center">0.12</td>
-<td align="center">-0.10</td>
-<td align="center">1.00</td>
-<td align="center">0.24</td>
-<td align="center">0.25</td>
-<td align="center">0.25</td>
-<td align="center">0.28</td>
-<td align="center">0.35</td>
-<td align="center">-0.04</td>
-<td align="center">0.02</td>
-<td align="center">0.20</td>
-<td align="center">0.04</td>
-<td align="center">0.14</td>
-<td align="center">0.01</td>
-<td align="center">0.56</td>
-<td align="center">0.10</td>
-<td align="center">0.05</td>
-<td align="center">0.07</td>
-</tr>
-<tr class="even">
-<td>Religion</td>
-<td align="center">0.19</td>
-<td align="center">0.23</td>
-<td align="center">0.19</td>
-<td align="center">0.11</td>
-<td align="center">0.11</td>
-<td align="center">-0.04</td>
-<td align="center">-0.01</td>
-<td align="center">-0.01</td>
-<td align="center">0.20</td>
-<td align="center">0.10</td>
-<td align="center">0.24</td>
-<td align="center">0.12</td>
-<td align="center">0.15</td>
-<td align="center">0.22</td>
-<td align="center">0.10</td>
-<td align="center">-0.05</td>
-<td align="center">0.24</td>
-<td align="center">1.00</td>
-<td align="center">0.22</td>
-<td align="center">0.16</td>
-<td align="center">0.25</td>
-<td align="center">0.20</td>
-<td align="center">-0.05</td>
-<td align="center">-0.02</td>
-<td align="center">0.13</td>
-<td align="center">-0.06</td>
-<td align="center">-0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.18</td>
-<td align="center">-0.03</td>
-<td align="center">-0.02</td>
-<td align="center">-0.05</td>
-</tr>
-<tr class="odd">
-<td>Outdoor</td>
-<td align="center">0.08</td>
-<td align="center">0.08</td>
-<td align="center">-0.05</td>
-<td align="center">0.02</td>
-<td align="center">0.05</td>
-<td align="center">-0.01</td>
-<td align="center">-0.01</td>
-<td align="center">-0.05</td>
-<td align="center">0.16</td>
-<td align="center">0.07</td>
-<td align="center">0.13</td>
-<td align="center">0.19</td>
-<td align="center">0.14</td>
-<td align="center">0.12</td>
-<td align="center">-0.03</td>
-<td align="center">0.01</td>
-<td align="center">0.25</td>
-<td align="center">0.22</td>
-<td align="center">1.00</td>
-<td align="center">0.24</td>
-<td align="center">0.22</td>
-<td align="center">0.06</td>
-<td align="center">0.08</td>
-<td align="center">0.09</td>
-<td align="center">0.25</td>
-<td align="center">-0.03</td>
-<td align="center">0.03</td>
-<td align="center">0.06</td>
-<td align="center">0.23</td>
-<td align="center">0.07</td>
-<td align="center">0.16</td>
-<td align="center">0.11</td>
-</tr>
-<tr class="even">
-<td>Dancing</td>
-<td align="center">0.04</td>
-<td align="center">0.20</td>
-<td align="center">0.03</td>
-<td align="center">-0.01</td>
-<td align="center">-0.03</td>
-<td align="center">-0.05</td>
-<td align="center">-0.14</td>
-<td align="center">0.08</td>
-<td align="center">0.19</td>
-<td align="center">0.14</td>
-<td align="center">0.18</td>
-<td align="center">0.10</td>
-<td align="center">0.19</td>
-<td align="center">0.20</td>
-<td align="center">0.12</td>
-<td align="center">-0.07</td>
-<td align="center">0.25</td>
-<td align="center">0.16</td>
-<td align="center">0.24</td>
-<td align="center">1.00</td>
-<td align="center">0.23</td>
-<td align="center">0.18</td>
-<td align="center">0.00</td>
-<td align="center">0.23</td>
-<td align="center">0.22</td>
-<td align="center">0.17</td>
-<td align="center">0.27</td>
-<td align="center">-0.07</td>
-<td align="center">0.29</td>
-<td align="center">0.18</td>
-<td align="center">0.10</td>
-<td align="center">0.09</td>
-</tr>
-<tr class="odd">
 <td>Instruments</td>
-<td align="center">0.09</td>
-<td align="center">0.12</td>
-<td align="center">0.07</td>
-<td align="center">0.08</td>
-<td align="center">0.10</td>
-<td align="center">-0.05</td>
-<td align="center">0.08</td>
-<td align="center">-0.09</td>
-<td align="center">0.11</td>
-<td align="center">0.08</td>
-<td align="center">0.16</td>
-<td align="center">0.06</td>
-<td align="center">0.18</td>
-<td align="center">0.14</td>
-<td align="center">0.02</td>
-<td align="center">-0.04</td>
-<td align="center">0.28</td>
-<td align="center">0.25</td>
-<td align="center">0.22</td>
-<td align="center">0.23</td>
 <td align="center">1.00</td>
 <td align="center">0.33</td>
 <td align="center">0.04</td>
@@ -1858,26 +1439,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="even">
 <td>wPoetry</td>
-<td align="center">0.17</td>
-<td align="center">0.27</td>
-<td align="center">0.11</td>
-<td align="center">-0.02</td>
-<td align="center">0.05</td>
-<td align="center">-0.07</td>
-<td align="center">-0.04</td>
-<td align="center">-0.05</td>
-<td align="center">0.07</td>
-<td align="center">0.02</td>
-<td align="center">0.32</td>
-<td align="center">0.12</td>
-<td align="center">0.17</td>
-<td align="center">0.09</td>
-<td align="center">0.05</td>
-<td align="center">-0.17</td>
-<td align="center">0.35</td>
-<td align="center">0.20</td>
-<td align="center">0.06</td>
-<td align="center">0.18</td>
 <td align="center">0.33</td>
 <td align="center">1.00</td>
 <td align="center">-0.09</td>
@@ -1893,26 +1454,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="odd">
 <td>sLeisure</td>
-<td align="center">-0.03</td>
-<td align="center">-0.07</td>
-<td align="center">0.03</td>
-<td align="center">0.08</td>
-<td align="center">0.04</td>
-<td align="center">0.18</td>
-<td align="center">0.08</td>
-<td align="center">0.06</td>
-<td align="center">0.01</td>
-<td align="center">-0.02</td>
-<td align="center">-0.17</td>
-<td align="center">0.09</td>
-<td align="center">-0.04</td>
-<td align="center">-0.01</td>
-<td align="center">0.05</td>
-<td align="center">0.21</td>
-<td align="center">-0.04</td>
-<td align="center">-0.05</td>
-<td align="center">0.08</td>
-<td align="center">0.00</td>
 <td align="center">0.04</td>
 <td align="center">-0.09</td>
 <td align="center">1.00</td>
@@ -1928,26 +1469,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="even">
 <td>sCompetitive</td>
-<td align="center">0.06</td>
-<td align="center">0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.05</td>
-<td align="center">0.11</td>
-<td align="center">0.00</td>
-<td align="center">0.13</td>
-<td align="center">0.05</td>
-<td align="center">0.05</td>
-<td align="center">0.04</td>
-<td align="center">-0.13</td>
-<td align="center">0.14</td>
-<td align="center">-0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.12</td>
-<td align="center">0.25</td>
-<td align="center">0.02</td>
-<td align="center">-0.02</td>
-<td align="center">0.09</td>
-<td align="center">0.23</td>
 <td align="center">0.05</td>
 <td align="center">0.01</td>
 <td align="center">0.16</td>
@@ -1963,26 +1484,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="odd">
 <td>Gardening</td>
-<td align="center">0.03</td>
-<td align="center">0.07</td>
-<td align="center">0.00</td>
-<td align="center">0.02</td>
-<td align="center">0.04</td>
-<td align="center">-0.06</td>
-<td align="center">-0.02</td>
-<td align="center">-0.04</td>
-<td align="center">0.28</td>
-<td align="center">0.18</td>
-<td align="center">0.16</td>
-<td align="center">0.05</td>
-<td align="center">0.00</td>
-<td align="center">0.20</td>
-<td align="center">0.02</td>
-<td align="center">-0.02</td>
-<td align="center">0.20</td>
-<td align="center">0.13</td>
-<td align="center">0.25</td>
-<td align="center">0.22</td>
 <td align="center">0.14</td>
 <td align="center">0.21</td>
 <td align="center">0.06</td>
@@ -1998,26 +1499,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="even">
 <td>Celebrities</td>
-<td align="center">-0.09</td>
-<td align="center">-0.01</td>
-<td align="center">-0.02</td>
-<td align="center">-0.12</td>
-<td align="center">-0.21</td>
-<td align="center">0.11</td>
-<td align="center">-0.06</td>
-<td align="center">0.10</td>
-<td align="center">0.01</td>
-<td align="center">-0.08</td>
-<td align="center">0.02</td>
-<td align="center">-0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.01</td>
-<td align="center">0.12</td>
-<td align="center">0.02</td>
-<td align="center">0.04</td>
-<td align="center">-0.06</td>
-<td align="center">-0.03</td>
-<td align="center">0.17</td>
 <td align="center">-0.06</td>
 <td align="center">0.02</td>
 <td align="center">0.03</td>
@@ -2033,26 +1514,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="odd">
 <td>Shopping</td>
-<td align="center">-0.07</td>
-<td align="center">0.06</td>
-<td align="center">-0.07</td>
-<td align="center">-0.18</td>
-<td align="center">-0.23</td>
-<td align="center">0.07</td>
-<td align="center">-0.18</td>
-<td align="center">0.11</td>
-<td align="center">0.09</td>
-<td align="center">0.00</td>
-<td align="center">0.08</td>
-<td align="center">-0.04</td>
-<td align="center">0.18</td>
-<td align="center">0.05</td>
-<td align="center">0.13</td>
-<td align="center">-0.02</td>
-<td align="center">0.14</td>
-<td align="center">-0.01</td>
-<td align="center">0.03</td>
-<td align="center">0.27</td>
 <td align="center">-0.04</td>
 <td align="center">0.02</td>
 <td align="center">0.02</td>
@@ -2068,26 +1529,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="even">
 <td>SciTec</td>
-<td align="center">0.12</td>
-<td align="center">0.06</td>
-<td align="center">0.19</td>
-<td align="center">0.23</td>
-<td align="center">0.42</td>
-<td align="center">0.19</td>
-<td align="center">0.43</td>
-<td align="center">0.06</td>
-<td align="center">0.16</td>
-<td align="center">0.18</td>
-<td align="center">-0.11</td>
-<td align="center">0.13</td>
-<td align="center">0.01</td>
-<td align="center">0.17</td>
-<td align="center">0.07</td>
-<td align="center">0.34</td>
-<td align="center">0.01</td>
-<td align="center">0.07</td>
-<td align="center">0.06</td>
-<td align="center">-0.07</td>
 <td align="center">0.04</td>
 <td align="center">0.04</td>
 <td align="center">0.06</td>
@@ -2103,26 +1544,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="odd">
 <td>Theatre</td>
-<td align="center">0.18</td>
-<td align="center">0.26</td>
-<td align="center">0.07</td>
-<td align="center">-0.04</td>
-<td align="center">0.00</td>
-<td align="center">-0.15</td>
-<td align="center">-0.19</td>
-<td align="center">-0.02</td>
-<td align="center">0.17</td>
-<td align="center">0.08</td>
-<td align="center">0.47</td>
-<td align="center">0.08</td>
-<td align="center">0.24</td>
-<td align="center">0.17</td>
-<td align="center">0.10</td>
-<td align="center">-0.17</td>
-<td align="center">0.56</td>
-<td align="center">0.18</td>
-<td align="center">0.23</td>
-<td align="center">0.29</td>
 <td align="center">0.23</td>
 <td align="center">0.26</td>
 <td align="center">-0.05</td>
@@ -2138,26 +1559,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="even">
 <td>Social</td>
-<td align="center">0.01</td>
-<td align="center">0.01</td>
-<td align="center">0.01</td>
-<td align="center">-0.04</td>
-<td align="center">-0.02</td>
-<td align="center">0.10</td>
-<td align="center">0.00</td>
-<td align="center">0.06</td>
-<td align="center">0.02</td>
-<td align="center">-0.02</td>
-<td align="center">0.02</td>
-<td align="center">0.00</td>
-<td align="center">0.11</td>
-<td align="center">-0.01</td>
-<td align="center">0.06</td>
-<td align="center">0.08</td>
-<td align="center">0.10</td>
-<td align="center">-0.03</td>
-<td align="center">0.07</td>
-<td align="center">0.18</td>
 <td align="center">0.05</td>
 <td align="center">-0.05</td>
 <td align="center">0.13</td>
@@ -2173,26 +1574,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="odd">
 <td>sAdrenaline</td>
-<td align="center">0.05</td>
-<td align="center">0.06</td>
-<td align="center">0.10</td>
-<td align="center">0.08</td>
-<td align="center">0.15</td>
-<td align="center">0.08</td>
-<td align="center">0.17</td>
-<td align="center">0.10</td>
-<td align="center">0.02</td>
-<td align="center">0.01</td>
-<td align="center">-0.15</td>
-<td align="center">0.16</td>
-<td align="center">0.04</td>
-<td align="center">0.06</td>
-<td align="center">0.11</td>
-<td align="center">0.31</td>
-<td align="center">0.05</td>
-<td align="center">-0.02</td>
-<td align="center">0.16</td>
-<td align="center">0.10</td>
 <td align="center">0.06</td>
 <td align="center">0.02</td>
 <td align="center">0.19</td>
@@ -2208,26 +1589,6 @@ interests &lt;-<span class="st"> </span>dplyr<span class="op">::</span><span cla
 </tr>
 <tr class="even">
 <td>Pets</td>
-<td align="center">0.03</td>
-<td align="center">0.08</td>
-<td align="center">-0.02</td>
-<td align="center">-0.04</td>
-<td align="center">-0.03</td>
-<td align="center">0.00</td>
-<td align="center">-0.08</td>
-<td align="center">-0.04</td>
-<td align="center">0.17</td>
-<td align="center">0.10</td>
-<td align="center">0.08</td>
-<td align="center">-0.02</td>
-<td align="center">-0.01</td>
-<td align="center">0.12</td>
-<td align="center">0.07</td>
-<td align="center">0.03</td>
-<td align="center">0.07</td>
-<td align="center">-0.05</td>
-<td align="center">0.11</td>
-<td align="center">0.09</td>
 <td align="center">-0.02</td>
 <td align="center">0.00</td>
 <td align="center">0.05</td>

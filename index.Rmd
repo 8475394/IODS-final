@@ -26,9 +26,9 @@ output:
 
 &nbsp;
 
-The idea of the this final work is to show and demonstrate what I have been learning about R, data visualizing and statistics during this course called **Introduction to Open Data Science**. The course is organized by [University of Helsinki](https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science,+spring+2017). I really want highlight that this was and is my first course and work with R programming. Considering this I like to believe that I have learnt a lot of very interesting ways of using R, RStudio and Rpackages.
+The idea of the this final work is to show and demonstrate what I have learnt about R, data visualizing and statistics during this course called **Introduction to Open Data Science**. The course is organized by [University of Helsinki](https://wiki.helsinki.fi/display/SocStats/Introduction+to+Open+Data+Science,+spring+2017). I really want highlight that this was and is my first course and work with R programming. Considering this I like to believe that I have learnt a lot of very interesting ways of using R, RStudio and Rpackages.
 
-In this final work We have 2 options of choosing our data. First we could use one of the the datasets which we had already applied. Alternatively we could try to find a new dataset from internet in terms of our interests or just to raise the degree of difficulty, I think. And because I'm very interested in research I wanted to find a new dataset to learn how to do the whole data wrangling and exploring process by myself. 
+In this final work we have 2 options to choose our data. First we could use one of the the datasets which we had already applied. Alternatively we could try to find a new dataset from internet in terms of our interests or just to raise the degree of difficulty, I think. And because I'm very interested in research, I wanted to find a new dataset to learn how to do the whole data wrangling and exploring process by myself. 
 
 My intention here is to deepen my knowledge on [Principal Component Analysis](https://en.wikipedia.org/wiki/Principal_component_analysis) in terms of finding some latent structure of the dataset introduced in the next chapter.  
 
@@ -45,7 +45,7 @@ If you take a look at the Kaggle link you can see that there are huge amount of 
 
 &nbsp;
 
-## First part of data wrangling 
+## Data wrangling 
 
 &nbsp;
 
@@ -63,6 +63,17 @@ You can find all of the datasets from my [GitHub Repository](https://github.com/
 5. Removing the rows with missing values
 6. Saving the new data
 
+&nbsp;
+
+<p class="text-warning">SECOND PART OF DATA WRANGLING:</p>
+
+While printing the summaries and plotting histograms I noticed that there is something "wrong" with the gender variable. This column consisted the third unnamed category containing only three participant. I assumed that these people didn't want answer to this question. But the point from data wrangling perspective was that this third category was unnamed while these were not marked as missing values. Still the Kaggle pages informed that the gender is divided to females and males. Thus, I couldn't actually know the real purpose so I made a decision to extract these particpant from the data.  You can find this part from the same R Script named as "create_interests.R". Below you can see a short description of the second part.
+
+7. Recoding empty values as NA:s
+8. Verifying that 3 of the values belong to NA:s
+9. Removing the "new" rows with missing values
+10. Saving the dataset again as "interests_dem.txt"
+
 
 &nbsp;
 
@@ -70,7 +81,7 @@ You can find all of the datasets from my [GitHub Repository](https://github.com/
 
 &nbsp;
 
-From the structure table below you see that after data wrangling part there are 878 observation and 34 variables, mostly integers, i.e. continuous variables and 1 factor variable. The first 32 variables represent different interests and hobbies of young people which were measured on the [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale) from 1 to 5 (Not interested - Very interested). Last two variables contains information about age and gender, where the former varies between 15 and 30 years. The latter contains categories of female and male.
+From the structure table below you see that after data wrangling part there are 878 observation and 34 variables, mostly integers, treated as continuous variables, and 1 factor variable. The first 32 variables represent different interests and hobbies of young people which were measured on the [Likert Scale](https://en.wikipedia.org/wiki/Likert_scale) from 1 to 5 (Not interested - Very interested). Last two variables contains information about age and gender, where the former varies between 15 and 30 years. The latter contains categories of female and male.
 
 Some of these variables may need some additional information, thus I made a table for their longer and short names. However, most of the variables have same longer and shorter name. See the table after exploring the structure of the data.
 
@@ -125,7 +136,7 @@ INTEREST        | Short name          | INTEREST    | Short name
 
 The dataset contains a lot of variables, also producing many summary tables. 
 
-As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables, besides age. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include **History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and  Adrenaline sports**.  
+As you can perceive, all of the variables, besides age, varies between 1 and 5. This means that the whole scale has been used considering each of the variables. Interestingly, some distributions are quite flat, suggesting average interest toward the hobbies or interests. By this I mean that the mean and median values are around 3. These include **History, Psychology, PC, Poetry reading, Geography, Sport at competitive level, Shopping, Science and technology, Theatre and  Adrenaline sports**.  
 
 Then there are some variables with quite low average interest, including for example **Physics, Chemistry, Poetry writing and Gardening** and very high interest, including **Internet, Languages, Outdoor activities and Socializing with friends**. 
 
@@ -171,7 +182,7 @@ The research problem is to reduce the dimensions of the data by **young people's
 
 In this section you can see the ditributions more visually. The coloring might seem confucing at first but there is actually a strategy behind this. As I mentioned earlier, my intention is to deepen my knowledge in terms of Principal Component Analysis (PCA), hence the coloring points to **initial proposal** of the latent structure inside the data. I'm highlighting the word initial because the structure is based partially on my personal intuition and partially on the "behaviour" of the distributions. Additionally, I want to form my perception of the structure from beginning to end, rather than perform the statistical methods first and then look back and write these chapters. Thus I could call this as my learnings process.
 
-Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the imformative purposes.
+Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the informative purposes.
 
 
 &nbsp;
@@ -182,7 +193,7 @@ Note that the histograms are showed regarding the original variable list while t
 
 <p class="text-warning">FIRST DIMENSION</p> 
 
-In the beginning I maybe wouldn't have chosen the psychology here but I think it's important that these variables share somewhat similar distributions. If these variables belong to same component, the dimension could be called something like **interest toward base disciplines of cultural characteristics with respect to human beings**.
+In the beginning I maybe wouldn't have chosen the psychology here but I thought it's important that these variables share somewhat similar distributions. If these variables belong to same component, the dimension could be called something like **interest toward base disciplines of cultural characteristics with respect to human beings**.
 
 * History
 * Psychology
@@ -211,6 +222,8 @@ This dimension is a bit tricky. To me, it makes sense that the math, physics and
 * Chemistry
 * Law
 
+&nbsp;
+
 Then, my intention at first was to create one more dimension for variables below until I noticed that their distribution is likely to be similar with the above variables. First I thought that religion, playing instruments, poetry writing and gardening relate to some artistic features which still could be the explanation. But according to the information of similarities in their distributions, it could be "true" that some people are interested in all of these contents. There might be a situation that **people interested in math, physics, chemistry and law would like to have some counterbalance hobbies or worldview in terms of religion**. However, it is not very easy to figure out a name representing all these variables, thus I think I need to ensure the results first. 
 
 * Religion
@@ -232,13 +245,13 @@ At this point, the fourth dimension contains the futher variables:
 * Socializing with friends
 * Pets
 
-There is more variablity in this dimension considering the distributions. However, I think that all these variables share some **interest toward socializing** with one way or other. 
+There is more variablity in this dimension considering the distributions. However, I think that all these variables share the aspect of **interest toward socializing** with one way or another. 
 
 &nbsp;
 
 <p class="text-warning">FIFTH DIMENSION</p>
 
-I think that this dimension contains at least PC and interest toward science and techology, since PC can be considered as technology. This can be true also in terms of cars but its ditribution doesn't fit. Finally it seems that the Andrenaline sports doesn't fit nowhere. Nevertheless, if it belongs here, the dimension could be called for example **interest toward speed and technology**.
+I think that this dimension contains at least PC and interest toward science and techology, since PC can be considered as technology. This can be true also in terms of cars but its ditribution doesn't fit. Finally it seems that the Andrenaline sports doesn't fit anyhere. Nevertheless, if it belongs here, the dimension could be called for example **interest toward speed and technology**.
 
 * PC
 * Science and technology
@@ -249,7 +262,7 @@ I think that this dimension contains at least PC and interest toward science and
 
 <p class="text-warning">SIXTH DIMENSION</p>
 
-These variables can be close with socializing aspects regarding their actual content or meaning. However their distributions seem to somewhat different and for that reason I separated the variables below as their own dimension. It seems that within this data, these interests are more important to women than men, which could be the common nominator. Hope nobody gets hurt if I call these as **feminine activities**. 
+These variables can be close with socializing aspects regarding their actual content or meaning. However their distributions seem to somewhat different and for that reason I separated the variables below as their own dimension. It seems that within this data, these interests are more important to women than men, which could be the common nominator. Hope nobody gets hurt if I call these variables as **feminine activities**. 
 
 * Poetry reading
 * Shopping
@@ -382,14 +395,29 @@ grid.arrange(h28, h29, h30, h31, h32, h33, ncol = 3, nrow =2)
 
 # Relationships between variables
 
-```{r, message=FALSE, warning=FALSE}
+
+
+
+```{r, fig.width=12, message=FALSE, warning=FALSE}
 library(dplyr); library(knitr)
 interests <- dplyr::select(interests_dem, 1:32) # leaving age and gender out
 
-dim(interests) # 878 observations and 32 variables
+dim_interest <- dim(interests) # 878 observations and 32 variables
 
-cor_matrix1 <- cor(interests) %>% round(digits = 2)
-kable(cor_matrix1, format = "pandoc", digits = 2,  align="c")
+# Dividing the data to groups
+interests1 <- dplyr::select(interests, 1:10) # Selecting first set of variables
+interests2 <- dplyr::select(interests, 11:20) # Selecting second set of variables
+interests3 <- dplyr::select(interests, 21:32) # Selecting rest of the variables
+
+# Presenting correlation matrixes of the 3 groups
+cor_matrix1 <- cor(interests1) %>% round(digits = 2)
+kable(cor_matrix1, format = "pandoc", digits = 2,  align="c", caption = 'Correlations between the first 10 variables')
+
+cor_matrix2 <- cor(interests2) %>% round(digits = 2)
+kable(cor_matrix2, format = "pandoc", digits = 2,  align="c")
+
+cor_matrix3 <- cor(interests3) %>% round(digits = 2)
+kable(cor_matrix3, format = "pandoc", digits = 2,  align="c")
 ```
 
 
