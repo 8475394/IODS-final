@@ -397,7 +397,14 @@ grid.arrange(h28, h29, h30, h31, h32, h33, ncol = 3, nrow =2)
 
 &nbsp;
 
-Here my intention is to explore the potential relationships between the different interests and/or hobbies. However, I had this notable problem with the amount of my variables. First, I printed the correlation matrix including all 32 variable but the table grew so large that it was very difficult to read that. Also, it didn't fit to the web page well. Thus, I divided the dataset into the 3 subset to present the correlations at least in some extent. 
+Here my intention is to explore the potential relationships between the different interests and hobbies. First I had to **extract the age and the gender** since they were not a part of my dimension reduction analysis. Then, I had this notable problem with the amount of my variables. First, I printed the correlation matrix including all 32 variable but the table grew so large that it was very difficult to explore it. Also, I figured that the matrix and correlation plot didn't fit well to the web page. Thus, I divided the dataset into the 3 subset to present the correlations at least in some extent. 
+
+**The subsets are divided in a following order**: The first set considers the first 10 variables and the second contains the subsequent 10 variables, i.e. from 11th to 20th. The last subset consists the last 12 variables from 21th to 32th. 
+
+Within the next sub chapters I present the **correlation matrixes**, the tables of their **p-values**, i.e. significance tests and finally I demonstrate both correlations and their significance in **one plot per subset**. I adopted the significance test and its further use with the corrplot from [sthda.com's web examples](http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram). Additionally, 
+
+its worth to mention that the significance level for plotting purposes was set to 0.01 by default and I didn't change it even if it could have also been the "usual" 0.05. Thus the corrplots don't show any color of those associations where the p < 0.01. I thought this in reasonable within this data, especially in terms of relatively low but significant correlations. And the purpose, considering the PCA, is still to find the most important correlations. 
+
 
 &nbsp;
 
@@ -405,7 +412,9 @@ Here my intention is to explore the potential relationships between the differen
 
 &nbsp;
 
-The first table informs for example that History is related to Politics and Psychology. In my preliminary hypothesis I didn't count the psychology in to the same dimension, thus it is interesting to see what is the final result of Principal Component Analysis. Then you can perceive that Mathematics is quite certainly assiociated to Physics as I thought from the beginning. The same amount of certainty lies between Chemistry and Biology. interestingly, Internet shares a relationship with PC, which I didn't recognize from their histograms. Finally in this table the Economy shares a moderate association with Politics.     
+The first table informs for example that History is related to Politics and Psychology. In my preliminary hypothesis I didn't count the psychology in to the same dimension, thus it is interesting to see what is the final result of Principal Component Analysis. Then you can perceive that Mathematics is quite certainly assiociated to Physics as I thought from the beginning. This relationship can be verified from the p-value table. The same amount of certainty lies between Chemistry and Biology. interestingly, Internet shares a relationship with PC, which I didn't recognize from their histograms. Finally in this table the Economy shares a moderate but significant association with Politics. 
+
+
 
 &nbsp;
 
@@ -465,6 +474,10 @@ corrplot(cor_matrix1, method = "color", col=col(200),
 
 &nbsp;
 
+Interestingly, the Reading Poetry has a negative correlation with Cars. Actually I have to admit that I tried to look over only positive relationships from the histograms. Or now I understand that I might have done the exploring in that sense. The Poetry reading has an association also with Foreign Languages and Art Exhibition. The Geography shares only moderate relationships within this subset and its a shame that we can't explore the correlations between the variables considering my initial hypothesis. It is almost the same situation with Medicine, Law, Religion, Outdoor activities and Dancing even though there are significant correlations between these variables. I just think that we can't see the most important ones.    
+
+&nbsp;
+
 
 ```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 library(knitr);library(corrplot)
@@ -512,6 +525,12 @@ corrplot(cor_matrix2, method = "color", col=col(200),
 &nbsp;
 
 ## Third set of correlations
+
+&nbsp;
+
+Here the Playing instruments has a significant association with Poetry writing. This corresponds with my initial hypothesis. Both variables share a moderate but significant relation with the Gardening as intended. However we will see if the correlation is high enough regarding the PCA. Sport and leisure activities (sLeisure) doesn't show any high correlations even though I imagined that it would share a higher relationship at least with pets, Socializing with friends and Sport at competitive level. 
+
+Interestingly but understandably the celebrity lifestyle is significantly related to shopping. I didn't see this based on thei histograms but its undestandable considering their meaning. Science and technology (SciTec) seems to have moderate but significant relation with the Adrenaline sports. This was something what i doubted in my initial hypothesis. Then the Theatre show a significant association at least with Playing musical instrument.     
 
 
 &nbsp;
