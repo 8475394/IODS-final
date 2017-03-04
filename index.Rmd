@@ -182,7 +182,7 @@ The research problem is to reduce the dimensions of the data by **young people's
 
 In this section you can see the ditributions more visually. The coloring might seem confucing at first but there is actually a strategy behind this. As I mentioned earlier, my intention is to deepen my knowledge in terms of Principal Component Analysis (PCA), hence the coloring points to **initial proposal** of the latent structure inside the data. I'm highlighting the word initial because the structure is based partially on my personal intuition and partially on the "behaviour" of the distributions. Additionally, I want to form my perception of the structure from beginning to end, rather than perform the statistical methods first and then look back and write these chapters. Thus I could call this as my learnings process.
 
-Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the ditribution of age are visualized only for the informative purposes.
+Note that the histograms are showed regarding the original variable list while the structure is organized by proposed groups or components. Note also that gender as well as the distribution of age are visualized only for the informative purposes.
 
 
 &nbsp;
@@ -286,6 +286,11 @@ I think that these share the most obvious relationship regarding their content b
 
 &nbsp;
 
+Note that the binwidth of every histogram is set to 1 on purpose in terms to show the real amount of each level between 1 and 5. Thus I wanted to show more accurate than "more beautiful" plots. This might be one of "the curses" of the Likert scale as it kind of "wrangles" between ordinal and interval scale. 
+
+However, I will treat these variables as continuous while recognizing the debate around this topic. Here is an interesting article by Karen Grace-Martin: [Can Likert Scale Data ever be Continuous](http://www.theanalysisfactor.com/can-likert-scale-data-ever-be-continuous/).
+
+&nbsp;
 
 ```{r, fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
 library(ggplot2); library(gridExtra)
@@ -419,7 +424,7 @@ The first table informs for example that History is related to Politics and Psyc
 &nbsp;
 
 
-```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
 library(dplyr); library(knitr); library(corrplot)
 interests <- dplyr::select(interests_dem, 1:32) # leaving age and gender out
 
@@ -479,7 +484,7 @@ Interestingly, the Reading Poetry has a negative correlation with Cars. Actually
 &nbsp;
 
 
-```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
 library(knitr);library(corrplot)
 
 # Presenting the second correlation matrix
@@ -536,10 +541,10 @@ Interestingly but understandably the celebrity lifestyle is significantly relate
 &nbsp;
 
 
-```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
 library(knitr); library(corrplot)
 
-# Presenting the first correlation matrix
+# Presenting the third correlation matrix
 cor_matrix3 <- cor(interests3) %>% round(digits = 2)
 kable(cor_matrix3, format = "pandoc", digits = 2,  align="c", caption = 'Correlations between the rest of the variables')
 
@@ -564,7 +569,7 @@ cor.mtest <- function(mat, ...) {
 p.mat <- cor.mtest(interests3)
 kable((p.mat[, 1:12]), format = "pandoc", digits = 3,  align="c", caption = 'p-values, Significance test of correlations')
 
-# Plotting the correlations betweenv the rest of the ariables along with the significance test
+# Plotting the correlations between the rest of the variables along with the significance test
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
 corrplot(cor_matrix3, method = "color", col=col(200),
          type="upper", order="hclust", 
@@ -582,9 +587,11 @@ corrplot(cor_matrix3, method = "color", col=col(200),
 
 # Principal Component Analysis, PCA
 
+&nbsp;
+
 Principal Component Analysis can be seen as a method of extracting important variables from a large set of variables in a dataset. It extracts low dimensional set of features from a high dimensional dataset with a purpose to capture as much information as possible. [Analytics Vidhya Content Team, Marc 21, 2016](https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/).
 
-The dataset of **Young people's interests** contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as **p(p-1)/2** i.e. **496 plots** to explore. This actually makes visible the meaning of PCA, since it allows  deal with high dimensional data.  
+The dataset of **Young people's interests** contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as **p(p-1)/2** i.e. **496 plots** to explore. This actually makes visible the meaning of PCA, since it allows to deal with high dimensional data.  
 
 A principal component can be seen as a normalized linear combination or the original predictors in a dataset. The first principal component captures the most of the variance in the dataset. The second principal component captures the maximum variance of the dataset that are uncorrelated with the first component. Futhermore, all succeeding principal components follow the similar concept. They capture the remaining variance without being correlated with the previous component. Note that capturing amount of variance corresponds to capturing amount of information. 
 
@@ -592,15 +599,31 @@ A principal component can be seen as a normalized linear combination or the orig
 
 ## Scaling the data of interests
 
-PCA is performed with a numeric and standardized data, which is the reason why I have to scale the data before running the analysis.
+&nbsp;
 
-Show summaries here
+PCA is (always) performed with a numeric and standardized data, which is the reason why I have to scale the data before running the actual analysis.
+
+First I had some problems to use the function "scale()" combined to "ggplot()". I noticed that the scale function converts the data as 'matrix' which is not applicable with ggplot. I didn't find any solution to use "scale" and "ggplot" simultaneously and I definitely didn't want to skip the plotting part. Thus I found another solution from [clusterSim package](https://cran.r-project.org/web/packages/clusterSim/clusterSim.pdf) which allows to standardize the data while it stays as a data frame. The package and its fuction called "data.Normalization" contains multiple transformation possibilities but I chose the formula (n1) corresponding to the "scale" function, i.e. **((x-mean)/sd)**.
+
+Inside the chunk below you can notice that I formatted also the scale function but I don't use it here. I didn't remove it just in case if I need it later. The other purpose is that anyone can verify the similarities of these methods by printing the summaries.
+
+Below you can find the summary of scaled data (data.Normalization) and corresponding histograms. Now the mean of every variable is zero and the observations varies on both sides of zero. This means that the different distributions are now more comparable for the further purposes.
+
 
 &nbsp;
 
-```{r, message=FALSE, warning=FALSE}
+```{r, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+library(clusterSim); library(tidyr); library(ggplot2)
+
 # Standardizing the data of interests
-std_interests <- scale(interests)
+std_interests <- scale(interests) # This makes the data as a 'Matrix' and ggplot can't read it
+
+# Scaling/ standardizing the data of interests and printing the summary
+norm_interests <- data.Normalization(interests, type = "n1", normalization = "columns")
+summary(norm_interests)
+
+# Plotting the data 
+gather(norm_interests) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free") + geom_histogram(color = "white", fill = "orange", binwidth = 1) 
 ```
 
 
@@ -674,7 +697,7 @@ plot(pca_interests, type = "l")
 
 &nbsp;
 
-```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+```{r, fig.height=10, fig.width=12, message=FALSE, warning=FALSE}
 
 biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "deeppink"), xlab = "something", ylab = "something")
 ```
