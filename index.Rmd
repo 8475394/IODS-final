@@ -634,11 +634,13 @@ gather(norm_interests) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free
 
 &nbsp;
 
+There are two slightly different methods to perform the PCA: the Eigenvalue Decomposition (princomp) and the Singular Value Decomposition (prcomp). Usually the latter is preferred for its numerical accuracy [STHDA, prcomp vs. princomp](http://www.sthda.com/english/wiki/principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining). Thus the Singular Value Decomposition method is used here.
+
 First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.
 
 The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in. I printed the loadings of each variable considering the initial amount of dimensions regarding my hypotheses. This means a huge amount of measures while the table still can be informative since you can explore where the variables are loading the most and the least. Just for an example I can perceive that matematics and physics are both loading positively to the second component whereas chemistry loads mostly to the third component which is actually against my initial hypothesis. 
 
-The "x" prints the principal component score vector and the "sdev" provides the standard deviavtion of components which I'm not using as such. Instead of this I'm going to print the summary of these measures. Thus let's continue to the next section.  
+The "x" prints the principal component score vector and the "sdev" provides the standard deviavtion of components which I'm not exploring here but instead I'm going to print the summary of these measures. Thus let's continue to the next section.  
 
 
 &nbsp;
@@ -646,12 +648,12 @@ The "x" prints the principal component score vector and the "sdev" provides the 
 ```{r, fig.width=8, message=FALSE, warning=FALSE}
 
 # Performing the PCA with Singular Value Decomposition (SVD) method
-pca_interests <- prcomp(std_interests)
+pca_interests <- prcomp(norm_interests)
 
 # Allows us to see the measures of PCA
 names(pca_interests)
 
-# A subset of loadings
+# Loadings restricted to 7 components
 rotation <- round(pca_interests$rotation[, 1:7], digits = 2)
 kable(rotation)
 ```
@@ -659,13 +661,17 @@ kable(rotation)
 
 &nbsp;
 
-## The summary of PCA with Singular Value Decomposition method
+## The summary of PCA and first biplot
 
 &nbsp;
 
-https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/
 
-The summary method describe the importance of the PCs. The first row describe again the standard deviation associated with each PC. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.
+The summary method describe the importance of the principal components. The first row describes the standard deviation associated with each component. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.
+
+We aim to find the components which explain the maximum variance. This is because, we want to retain as much information as possible using these components. So, higher is the explained variance, higher will be the information contained in those components.
+
+The summary below suggests that the first principal component has captured only 13.1% of the total variance from the data of interests. The second principal component has captures 10.2% and the third 8% and so on. You can also see that the variance is divided to several other components suggesting that the data is still quite multidimensional. However, this was expected already according to my initial hypotheses where I assumed that the data will contain at least 7 dimensions. I think that this is also evident when we have a large amount of variables with multiple features.
+
 
 &nbsp;
 
@@ -673,12 +679,31 @@ The summary method describe the importance of the PCs. The first row describe ag
 ```{r, message=FALSE, warning=FALSE}
 
 # Printing a summary of PCA
-s <- summary(pca_interests)
-s
+summary(pca_interests)
+```
 
-# rounded percetanges of variance captured by each PCA
-pca_pr <- round(100*s$importance[2, ], digits = 1)
-print(pca_pr)
+
+&nbsp;
+
+Let's take a look at the first biplot to demonstrate the summary above. As you can see it is quite messy
+
+
+&nbsp;
+
+```{r, fig.height=13, fig.width=13, message=FALSE, warning=FALSE}
+
+biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "darkorange"))
+```
+
+
+
+&nbsp;
+
+```{r, message=FALSE, warning=FALSE}
+library(factoextra)
+
+eig.val <- get_eigenvalue(pca_interests)
+round(eig.val[1:10,], digits = 2)
 ```
 
 
@@ -697,10 +722,7 @@ plot(pca_interests, type = "l")
 
 &nbsp;
 
-```{r, fig.height=10, fig.width=12, message=FALSE, warning=FALSE}
 
-biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "deeppink"), xlab = "something", ylab = "something")
-```
 
 
 &nbsp;
