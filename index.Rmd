@@ -710,6 +710,10 @@ There are two popular criteria to evaluate the proper amount of principal compon
 
 The Kaiser criterion suggests to retain dimensions with eigenvalues greater than one. Instead, the Scree test is a graphical method to plot the eigenvalues. Its criterion suggest to find a proper amount of dimensions when the smooth decrease of the line appears.
 
+http://www.sthda.com/english/wiki/principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining
+
+https://www.r-bloggers.com/factor-analysis-introduction-with-the-principal-component-method-and-r/
+
 
 
 &nbsp;
@@ -734,9 +738,23 @@ plot(pca_interests, type = "l")
 ```
 
 
+# Part 2 of PCA
 
 &nbsp;
 
+http://geog.uoregon.edu/GeogR/topics/pca.html
+
+
+
+```{r, message=FALSE, warning=FALSE}
+library(psych) 
+# http://geog.uoregon.edu/GeogR/topics/pca.html
+
+interests_matrix <- data.matrix(interests)
+
+interest_unrot <- principal(r = interests_matrix, nfactors = 8, rotate = "none")
+interest_unrot
+```
 
 
 
