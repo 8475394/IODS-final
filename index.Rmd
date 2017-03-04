@@ -661,7 +661,7 @@ kable(rotation)
 
 &nbsp;
 
-## The summary of PCA and first biplot
+## The summary of PCA and the first biplot
 
 &nbsp;
 
@@ -685,7 +685,12 @@ summary(pca_interests)
 
 &nbsp;
 
-Let's take a look at the first biplot to demonstrate the summary above. As you can see it is quite messy
+Let's take a look at the first biplot to demonstrate the summary above. The figure plots the first two principal components and represents both the principal component scores (n = 878) and the loading vectors (p = 32) in a sigle biplot display. Thus the numbers in the biplot illustrate the individuals (i.e. principal component scores) and the arrows indicate the variables in the first two loading vectors. 
+
+Above I concluded that the data of interests is still highly multidimensional after performing the PCA and I think its even more evident after running the biplot which seems to be quite messy. However, we can interpret few thing from the plot. If I concentrate to the loading vectors (i.e. the variables), the orange arrows and their closeness to other arrows implies the correlations between the variables. The closer the more correlated with each other. For example the interest toward PC and Cars seem to be higly and positive correlated. Another phenomenon is that the orthogonal arrows suggest negative correlation between the variables. For example interest toward Cars and rPoetry (Poetry reading) share a negative correlation (r = -0.31)
+
+To conclude thus far, the biplot shows more positive than negative correlation between variables and the interpretation, regarding the dimension reduction, is almost impossible based on the available information. Thus I need some additional methods to go further. 
+
 
 
 &nbsp;
@@ -694,6 +699,16 @@ Let's take a look at the first biplot to demonstrate the summary above. As you c
 
 biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "darkorange"))
 ```
+
+&nbsp;
+
+## Kaiser criterion and Scree test to retain principal components
+
+&nbsp;
+
+There are two popular criteria to evaluate the proper amount of principal components. These are the [Kaiser criterion and Cattell's Scree test](http://www.uta.edu/faculty/sawasthi/Statistics/stfacan.html). They both use the eigenvalues of principal conponents to propose the best amount of dimensions. 
+
+The Kaiser criterion suggests to retain dimensions with eigenvalues greater than one. Instead, the Scree test is a graphical method to plot the eigenvalues. Its criterion suggest to find a proper amount of dimensions when the smooth decrease of the line appears.
 
 
 
