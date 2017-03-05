@@ -657,6 +657,7 @@ We aim to find the components which explain the maximum variance. This is becaus
 
 # Performing the PCA with Singular Value Decomposition (SVD) method
 pca_interests <- prcomp(norm_interests)
+pca2_interests <- prcomp(std_interests) # just for testing purposes
 
 # Printing a summary of PCA
 summary(pca_interests)
@@ -748,13 +749,14 @@ fviz_screeplot(pca_interests, ncp=10, addlabels=TRUE, hjust = -0.2) + theme_gray
 
 The rotation measure in prcomp() provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. Accordin to this [stackexchange conversation](http://stats.stackexchange.com/questions/59213/how-to-compute-varimax-rotated-principal-components-in-r), the term "rotation" is slightly misleading concept, since it indicates more to Factor Analysis. The rotation (in Factor Analysis) is usually applied to loadings, not to eigenvectors of the covariance matrix, which is used to provide the loadings of prcomp(), as far as I know. 
 
+&nbsp;
 
-This is the most important measure we should be interested in. I printed the loadings of each variable considering the initial amount of dimensions regarding my hypotheses. This means a huge amount of measures while the table still can be informative since you can explore where the variables are loading the most and the least. Just for an example I can perceive that matematics and physics are both loading positively to the second component whereas chemistry loads mostly to the third component which is actually against my initial hypothesis. 
+<p class="text-warning">TABLE OF LOADINGS</p>
 
+Underneath we can see the table of principal component loadings. I printed the loadings of 10 dimension, since I couldn't make any strict decisions by means of the dimension retaining process. It seems that we have a lot of "noise" since most of the loadings are quite. Additionally, there is no clear structure or distinction where the variables load the most. For example the History loads to both 4th and 6th components. Politics loads to 3th and 5th dimensions. Some of the variables load more strongly to one dimension, e.g. Physics (to 2nd comp), PC (to 2nd comp), Economy (to 3rd comp), Biology and Chemistry (both to 3rd comp), and few others.  
 
-
-
-
+Next I'm going to explore two different kind of biplot to help me go further. The first plot has the same structure and same features as the biplot presented earlier. Here I made a larger plot to examine the relationships more carefully.
+ 
 
 
 &nbsp;
@@ -764,8 +766,17 @@ This is the most important measure we should be interested in. I printed the loa
 # Loadings restricted to 10 components
 rotation <- round(pca_interests$rotation[, 1:10], digits = 2)
 kable(rotation)
+
+rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testing purposes
 ```
 
+&nbsp;
+
+<p class="text-warning">BASIC BIPLOT</p>
+
+
+
+&nbsp;
 
 
 ```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
@@ -778,15 +789,14 @@ fviz_pca_var(pca_interests)
 
 &nbsp;
 
-```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+```{r, fig.height=10, fig.width=11, message=FALSE, warning=FALSE}
 library(FactoMineR); library(knitr)
-
 
 PCA_interests <- PCA(interests, graph = FALSE)
 
 kable(PCA_interests$var$cos2, digits = 3)
 
-fviz_pca_var(PCA_interests, col.var = "cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.5) + theme_minimal()
+fviz_pca_var(PCA_interests, col.var = "cos2") + scale_color_gradient2(low="white", mid="darkorchid4", high="red", midpoint=0.5) + theme_minimal()
 
 ```
 
