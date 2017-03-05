@@ -595,19 +595,26 @@ The dataset of **Young people's interests** contains multitude dimensions corres
 
 A principal component can be seen as a normalized linear combination or the original predictors in a dataset. The first principal component captures the most of the variance in the dataset. The second principal component captures the maximum variance of the dataset that are uncorrelated with the first component. Futhermore, all succeeding principal components follow the similar concept. They capture the remaining variance without being correlated with the previous component. Note that capturing amount of variance corresponds to capturing amount of information. 
 
+***
+
+**PCA is (always) performed with a numeric and standardized dataset.**
+
+***
+
+Thus, I'm going to scale my data first and show briefly the distributions of the standardized data. After that I will perform the actual analysis, show the summary and print the first biplot. Then I will evaluate the results by means of some numerical and graphical methods.    
+
 &nbsp;
 
 ## Scaling the data of interests
 
 &nbsp;
 
-PCA is (always) performed with a numeric and standardized data, which is the reason why I have to scale the data before running the actual analysis.
 
-First I had some problems to use the function "scale()" combined to "ggplot()". I noticed that the scale function converts the data as 'matrix' which is not applicable with ggplot. I didn't find any solution to use "scale" and "ggplot" simultaneously and I definitely didn't want to skip the plotting part. Thus I found another solution from [clusterSim package](https://cran.r-project.org/web/packages/clusterSim/clusterSim.pdf) which allows to standardize the data while it stays as a data frame. The package and its fuction called "data.Normalization" contains multiple transformation possibilities but I chose the formula (n1) corresponding to the "scale" function, i.e. **((x-mean)/sd)**.
+I had some problems to use the function "scale()" combined to "ggplot()". I noticed that the scale function converts the data as 'matrix' which is not applicable with ggplot. I didn't find any solution to use "scale" and "ggplot" simultaneously and I definitely didn't want to skip the plotting part. Thus I found another solution from [clusterSim package](https://cran.r-project.org/web/packages/clusterSim/clusterSim.pdf) which allows to standardize the data while it stays as a data frame. The package and its fuction called "data.Normalization" contains multiple transformation possibilities but I chose the formula (n1) corresponding to the "scale" function, i.e. **((x-mean)/sd)**.
 
-Inside the chunk below you can notice that I formatted also the scale function but I don't use it here. I didn't remove it just in case if I need it later. The other purpose is that anyone can verify the similarities of these methods by printing the summaries.
+Inside the chunk below you can notice that I formed also the "scale() function" but I don't use it, at least not just yet. I left it there in case someone want to verify the similarities of both methods by printing the summaries. 
 
-Below you can find the summary of scaled data (data.Normalization) and corresponding histograms. Now the mean of every variable is zero and the observations varies on both sides of zero. This means that the different distributions are now more comparable for the further purposes.
+Below you can find the summary of scaled data (data.Normalization) and corresponding histograms. Now you can notice that the mean of every variable is zero and the observations varies on both sides of zero. This means that the different distributions are now more comparable for the further purposes.
 
 
 &nbsp;
@@ -629,12 +636,106 @@ gather(norm_interests) %>% ggplot(aes(value)) + facet_wrap("key", scales = "free
 
 &nbsp;
 
-## Performing PCA with Singular Value Decomposition method
+## Performing the PCA and presenting the first biplot
 
 
 &nbsp;
 
 There are two slightly different methods to perform the PCA: the Eigenvalue Decomposition (princomp) and the Singular Value Decomposition (prcomp). Usually the latter is preferred for its numerical accuracy [STHDA, prcomp vs. princomp](http://www.sthda.com/english/wiki/principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining). Thus the Singular Value Decomposition method is used here.
+
+The summary method shows the importance of the principal components. The first row describes the standard deviation associated with each component. The second row shows the proportion of the variance in the data explained by each component while the third row describes the cumulative proportion of explained variance.
+
+We aim to find the components which explain the maximum variance. This is because, we want to retain as much information as possible using these components. Thus, the higher is the explained variance, the higher will be the information contained in those components.
+
+**The summary below** suggests that the first principal component has captured only 13.1% of the total variance from the data of interests. The second principal component has captures 10.2% and the third 8% and so on. You can also see that the variance is divided to several other components suggesting that the data is still quite multidimensional. However, this was expected already according to my initial hypotheses where I assumed that the data will contain at least 7 dimensions. I think that this is also evident when we have a large amount of variables with multiple features.
+
+
+&nbsp;
+
+
+```{r, message=FALSE, warning=FALSE}
+
+# Performing the PCA with Singular Value Decomposition (SVD) method
+pca_interests <- prcomp(norm_interests)
+
+# Printing a summary of PCA
+summary(pca_interests)
+```
+
+
+&nbsp;
+
+**Let's take a look at the first biplot to demonstrate the summary above.** The figure plots the first two principal components and represents both the principal component scores (n = 878) and the loading vectors (p = 32) in a sigle biplot display. Thus the numbers in the biplot illustrate the individuals (i.e. principal component scores) and the arrows indicate the variables in the first two loading vectors. 
+
+Above I concluded that the data of interests is still highly multidimensional after performing the PCA. Here I think that its even more evident after running the biplot which seems to be quite messy. However, we can interpret few things from the plot. If I concentrate to the loading vectors (i.e. the variables), the orange arrows and their closeness to other arrows implies the correlations between the variables. The closer the arrows are the more correlated they are with each other. For example the interest toward PC and Cars seem to be higly and positive correlated. Another phenomenon is that the orthogonal arrows suggest negative correlation between the variables. For example interest toward Cars and rPoetry (Poetry reading) share a negative correlation (r = -0.31)
+
+To conclude thus far, the biplot shows more positive than negative correlation between variables and the interpretation, regarding the dimension reduction, is almost impossible based on the available information. Thus I need some additional methods to go further. 
+
+
+
+&nbsp;
+
+```{r, fig.height=13, fig.width=13, message=FALSE, warning=FALSE}
+
+biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "darkorange"))
+```
+
+&nbsp;
+
+## Dimensions to retain
+
+&nbsp;
+
+There are two popular criteria to evaluate the proper amount of principal components. These are the [Kaiser criterion and Cattell's Scree test](http://www.uta.edu/faculty/sawasthi/Statistics/stfacan.html). They both use the eigenvalues of principal conponents to propose the best amount of dimensions. 
+
+The Kaiser criterion suggests to retain dimensions with eigenvalues greater than one. Instead, the Scree test is a graphical method to plot the eigenvalues. Its criterion suggest to find a proper amount of dimensions when the smooth decrease of the line appears.
+
+**Let's take a look at the eigevalues first.** The table below consists also the variances which I interpreted earlier, thus I'm going to concentrate the eigenvalues. Note that I retained the values of first 12 dimension. Regarding the Kaiser criterion, i.e. eigenvalue > 1, it seems that 10 of the the printed dimensions could be meaningful. Let's take a look at the Scree test, if the results will be similar.
+
+
+&nbsp;
+
+```{r, message=FALSE, warning=FALSE}
+library(factoextra); library(knitr)
+
+eig.val <- get_eigenvalue(pca_interests)
+kable(round(eig.val[1:12,], digits = 3), align="c", caption = 'Eigenvalues and variances')
+```
+
+
+&nbsp;
+
+**The Scree test** method returns a plot of the variances (y-axis) associated with the principal components (x-axis). The Scree plot can be useful to decide how many component to retain for further analysis.
+
+I retained the above suggested 10 dimensions for the purpose of the Scree plot below. But what does it imply? We can perceive that there are no obvious bendings to help us to make the decision. However, after seventh dimension the line becomes more steady. Thus I will propose that at least the last 3 dimensions could be irrelevant.
+
+&nbsp;
+
+```{r, message=FALSE, warning=FALSE}
+library(factoextra)
+
+fviz_screeplot(pca_interests, ncp=10, choice="eigenvalue", addlabels=TRUE, hjust = -0.1, linecolor ="red") + theme_classic()
+```
+
+&nbsp;
+
+```{r}
+library(factoextra)
+
+fviz_screeplot(pca_interests, ncp=10, addlabels=TRUE, hjust = -0.2) + theme_gray()
+```
+
+
+
+
+
+```{r, message=FALSE, warning=FALSE}
+
+# plot method from https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/
+plot(pca_interests, type = "l")
+```
+
+&nbsp;
 
 First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.
 
@@ -656,85 +757,6 @@ names(pca_interests)
 # Loadings restricted to 7 components
 rotation <- round(pca_interests$rotation[, 1:7], digits = 2)
 kable(rotation)
-```
-
-
-&nbsp;
-
-## The summary of PCA and the first biplot
-
-&nbsp;
-
-
-The summary method describe the importance of the principal components. The first row describes the standard deviation associated with each component. The second row shows the proportion of the variance in the data explained by each component while the third row describe the cumulative proportion of explained variance.
-
-We aim to find the components which explain the maximum variance. This is because, we want to retain as much information as possible using these components. So, higher is the explained variance, higher will be the information contained in those components.
-
-The summary below suggests that the first principal component has captured only 13.1% of the total variance from the data of interests. The second principal component has captures 10.2% and the third 8% and so on. You can also see that the variance is divided to several other components suggesting that the data is still quite multidimensional. However, this was expected already according to my initial hypotheses where I assumed that the data will contain at least 7 dimensions. I think that this is also evident when we have a large amount of variables with multiple features.
-
-
-&nbsp;
-
-
-```{r, message=FALSE, warning=FALSE}
-
-# Printing a summary of PCA
-summary(pca_interests)
-```
-
-
-&nbsp;
-
-Let's take a look at the first biplot to demonstrate the summary above. The figure plots the first two principal components and represents both the principal component scores (n = 878) and the loading vectors (p = 32) in a sigle biplot display. Thus the numbers in the biplot illustrate the individuals (i.e. principal component scores) and the arrows indicate the variables in the first two loading vectors. 
-
-Above I concluded that the data of interests is still highly multidimensional after performing the PCA and I think its even more evident after running the biplot which seems to be quite messy. However, we can interpret few thing from the plot. If I concentrate to the loading vectors (i.e. the variables), the orange arrows and their closeness to other arrows implies the correlations between the variables. The closer the more correlated with each other. For example the interest toward PC and Cars seem to be higly and positive correlated. Another phenomenon is that the orthogonal arrows suggest negative correlation between the variables. For example interest toward Cars and rPoetry (Poetry reading) share a negative correlation (r = -0.31)
-
-To conclude thus far, the biplot shows more positive than negative correlation between variables and the interpretation, regarding the dimension reduction, is almost impossible based on the available information. Thus I need some additional methods to go further. 
-
-
-
-&nbsp;
-
-```{r, fig.height=13, fig.width=13, message=FALSE, warning=FALSE}
-
-biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "darkorange"))
-```
-
-&nbsp;
-
-## Kaiser criterion and Scree test to retain principal components
-
-&nbsp;
-
-There are two popular criteria to evaluate the proper amount of principal components. These are the [Kaiser criterion and Cattell's Scree test](http://www.uta.edu/faculty/sawasthi/Statistics/stfacan.html). They both use the eigenvalues of principal conponents to propose the best amount of dimensions. 
-
-The Kaiser criterion suggests to retain dimensions with eigenvalues greater than one. Instead, the Scree test is a graphical method to plot the eigenvalues. Its criterion suggest to find a proper amount of dimensions when the smooth decrease of the line appears.
-
-http://www.sthda.com/english/wiki/principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining
-
-https://www.r-bloggers.com/factor-analysis-introduction-with-the-principal-component-method-and-r/
-
-
-
-&nbsp;
-
-```{r, message=FALSE, warning=FALSE}
-library(factoextra)
-
-eig.val <- get_eigenvalue(pca_interests)
-round(eig.val[1:10,], digits = 2)
-```
-
-
-&nbsp;
-
-The plot method returns a plot of the variances (y-axis) associated with the PCs (x-axis). The Figure below is useful to decide how many PCs to retain for further analysis.
-
-
-```{r, message=FALSE, warning=FALSE}
-
-# plot method from https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/
-plot(pca_interests, type = "l")
 ```
 
 
