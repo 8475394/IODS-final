@@ -705,17 +705,30 @@ kable(round(eig.val[1:12,], digits = 3), align="c", caption = 'Eigenvalues and v
 
 &nbsp;
 
+<p class="text-warning">SCREE PLOT OF EIGENVALUES</p>
+
 **The Scree test** method returns a plot of the variances (y-axis) associated with the principal components (x-axis). The Scree plot can be useful to decide how many component to retain for further analysis.
 
 I retained the above suggested 10 dimensions for the purpose of the Scree plot below. But what does it imply? We can perceive that there are no obvious bendings to help us to make the decision. However, after seventh dimension the line becomes more steady. Thus I will propose that at least the last 3 dimensions could be irrelevant.
 
 &nbsp;
 
+
 ```{r, message=FALSE, warning=FALSE}
 library(factoextra)
 
 fviz_screeplot(pca_interests, ncp=10, choice="eigenvalue", addlabels=TRUE, hjust = -0.1, linecolor ="red") + theme_classic()
 ```
+
+&nbsp;
+
+<p class="text-warning">SCREE PLOT OF EXPLAINED VARIANCE</p>
+
+After the eigenvalues we can evaluate the dimensions to retain also by means of the explained variance. According to [sthda guidelines](http://www.sthda.com/english/wiki/principal-component-analysis-in-r-prcomp-vs-princomp-r-software-and-data-mining#use-the-r-function-prcomp-for-pca) a good dimension reduction is achieved when the first few PCs account for a large proportion of the variablity (80-90%).
+
+Below you can see a scree plot of variance explained by first 10 dimensions. Note that I showed the variances also in the beginning of this chapter. However, regarding the guidelines above I have to doubt my results of the dimension reduction since the first 10 dimensions count around 60% of the total variance. 
+
+I have to say that I'm slightly confused therefore I'm going to evaluate the principal component loadings after this.  
 
 &nbsp;
 
@@ -726,39 +739,58 @@ fviz_screeplot(pca_interests, ncp=10, addlabels=TRUE, hjust = -0.2) + theme_gray
 ```
 
 
+&nbsp;
 
+## Principal component loadings
 
-
-```{r, message=FALSE, warning=FALSE}
-
-# plot method from https://www.r-bloggers.com/computing-and-visualizing-pca-in-r/
-plot(pca_interests, type = "l")
-```
 
 &nbsp;
 
-First I will form the analysis but print only the available measures of PCA when using the prcomp() function. The center and the scale refers to respective mean and standard deviation of the variables that are used for normalization prior to implementing PCA. Note that I already standardized my data thus I will not need these functions anymore.
+The rotation measure in prcomp() provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. Accordin to this [stackexchange conversation](http://stats.stackexchange.com/questions/59213/how-to-compute-varimax-rotated-principal-components-in-r), the term "rotation" is slightly misleading concept, since it indicates more to Factor Analysis. The rotation (in Factor Analysis) is usually applied to loadings, not to eigenvectors of the covariance matrix, which is used to provide the loadings of prcomp(), as far as I know. 
 
-The rotation measure provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. This is the most important measure we should be interested in. I printed the loadings of each variable considering the initial amount of dimensions regarding my hypotheses. This means a huge amount of measures while the table still can be informative since you can explore where the variables are loading the most and the least. Just for an example I can perceive that matematics and physics are both loading positively to the second component whereas chemistry loads mostly to the third component which is actually against my initial hypothesis. 
 
-The "x" prints the principal component score vector and the "sdev" provides the standard deviavtion of components which I'm not exploring here but instead I'm going to print the summary of these measures. Thus let's continue to the next section.  
+This is the most important measure we should be interested in. I printed the loadings of each variable considering the initial amount of dimensions regarding my hypotheses. This means a huge amount of measures while the table still can be informative since you can explore where the variables are loading the most and the least. Just for an example I can perceive that matematics and physics are both loading positively to the second component whereas chemistry loads mostly to the third component which is actually against my initial hypothesis. 
+
+
+
+
+
 
 
 &nbsp;
 
 ```{r, fig.width=8, message=FALSE, warning=FALSE}
 
-# Performing the PCA with Singular Value Decomposition (SVD) method
-pca_interests <- prcomp(norm_interests)
-
-# Allows us to see the measures of PCA
-names(pca_interests)
-
-# Loadings restricted to 7 components
-rotation <- round(pca_interests$rotation[, 1:7], digits = 2)
+# Loadings restricted to 10 components
+rotation <- round(pca_interests$rotation[, 1:10], digits = 2)
 kable(rotation)
 ```
 
+
+
+```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+library(FactoMineR)
+
+fviz_pca_var(pca_interests)
+
+```
+
+
+&nbsp;
+
+```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
+library(FactoMineR); library(knitr)
+
+
+PCA_interests <- PCA(interests, graph = FALSE)
+
+kable(PCA_interests$var$cos2, digits = 3)
+
+fviz_pca_var(PCA_interests, col.var = "cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.5) + theme_minimal()
+
+```
+
+&nbsp;
 
 # Part 2 of PCA
 
