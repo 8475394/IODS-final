@@ -764,7 +764,7 @@ Next I'm going to explore two different kind of biplot to help me go further. Th
 ```{r, fig.width=8, message=FALSE, warning=FALSE}
 
 # Loadings restricted to 10 components
-rotation <- round(pca_interests$rotation[, 1:10], digits = 2)
+rotation <- round(pca_interests$rotation[, 1:10], digits = 3)
 kable(rotation)
 
 rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testing purposes
@@ -772,9 +772,13 @@ rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testi
 
 &nbsp;
 
-<p class="text-warning">BASIC BIPLOT</p>
+<p class="text-warning">ENLARGEMENT OF THE BASIC BIPLOT</p>
 
+Now the figure is larger and we can see for example the coordinate system. One feature of the biplot what I didn't mention earlier is that the lenght of the arrows measures the contribution of the variables by means of their loadings. According to this information we can notice that there is at least 3 different group with relative high contribution. 
 
+From the upper right corner the PC and Cars definitely belong to the same dimension. Their arrows are long and they are almost on top of each other suggesting high correlation between them. The Internet indicates to the same direction with a lower contribution, thus it is a question mark for me. Economy and sLeisure (Sport and leisure activities) may point to the same direction but with much lower contribution. Regarding this the latter variables may not include to this dimension. But its good to remember that biplot is just a 2-dimensional presentation suggesting that Economy and sLeisure may not include to second dimension.
+
+The second group contains at least the Physics and SciTec (Science and Technology) with relative high contribution also to second dimension within the biplot presentation.  
 
 &nbsp;
 
@@ -782,25 +786,75 @@ rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testi
 ```{r, fig.height=10, fig.width=10, message=FALSE, warning=FALSE}
 library(FactoMineR)
 
-fviz_pca_var(pca_interests)
-
+biplot1 <- fviz_pca_var(pca_interests)
+biplot1
 ```
 
 
 &nbsp;
 
-```{r, fig.height=10, fig.width=11, message=FALSE, warning=FALSE}
-library(FactoMineR); library(knitr)
+<p class="text-warning">BIPLOT WITH FACTOMINER</p>
+
+
+For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the package and therefor I have some additional "testing codes" inside the chunk below. 
+
+Inside the chunk
+
+
+```{r, fig.height=7, fig.width=8, message=FALSE, warning=FALSE}
+library(FactoMineR); library(factoextra); library(knitr)
+
+# http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#at_pco=smlwn-1.0&at_si=58bbc17c84dcd355&at_ab=per-2&at_pos=0&at_tot=1
 
 PCA_interests <- PCA(interests, graph = FALSE)
 
-kable(PCA_interests$var$cos2, digits = 3)
+eig.val2 <- PCA_interests$eig # Just verifying that this gives the same eigenvalues than prcomp() and it does
 
-fviz_pca_var(PCA_interests, col.var = "cos2") + scale_color_gradient2(low="white", mid="darkorchid4", high="red", midpoint=0.5) + theme_minimal()
+PCA.var <- PCA_interests$var # different results for variables
+
+# The squared loadings, i.e. variance^2
+cos2.var <- PCA_interests$var$cos2 # These are the loadings, corresponding to rotate function in procomp()
+kable(cos2.var, digits = 3)
+
+# Biplot of loadings
+biplot2 <- fviz_pca_var(PCA_interests, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
+
+biplot2
 
 ```
 
 &nbsp;
+
+## Variable contribution to different dimensions
+
+
+```{r, fig.height=8, fig.width=9, message=FALSE, warning=FALSE}
+# Control variable colors using their contributions
+biplot3 <- fviz_pca_var(PCA_interests, col.var="contrib") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.7) + theme_minimal()
+
+biplot3
+```
+
+
+
+&nbsp;
+
+
+```{r, message=FALSE, warning=FALSE}
+library(factoextra)
+
+# Contributions of variables on PC1
+fviz_pca_contrib(PCA_interests, choice = "var", axes = 1)
+
+# Contributions of variables on PC1
+fviz_pca_contrib(PCA_interests, choice = "var", axes = 2)
+
+# Contributions of variables on PC1
+fviz_pca_contrib(PCA_interests, choice = "var", axes = 3)
+
+```
+
+
 
 # Part 2 of PCA
 
