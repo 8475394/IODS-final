@@ -406,9 +406,9 @@ Here my intention is to explore the potential relationships between the differen
 
 **The subsets are divided in a following order**: The first set considers the first 10 variables and the second contains the subsequent 10 variables, i.e. from 11th to 20th. The last subset consists the last 12 variables from 21th to 32th. 
 
-Within the next sub chapters I present the **correlation matrixes**, the tables of their **p-values**, i.e. significance tests and finally I demonstrate both correlations and their significance in **one plot per subset**. I adopted the significance test and its further use with the corrplot from [sthda.com's web examples](http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram). Additionally, 
+Within the next sub chapters I present the **correlation matrixes**, the tables of their **p-values**, i.e. significance tests and finally I demonstrate both correlations and their significance in **one plot per subset**. I adopted the significance test and its further use with the corrplot from [sthda.com's web examples](http://www.sthda.com/english/wiki/visualize-correlation-matrix-using-correlogram). 
 
-its worth to mention that the significance level for plotting purposes was set to 0.01 by default and I didn't change it even if it could have also been the "usual" 0.05. Thus the corrplots don't show any color of those associations where the p < 0.01. I thought this in reasonable within this data, especially in terms of relatively low but significant correlations. And the purpose, considering the PCA, is still to find the most important correlations. 
+Additionally, its worth to mention that the significance level for plotting purposes was set to 0.01 by default and I didn't change it even if it could have also been the "usual" 0.05. Thus the corrplots don't show any color of those associations where the p < 0.01. I thought this in reasonable within this data, especially in terms of relatively low but significant correlations. And the purpose, considering the PCA, is still to find the most important correlations. 
 
 
 &nbsp;
@@ -471,7 +471,10 @@ corrplot(cor_matrix1, method = "color", col=col(200),
          # hide correlation coefficient on the principal diagonal
          diag=FALSE 
          )
+
 ```
+
+
 
 &nbsp;
 
@@ -581,6 +584,21 @@ corrplot(cor_matrix3, method = "color", col=col(200),
          diag=FALSE 
          )
 ```
+
+# One way to present all the correlations
+
+&nbsp;
+
+
+
+&nbsp;
+
+```{r, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+library(qgraph)
+
+qgraph(cor(interests), layout="spring", posCol="red", negCol="darkblue")
+```
+
 
 
 &nbsp;
@@ -796,9 +814,9 @@ biplot1
 <p class="text-warning">BIPLOT WITH FACTOMINER</p>
 
 
-For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the package and therefor I have some additional "testing codes" inside the chunk below. 
+For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the package and therefore I have some additional "testing codes" inside the chunk below. 
 
-Inside the chunk
+**WRITE HERE THE INTERPRETATION OF BIPLOT, CHECK THE TEXT ABOVE THE BASIC BIPLOT** Give some explanations of testing codes, etc
 
 
 ```{r, fig.height=7, fig.width=8, message=FALSE, warning=FALSE}
@@ -861,6 +879,8 @@ fviz_pca_contrib(PCA_interests, choice = "var", axes = 3)
 &nbsp;
 
 http://geog.uoregon.edu/GeogR/topics/pca.html
+
+https://www.r-bloggers.com/factor-analysis-introduction-with-the-principal-component-method-and-r/
 
 
 
