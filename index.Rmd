@@ -595,7 +595,7 @@ This is a network of line segments, which are drawn to illustrate the strenght a
 
 By means of this network presentation we can examine simultaneously the whole data. For example, now we can see that the Chemistry, Biology and Medicine are highly correlated to each other. Then there are Mathematics, Physics, PC and SciTec which are also correlated to one another. 
 
-Considering the upcoming Principal Component Analysis, it is also important to perceive the variables with much lower correlations. For example, it seems that sLeisure and especially the Pets are far away from any centrum.  
+Considering the upcoming Principal Component Analysis, it is also important to perceive the variables with much lower correlations. For example, it seems that sLeisure (Sport and leisure activities) and especially the Pets are far away from any centrum.  
 
 &nbsp;
 
@@ -609,11 +609,11 @@ qgraph(cor(interests), layout="spring", posCol="red", negCol="darkblue")
 
 &nbsp;
 
-# Principal Component Analysis, PCA
+# Principal Component Analysis
 
 &nbsp;
 
-Principal Component Analysis can be seen as a method of extracting important variables from a large set of variables in a dataset. It extracts low dimensional set of features from a high dimensional dataset with a purpose to capture as much information as possible. [Analytics Vidhya Content Team, Marc 21, 2016](https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/).
+Principal Component Analysis (PCA) can be seen as a method of extracting important variables from a large set of variables in a dataset. It extracts low dimensional set of features from a high dimensional dataset with a purpose to capture as much information as possible. [Analytics Vidhya Content Team, Marc 21, 2016](https://www.analyticsvidhya.com/blog/2016/03/practical-guide-principal-component-analysis-python/).
 
 The dataset of **Young people's interests** contains multitude dimensions corresponding to 878 observations (n) x 32 variables or predictors (p). We could examine the relationships by means of the scatter plots but there would be as many as **p(p-1)/2** i.e. **496 plots** to explore. This actually makes visible the meaning of PCA, since it allows to deal with high dimensional data.  
 
@@ -800,9 +800,18 @@ rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testi
 
 Now the figure is larger and we can see for example the coordinate system. One feature of the biplot what I didn't mention earlier is that the lenght of the arrows measures the contribution of the variables by means of their loadings. According to this information we can notice that there is at least 3 different group with relative high contribution. 
 
-From the upper right corner the PC and Cars definitely belong to the same dimension. Their arrows are long and they are almost on top of each other suggesting high correlation between them. The Internet indicates to the same direction with a lower contribution, thus it is a question mark for me. Economy and sLeisure (Sport and leisure activities) may point to the same direction but with much lower contribution. Regarding this the latter variables may not include to this dimension. But its good to remember that biplot is just a 2-dimensional presentation suggesting that Economy and sLeisure may not include to second dimension.
+**From the upper right corner** the PC and Cars definitely belong to the same dimension. Their arrows are long and they are almost on top of each other suggesting high correlation between them. The Internet indicates to the same direction with a lower contribution. Economy and sLeisure (Sport and leisure activities) may point to the same direction but with much lower contribution. Regarding this, the latter variables may not include to this or any dimension. 
 
-The second group contains at least the Physics and SciTec (Science and Technology) with relative high contribution also to second dimension within the biplot presentation.  
+**The second group** contains at least the Physics and SciTec (Science and Technology) with relative high contribution also to second dimension within the biplot presentation. The Mathematics, sAdrenaline and sCompetitive may include to the same dimension but with lower contribution.
+
+**Then there are some "middle" variables** which don't share so high groupping features, thus its more difficult to interpret where these variables belong. However, iti starting to look that at least the Pets and Social (Solializing with friends) don't belong to any principal component. 
+
+**From the lower left corner** we find at least one meaningful group including Art Exhibitions, Theatre and Poetry Reading. The Dancing and Poetry Reading may also include to this dimension.  
+
+I think that we can find at least one dimension including Medicine, Biology, Psychology and maybe Religion, Instruments and Outdoor Activities.
+
+To conlcude thus far I think its clear that the variables with the highest contribution share also some similar features. For example Art, Theatre and Poetry Reading, and even Dancing and Poetry writing are all representing interest relating to arts. The phenomenon is equivalent with Medicine, Biology and Psychology, because they all indicate interest toward people and their well-being. Furthermore the SciTec, Physics and Mathematics depict the features of mathematical and technical issues. And finally the PC and Cars indicate both to different kind of technical features comparing to former group. 
+
 
 &nbsp;
 
@@ -822,7 +831,9 @@ biplot1
 
 For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the package and therefore I have some additional "testing codes" inside the chunk below. 
 
-**WRITE HERE THE INTERPRETATION OF BIPLOT, CHECK THE TEXT ABOVE THE BASIC BIPLOT** Give some explanations of testing codes, etc
+For some reason the method turns the arrows the other way round but it doesn't change the results. From this biplot you can observe basically the same interpretations as I wrote above but with additional coloring effects. Note that I have set the "midpoint" relative low to present the variation within this data. Here it is more evident that the variables with very light colour do not have high contribution to any dimension.  
+
+&nbsp;
 
 
 ```{r, fig.height=7, fig.width=8, message=FALSE, warning=FALSE}
@@ -838,71 +849,162 @@ PCA.var <- PCA_interests$var # different results for variables
 
 # The squared loadings, i.e. variance^2
 cos2.var <- PCA_interests$var$cos2 # These are the loadings, corresponding to rotate function in procomp()
-kable(cos2.var, digits = 3)
 
 # Biplot of loadings
 biplot2 <- fviz_pca_var(PCA_interests, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
 
 biplot2
-
 ```
+
+
 
 &nbsp;
 
-## Variable contribution to different dimensions
+## Conclusions of the first PCA part
 
+&nbsp;
 
-```{r, fig.height=8, fig.width=9, message=FALSE, warning=FALSE}
-# Control variable colors using their contributions
-biplot3 <- fviz_pca_var(PCA_interests, col.var="contrib") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.7) + theme_minimal()
+# PCA Analysis, Round 2
 
-biplot3
-```
+&nbsp;
 
+Here I adopt an additional approach to better identify the variables which have very low contribution in terms of dimension reduction considering the Young People's Interests. I loaded the [psych package](https://cran.r-project.org/web/packages/psych/) and I'm going to use the "principal()" function to get more statistical results at once. The idea came from [this site](http://geog.uoregon.edu/GeogR/topics/pca.html) which is the same page from where I adpoted the graphic of correlation network. I'm also going to benefit [these instructions](http://www.ic.unicamp.br/~wainer/cursos/1s2013/ml/Lecture18_PCA.pdf) to perform the PCA with this new function.
+
+Note also that I'm going to use simultaneously this new and previous pca functions to draw graphics since they all don't fit with each other.
+
+First I introduce briefly the methods behind variable extraction. After that the purpose is to show the new structure and form the factor scores with respect to actually utilize the new dimensions for example for some form of regression analysis.
+
+&nbsp;
+
+## Performing PCA with principal()
+
+&nbsp;
+
+Below you can see many statistical results of the PCA which are basically same than earlier. Regarding to extract some variables and retain proper amount of dimensions, I had to work simultaneously with earlier information and two different estimator and adjust the number of dimensions and drop variables from the data one by one. Since its not convenient to print like 10 long tables, I try to explain shortly what I did. 
+
+Thus, I followed the values of communalities (h^2) and proportion of variance of each component. My tresholds were h^2 < 0.30 to drop variables and around 5% proportion of variance to retain dimensions. First I performed PCA with different numbers of component and located variables with especially low communalities. First variables to drop were Pets and sLeisure (Sport and leisure activities) and after that Social (Socializing with friends), Gardening and Religion. Note that the combination of values changes every time when you drop even one variable.
+
+While dropping the variables I followed the variance proportion of each dimension. Finally, after dropping the above mentioned variables I had to choose 6 dimensions instead of 7. This was because the variance proportion was too low in seventh dimension.
 
 
 &nbsp;
 
 
 ```{r, message=FALSE, warning=FALSE}
-library(factoextra)
-
-# Contributions of variables on PC1
-fviz_pca_contrib(PCA_interests, choice = "var", axes = 1)
-
-# Contributions of variables on PC1
-fviz_pca_contrib(PCA_interests, choice = "var", axes = 2)
-
-# Contributions of variables on PC1
-fviz_pca_contrib(PCA_interests, choice = "var", axes = 3)
-
-```
-
-
-
-# Part 2 of PCA
-
-&nbsp;
-
-http://geog.uoregon.edu/GeogR/topics/pca.html
-
-https://www.r-bloggers.com/factor-analysis-introduction-with-the-principal-component-method-and-r/
-
-
-
-```{r, message=FALSE, warning=FALSE}
-library(psych) 
+library(psych)
 # http://geog.uoregon.edu/GeogR/topics/pca.html
 
-interests_matrix <- data.matrix(interests)
-
-interest_unrot <- principal(r = interests_matrix, nfactors = 8, rotate = "none")
+interest_unrot <- principal(r = std_interests, nfactors = 10, rotate = "none")
 interest_unrot
 ```
 
 
 
 &nbsp;
+
+<p class="text-warning">DROPPING THE VARIABLES</p>
+
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr); library(clusterSim)
+
+# Printing the exact names of variables
+noprinting <- names(interests) # for my own use
+
+# Extracting the variables, which h^2 < 0.3 or otherwise have low contribution
+hobby <- dplyr::select(interests, -Pets, - sLeisure, -Social, -Gardening, -Religion)
+names(hobby)
+
+# Scaling the variables
+std_hobby <- data.Normalization(hobby, type = "n1", normalization = "columns")
+
+```
+
+
+&nbsp;
+
+<p class="text-warning">PCA WITH THE NEW DATA</p>
+
+
+```{r, message=FALSE, warning=FALSE}
+library(psych)
+pca1_hobby <- prcomp(std_hobby) # Used only for drawing graphs
+
+# PCA of 6 dimensions with new data
+hobby_unrot <- principal(r = std_hobby, nfactors = 6, rotate = "none")
+hobby_unrot
+
+```
+
+&nbsp;
+
+<p class="text-warning">BIPLOT OF NEW DATA</p>
+
+
+```{r, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
+# Biplot of loadings
+library(factoextra)
+
+biplot3 <- fviz_pca_var(pca1_hobby, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
+
+biplot3
+```
+
+
+&nbsp;
+
+
+## Variable contribution to different dimensions
+
+
+
+
+&nbsp;
+
+
+```{r, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
+library(factoextra); library(gridExtra)
+
+# Contributions of variables on PC1
+contr1 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 1, top = 8)
+
+# Contributions of variables on PC2
+contr2 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 2, top = 8)
+
+# Contributions of variables on PC3
+contr3 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 3, top = 8)
+
+# Contributions of variables on PC4
+contr4 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 4, top = 8)
+
+# Contributions of variables on PC5
+contr5 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 5, top = 8)
+
+# Contributions of variables on PC6
+contr6 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 6, top = 8)
+
+# Printing all at once
+grid.arrange(contr1, contr2, contr3, contr4, contr5, contr6, ncol = 2, nrow =3)
+
+```
+
+
+
+```{r, fig.height=10, fig.width=12, message=FALSE, warning=FALSE}
+library(qgraph)
+qg_pca <- qgraph.pca(hobby, factors=6, rotation="varimax")
+```
+
+
+
+```{r, message=FALSE, warning=FALSE}
+library(psych)
+hobby_rot <- principal(r = std_hobby, nfactors = 6, rotate = "varimax", scores = T)
+hobby_rot
+```
+
+
+
 
 
 
