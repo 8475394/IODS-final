@@ -398,7 +398,7 @@ grid.arrange(h28, h29, h30, h31, h32, h33, ncol = 3, nrow =2)
 
 &nbsp;
 
-# Relationships between different interests and hobbies
+# Relationships between different interests
 
 &nbsp;
 
@@ -424,7 +424,7 @@ The first table informs for example that History is related to Politics and Psyc
 &nbsp;
 
 
-```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+```{r, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
 library(dplyr); library(knitr); library(corrplot)
 interests <- dplyr::select(interests_dem, 1:32) # leaving age and gender out
 
@@ -487,7 +487,7 @@ Interestingly, the Reading Poetry has a negative correlation with Cars. Actually
 &nbsp;
 
 
-```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+```{r, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
 library(knitr);library(corrplot)
 
 # Presenting the second correlation matrix
@@ -621,7 +621,7 @@ A principal component can be seen as a normalized linear combination or the orig
 
 ***
 
-**PCA is (always) performed with a numeric and standardized dataset.**
+**PCA is (always) performed with a numeric and standardized dataset!**
 
 ***
 
@@ -864,6 +864,16 @@ biplot2
 
 &nbsp;
 
+It is evident that the data of interests contains at least 3 clear dimensions while their exact content of variables is unclear. Secondly, it is not so clear how many other dimension, not to mention their content, the data may comprise regarding the available tools. 
+
+It is also apparent that all of these interests are not equally important and it seems that some of them aren't popular at all and some of them just don't fit to any dimension. This means that I need some new tools to wrangle the data to better suit my purposes. 
+
+Note, that I didn't want to create the dimensions based on incomplete or just directional results. Thus, let's move on to the next part of Principal Component Analysis.
+
+
+
+&nbsp;
+
 # PCA Analysis, Round 2
 
 &nbsp;
@@ -889,12 +899,14 @@ While dropping the variables I followed the variance proportion of each dimensio
 
 &nbsp;
 
+<p class="text-warning">PCA RESULTS WITH 8 DIMENSIONS</p>
+
 
 ```{r, message=FALSE, warning=FALSE}
 library(psych)
 # http://geog.uoregon.edu/GeogR/topics/pca.html
 
-interest_unrot <- principal(r = std_interests, nfactors = 10, rotate = "none")
+interest_unrot <- principal(r = std_interests, nfactors = 8, rotate = "none")
 interest_unrot
 ```
 
@@ -903,6 +915,8 @@ interest_unrot
 &nbsp;
 
 <p class="text-warning">DROPPING THE VARIABLES</p>
+
+From the chunk you can see that after dropping the variables I also scaled the data. I also printed the column names to verify the content. 
 
 
 ```{r, message=FALSE, warning=FALSE}
@@ -925,6 +939,10 @@ std_hobby <- data.Normalization(hobby, type = "n1", normalization = "columns")
 
 <p class="text-warning">PCA WITH THE NEW DATA</p>
 
+Here I performed the PCA with the new data with 6 dimensions. Now all the communalities suit well even though there are 2 variables close but not lower than 0.30, i.e. Geography and Psychology. The "SS loadings" are the eigenvalues and all of them are more than 1 (in terms of the Kaiser criterion). Additionally the proportion of variance is 5% or more within each dimension. But we have at least one weakness and that is the cumulative variance which is only around 50%. This means, that if we keep this structure we will lose some information considering the data. Thus it seems that when one value or result appears to be correct the other value is missing something.  
+
+
+
 
 ```{r, message=FALSE, warning=FALSE}
 library(psych)
@@ -938,7 +956,12 @@ hobby_unrot
 
 &nbsp;
 
+
+
+
 <p class="text-warning">BIPLOT OF NEW DATA</p>
+
+As you can perceive the biplot seems to be quite similar than earlier.
 
 
 ```{r, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
@@ -956,7 +979,11 @@ biplot3
 
 ## Variable contribution to different dimensions
 
+http://www.ic.unicamp.br/~wainer/cursos/1s2013/ml/Lecture18_PCA.pdf
 
+http://geog.uoregon.edu/GeogR/topics/pca.html
+
+http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#at_pco=smlwn-1.0&at_si=58bbc17c84dcd355&at_ab=per-2&at_pos=0&at_tot=1
 
 
 &nbsp;
@@ -988,14 +1015,15 @@ grid.arrange(contr1, contr2, contr3, contr4, contr5, contr6, ncol = 2, nrow =3)
 
 ```
 
+&nbsp;
 
 
 ```{r, fig.height=10, fig.width=12, message=FALSE, warning=FALSE}
 library(qgraph)
-qg_pca <- qgraph.pca(hobby, factors=6, rotation="varimax")
+qg_pca <- qgraph.pca(hobby, factors=6, rotation="varimax", posCol="darkmagenta", negCol="darkgreen")
 ```
 
-
+&nbsp;
 
 ```{r, message=FALSE, warning=FALSE}
 library(psych)
@@ -1005,6 +1033,11 @@ hobby_rot
 
 
 
+&nbsp;
+
+
+
+&nbsp;
 
 
 
