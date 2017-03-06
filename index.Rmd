@@ -585,17 +585,23 @@ corrplot(cor_matrix3, method = "color", col=col(200),
          )
 ```
 
-# One way to present all the correlations
+## One way to present all the correlations
 
 &nbsp;
 
+Actually, I found a pretty nice solution to present all the correlations of young people's interests, adopted [here](http://geog.uoregon.edu/GeogR/topics/pca.html). 
 
+This is a network of line segments, which are drawn to illustrate the strenght and sign of the correlations between each pair of variables. The layout arranges the nodes in a way that locates more highly correlated variables closer to one another. Additionally the the red color indicates positive and the the blue indicates negative correlations.
+
+By means of this network presentation we can examine simultaneously the whole data. For example, now we can see that the Chemistry, Biology and Medicine are highly correlated to each other. Then there are Mathematics, Physics, PC and SciTec which are also correlated to one another. 
+
+Considering the upcoming Principal Component Analysis, it is also important to perceive the variables with much lower correlations. For example, it seems that sLeisure and especially the Pets are far away from any centrum.  
 
 &nbsp;
 
 ```{r, fig.height=12, fig.width=12, message=FALSE, warning=FALSE}
+# http://geog.uoregon.edu/GeogR/topics/pca.html
 library(qgraph)
-
 qgraph(cor(interests), layout="spring", posCol="red", negCol="darkblue")
 ```
 
