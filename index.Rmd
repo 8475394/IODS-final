@@ -798,19 +798,19 @@ rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testi
 
 <p class="text-warning">ENLARGEMENT OF THE BASIC BIPLOT</p>
 
-Now the figure is larger and we can see for example the coordinate system. One feature of the biplot what I didn't mention earlier is that the lenght of the arrows measures the contribution of the variables by means of their loadings. According to this information we can notice that there is at least 3 different group with relative high contribution. 
+Now the figure is larger and we can see for example the coordinate system. One feature of the biplot what I didn't mention earlier is that the lenght of the arrows measures the contribution of the variables by means of their loadings. 
 
-**From the upper right corner** the PC and Cars definitely belong to the same dimension. Their arrows are long and they are almost on top of each other suggesting high correlation between them. The Internet indicates to the same direction with a lower contribution. Economy and sLeisure (Sport and leisure activities) may point to the same direction but with much lower contribution. Regarding this, the latter variables may not include to this or any dimension. 
+We can evaluate first the 2-dimensional presentation in terms of first and second dimension. It is evident that the Art, Theatre and Poetry reading (rPoetry) load the most to **the first dimension**. Also the Medicine, Biology and Psychology are pointing to the first dimension even though these might represent their own group or dimension regarding their meaning. The Poetry writing (wPoetry) and Dancing are also loading to the first dimension, but I think that the Dancing doesn't share the same features in a "real life". Then there are multiple variables with lower loading pointing to the first dimension, for example Religion and playing instruments.
 
-**The second group** contains at least the Physics and SciTec (Science and Technology) with relative high contribution also to second dimension within the biplot presentation. The Mathematics, sAdrenaline and sCompetitive may include to the same dimension but with lower contribution.
+Then, considering **the second dimension**, the PC, Cars, Physics and SciTec (Science and Technology) are loading the most. Additionally, the Mathematics, sAdrealine (Adrenaline sports) and Internet are pointing to this dimension, even though I think that the Adrenaline Sports doesn't share the meaning with other variables.    
 
-**Then there are some "middle" variables** which don't share so high groupping features, thus its more difficult to interpret where these variables belong. However, iti starting to look that at least the Pets and Social (Solializing with friends) don't belong to any principal component. 
+Then if we look at the **different layers** regarding the leght from the centrum of the coordinate system, we can see for example that the Shopping, Celebrities, Socializing with friends and Pets could yield one dimension, even though their overall contribution is lower. 
 
-**From the lower left corner** we find at least one meaningful group including Art Exhibitions, Theatre and Poetry Reading. The Dancing and Poetry Reading may also include to this dimension.  
+**Then there are some problematic variables** also in terms with my initial hypotheses. For example, variables considering some kind of sport, i.e. Outdoor activities, sLeisure, sCompetitive, sAdrenaline and maybe Dancing, are pointing to very different directions or contributing with very different amount, even thoug the sCompetitive and sAdrenaline are somewhat near with each other and may share a meaning. But these other "sportish" variables seem to differ, thus here's what I think: All of the variables are not mutually exclusive. For example, Outdoor activities, sLeisure (Sport and leisure activities) and even Dancing may already include to variable of Socialisizing with friend. Accordingly, I think that I'll try to extract at least the sLeisure and Outdoor Activities from the data before testing the second round of PCA.
 
-I think that we can find at least one dimension including Medicine, Biology, Psychology and maybe Religion, Instruments and Outdoor Activities.
+But before performing the second round, I have to consider **the rest of the puzzling variables**, which seem to be more complicated, including for example the Languages, Gardening and maybe Religion, Instruments and Economy. Especially the languages and Religion are problematic in a way that they can relate to any of these dimensions considering their meaning or they can be totally independent. The Gardening and Instruments can include at least to the artistic or socializing features and Economy may relate to Politics and Law. Thus, I think I'll try extract at least Languages and Religion.  
 
-To conlcude thus far I think its clear that the variables with the highest contribution share also some similar features. For example Art, Theatre and Poetry Reading, and even Dancing and Poetry writing are all representing interest relating to arts. The phenomenon is equivalent with Medicine, Biology and Psychology, because they all indicate interest toward people and their well-being. Furthermore the SciTec, Physics and Mathematics depict the features of mathematical and technical issues. And finally the PC and Cars indicate both to different kind of technical features comparing to former group. 
+Before the data wrangling, you can take a look at the biplots and figures of the variable contribution of different dimensions.
 
 
 &nbsp;
@@ -829,9 +829,9 @@ biplot1
 <p class="text-warning">BIPLOT WITH FACTOMINER</p>
 
 
-For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the package and therefore I have some additional "testing codes" inside the chunk below. 
+For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the function and therefore I have some additional "testing codes" inside the chunk below. 
 
-For some reason the method turns the arrows the other way round but it doesn't change the results. From this biplot you can observe basically the same interpretations as I wrote above but with additional coloring effects. Note that I have set the "midpoint" relative low to present the variation within this data. Here it is more evident that the variables with very light colour do not have high contribution to any dimension.  
+For some reason the method turns the arrows the other way round but it doesn't change the results. From this biplot you can observe basically the same interpretations as I wrote above but with additional coloring effects. Note that I have set the "midpoint" relative low to present the variation within this data.  
 
 &nbsp;
 
@@ -856,19 +856,194 @@ biplot2 <- fviz_pca_var(PCA_interests, col.var="cos2") + scale_color_gradient2(l
 biplot2
 ```
 
+&nbsp;
+
+<p class="text-warning">VARIABLE CONTRIBUTION TO DIFFERENT DIMENSIONS</p>
+
+Here you can examine the varible contribution between different dimension and compare your interpretation with the one I wrote above. Note that the content of last dimensions have no meaningful order or sense. 
+
+&nbsp;
+
+```{r, fig.height=18, fig.width=10, message=FALSE, warning=FALSE}
+library(factoextra); library(gridExtra)
+
+# Contributions of variables on PC1
+int1 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 1, top = 10)
+
+# Contributions of variables on PC2
+int2 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 2, top = 10)
+
+# Contributions of variables on PC3
+int3 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 3, top = 10)
+
+# Contributions of variables on PC4
+int4 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 4, top = 10)
+
+# Contributions of variables on PC5
+int5 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 5, top = 10)
+
+# Contributions of variables on PC6
+int6 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 6, top = 10)
+
+# Contributions of variables on PC6
+int7 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 7, top = 10)
+
+# Contributions of variables on PC6
+int8 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 8, top = 10)
+
+# Contributions of variables on PC6
+int9 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 9, top = 10)
+
+# Contributions of variables on PC6
+int10 <- fviz_pca_contrib(pca_interests, choice = "var", axes = 10, top = 10)
+
+# Printing all at once
+grid.arrange(int1, int2, int3, int4, int5, int6, int7, int8, int9, int10, ncol = 2, nrow =5)
+```
+
 
 
 &nbsp;
 
-## Conclusions of the first PCA part
+# PART 2, Testing some assumptions
 
 &nbsp;
 
-It is evident that the data of interests contains at least 3 clear dimensions while their exact content of variables is unclear. Secondly, it is not so clear how many other dimension, not to mention their content, the data may comprise regarding the available tools. 
+## Extracting first set of variables
 
-It is also apparent that all of these interests are not equally important and it seems that some of them aren't popular at all and some of them just don't fit to any dimension. This means that I need some new tools to wrangle the data to better suit my purposes. 
 
-Note, that I didn't want to create the dimensions based on incomplete or just directional results. Thus, let's move on to the next part of Principal Component Analysis.
+
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr); library(clusterSim)
+
+# Printing the exact names of variables
+dim(interests)
+names(interests) # for my own use
+
+# Extracting the variables, 
+testdata1 <- dplyr::select(interests, -Languages, -Religion, -sLeisure, -Outdoor)
+dim(testdata1)
+names(testdata1)
+
+# Scaling the variables
+std_testdata1 <- data.Normalization(testdata1, type = "n1", normalization = "columns")
+```
+
+&nbsp;
+
+
+
+&nbsp;
+
+```{r, message=FALSE, warning=FALSE}
+pca_testdata1 <- prcomp(std_testdata1)
+
+# Printing a summary of PCA
+summary(pca_testdata1)
+```
+
+&nbsp;
+
+
+```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+library(factoextra)
+
+biplot3 <- fviz_pca_var(pca_testdata1, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
+
+biplot3
+```
+
+
+&nbsp;
+
+
+```{r, message=FALSE, warning=FALSE}
+library(factoextra); library(knitr)
+
+eig.test1 <- get_eigenvalue(pca_testdata1)
+kable(round(eig.val[1:10,], digits = 3), align="c", caption = 'Eigenvalues and variances')
+```
+
+&nbsp;
+
+## Extracting second set of variables
+
+&nbsp;
+
+
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr); library(clusterSim)
+
+# Printing the exact names of variables
+dim(interests)
+names(interests) # for my own use
+
+# Extracting the variables, 
+testdata2 <- dplyr::select(interests, -Outdoor, -Languages, -Religion, -sLeisure, -Instruments, -Pets, -sCompetitive, -sAdrenaline, -Gardening, -Social)
+dim(testdata2)
+names(testdata2)
+
+# Scaling the variables
+std_testdata2 <- data.Normalization(testdata2, type = "n1", normalization = "columns")
+```
+
+
+&nbsp;
+
+
+```{r, warning=FALSE}
+pca_testdata2 <- prcomp(std_testdata2)
+
+# Printing a summary of PCA
+summary(pca_testdata2)
+```
+
+&nbsp;
+
+
+```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+library(factoextra)
+
+biplot4 <- fviz_pca_var(pca_testdata2, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
+
+biplot4
+```
+
+
+&nbsp;
+
+
+```{r, fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
+library(factoextra); library(gridExtra)
+
+# Contributions of variables on PC1
+test1 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 1, top = 10)
+
+# Contributions of variables on PC2
+test2 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 2, top = 8)
+
+# Contributions of variables on PC3
+test3 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 3, top = 8)
+
+# Contributions of variables on PC4
+test4 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 4, top = 8)
+
+# Contributions of variables on PC5
+test5 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 5, top = 8)
+
+# Contributions of variables on PC6
+test6 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 6, top = 8)
+
+# Printing all at once
+grid.arrange(test1, test2, test3, test4, test5, test6, ncol = 2, nrow =3)
+```
+
+
+
+&nbsp;
+
 
 
 
@@ -906,72 +1081,18 @@ While dropping the variables I followed the variance proportion of each dimensio
 library(psych)
 # http://geog.uoregon.edu/GeogR/topics/pca.html
 
-interest_unrot <- principal(r = std_interests, nfactors = 8, rotate = "none")
-interest_unrot
+interest_unrot <- principal(r = testdata2, nfactors = 5, rotate = "none")
+print.psych(interest_unrot, sort = T)
 ```
 
 
 
 &nbsp;
 
-<p class="text-warning">DROPPING THE VARIABLES</p>
-
-From the chunk you can see that after dropping the variables I also scaled the data. I also printed the column names to verify the content. 
-
-
-```{r, message=FALSE, warning=FALSE}
-library(dplyr); library(clusterSim)
-
-# Printing the exact names of variables
-noprinting <- names(interests) # for my own use
-
-# Extracting the variables, which h^2 < 0.3 or otherwise have low contribution
-hobby <- dplyr::select(interests, -Pets, - sLeisure, -Social, -Gardening, -Religion)
-names(hobby)
-
-# Scaling the variables
-std_hobby <- data.Normalization(hobby, type = "n1", normalization = "columns")
-
-```
-
-
-&nbsp;
-
-<p class="text-warning">PCA WITH THE NEW DATA</p>
-
-Here I performed the PCA with the new data with 6 dimensions. Now all the communalities suit well even though there are 2 variables close but not lower than 0.30, i.e. Geography and Psychology. The "SS loadings" are the eigenvalues and all of them are more than 1 (in terms of the Kaiser criterion). Additionally the proportion of variance is 5% or more within each dimension. But we have at least one weakness and that is the cumulative variance which is only around 50%. This means, that if we keep this structure we will lose some information considering the data. Thus it seems that when one value or result appears to be correct the other value is missing something.  
 
 
 
 
-```{r, message=FALSE, warning=FALSE}
-library(psych)
-pca1_hobby <- prcomp(std_hobby) # Used only for drawing graphs
-
-# PCA of 6 dimensions with new data
-hobby_unrot <- principal(r = std_hobby, nfactors = 6, rotate = "none")
-hobby_unrot
-
-```
-
-&nbsp;
-
-
-
-
-<p class="text-warning">BIPLOT OF NEW DATA</p>
-
-As you can perceive the biplot seems to be quite similar than earlier.
-
-
-```{r, fig.height=7, fig.width=7, message=FALSE, warning=FALSE}
-# Biplot of loadings
-library(factoextra)
-
-biplot3 <- fviz_pca_var(pca1_hobby, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
-
-biplot3
-```
 
 
 &nbsp;
@@ -986,49 +1107,35 @@ http://geog.uoregon.edu/GeogR/topics/pca.html
 http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#at_pco=smlwn-1.0&at_si=58bbc17c84dcd355&at_ab=per-2&at_pos=0&at_tot=1
 
 
+
+
 &nbsp;
 
 
-```{r, fig.height=12, fig.width=10, message=FALSE, warning=FALSE}
-library(factoextra); library(gridExtra)
 
-# Contributions of variables on PC1
-contr1 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 1, top = 8)
+&nbsp;
 
-# Contributions of variables on PC2
-contr2 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 2, top = 8)
+```{r, fig.height=6, fig.width=12, message=FALSE, warning=FALSE}
+library(psych)
 
-# Contributions of variables on PC3
-contr3 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 3, top = 8)
-
-# Contributions of variables on PC4
-contr4 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 4, top = 8)
-
-# Contributions of variables on PC5
-contr5 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 5, top = 8)
-
-# Contributions of variables on PC6
-contr6 <- fviz_pca_contrib(pca1_hobby, choice = "var", axes = 6, top = 8)
-
-# Printing all at once
-grid.arrange(contr1, contr2, contr3, contr4, contr5, contr6, ncol = 2, nrow =3)
-
+qg_pca1 <- qgraph.pca(testdata2, factor=5, posCol ="red", negCol="darkblue", layout="spring")
 ```
 
-&nbsp;
 
+&nbsp;
 
 ```{r, fig.height=10, fig.width=12, message=FALSE, warning=FALSE}
 library(qgraph)
-qg_pca <- qgraph.pca(hobby, factors=6, rotation="varimax", posCol="darkmagenta", negCol="darkgreen")
+names(std_testdata2)
+qg_pca2 <- qgraph.pca(testdata2, factors=5, rotation="varimax", posCol="darkmagenta", negCol="darkgreen")
 ```
 
 &nbsp;
 
 ```{r, message=FALSE, warning=FALSE}
-library(psych)
-hobby_rot <- principal(r = std_hobby, nfactors = 6, rotate = "varimax", scores = T)
-hobby_rot
+library(psych); library(GPArotation)
+interests_rot <- principal(r = testdata2, nfactors = 5, rotate = "varimax", scores = T)
+print.psych(interests_rot, sort = T)
 ```
 
 
