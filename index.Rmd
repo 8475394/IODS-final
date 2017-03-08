@@ -1138,9 +1138,6 @@ print.psych(interests_rot, sort = TRUE)
 &nbsp;
 
 
-
-
-
 <p class="text-warning">GRAPH OF PRINCIPAL COMPONENT STRUCTURE</p>
 
 This and the second figure gives you a more visual look of 5-dimensional data structure.
@@ -1191,11 +1188,13 @@ bound = cbind(testdata2, hobbies) # Appends the scores to the second test datset
 
 &nbsp;
 
+<p class="text-warning">RENAMING THE PC SCORES</p>
 
-
+Here I changed the column names of PC scores to correspond the titles which I suggested above even though I tried to figure out somewhat shorter names. Underneath you can see the structure and the summary of this new data with 878 observations and 5 variables. Let's see their distributions, because I'm very much interested! 
+&nbsp;
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr); library(tidyr)
+library(dplyr); library(tidyr); library(knitr)
 
 hobby <- data.frame(hobbies)
 class(hobby)
@@ -1203,9 +1202,27 @@ class(hobby)
 hobby <- dplyr::rename(hobby, Art.therapeutic = RC1, Technics.math = RC2, Organic.sciences = RC3, Having.fun = RC4, Societal.factors = RC5)
 
 str(hobby)
-summary(hobby)
+kable(summary(hobby),format = "pandoc", digits = 2,  caption = "Scores of Young People's interests", align = "l")
+```
+
+&nbsp;
+
+
+
+```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+library(GGally); library(ggplot2)
+g = ggpairs(hobby, lower = list(continuous = wrap("smooth", color="palevioletred1")), upper = list(continuous = wrap("density", color = "blue")))
+g
 ```
 
 
+&nbsp;
 
+
+```{r}
+
+```
+
+
+&nbsp;
 
