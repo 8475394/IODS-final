@@ -1211,7 +1211,7 @@ kable(summary(hobby),format = "pandoc", digits = 2,  caption = "Scores of Young 
 
 ```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
 library(GGally); library(ggplot2)
-g = ggpairs(hobby, lower = list(continuous = wrap("smooth", color="palevioletred1")), upper = list(continuous = wrap("density", color = "blue")))
+g = ggpairs(hobby, lower = list(continuous = wrap("smooth", color="palevioletred1")), upper = list(continuous = wrap("density", color = "blue"))) + ggtitle("Plots of the PC scores")
 g
 ```
 
@@ -1219,10 +1219,20 @@ g
 &nbsp;
 
 
-```{r}
-
-```
-
+# Conclusions and discussion
 
 &nbsp;
+
+This has definately been wonderful but also complex journey. I chose the data in terms of my own preferencies which are related to human behaviour and human sciences. Several phenomena in human sciences are often measured with Likert Scale which was also part of my data selection criteria. The data was quite new since the survey of Young People's interests was gathered in 2013. Here's the [Kaggle page](https://www.kaggle.com/miroslavsabo/young-people-survey) again if you want to examine it. 
+
+The basic idea of this assignment was to search the suitable dataset and to utilize one or more statistical method(s) already applied during the course. I got really excited about the Principal Component Analysis and I thought it was a shame that our assignment didn't contain much information about PCA results. Thus I felt that the assignment staid more or less unfinished but here I had a chance to do that. 
+
+The research problem was clear, to find out a meaningful structure in terms of the dimensional reduction with the Principal Component Analysis. I defined my initial hypotheses loosely and I tried to consider the rationales behind each interest or hobby and the distributions of those variables. After constituting the pricipal component scores I thought that I should have trusted more on those rationales than try to interpret the distributions. First I defined 7 dimensions while I ended up to 5. But to note, that I had to drop several variables regarding to constitute any kind of rational structure. However, I had some matches with the single variables and with some themes. For example, I created hypothetical dimensios with artistic and technical properties. In addition, I added together the variables of Dancing and Celebrity Lifestyle which were part of the final solution. 
+
+From the view of validation the final dimensions don't include any sport related variables while I think that the sport was one central theme concidering all of the interests and hobbies. However, these variables seemed to distribute and load here and there without any clear concentration. In addition, there were variables too close each other in terms of their meaning and I thought that they couldn't all be mutually exclusive. Regarding this, I would like to suggest to prepair the survey questions of sports and outdoor activities more carefully as I think it is very important for statistical purposes. Additionally, the data contained variables wiht no obvious pair or group including Languages and Religion. It was a shame that had to drop them out.
+
+And yes, there were some positive aspects too. Despite the problems I managed to create the meaningful structure of dimensions. I utilized several packages to perfom the analyses and I used at least three functions to perform the PCA. I think I learned a lot while this multitasking educated me to be careful with the compatibility of different packages. 
+
+Lastly, I want to thank you for the amazing course. This has been a unique experience. I will definately continue to develop my skills with R.   
+
 
