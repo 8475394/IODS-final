@@ -155,8 +155,6 @@ kable(summary(interests_dem[,15:21]), format = "pandoc", digits = 2,  caption = 
 kable(summary(interests_dem[,22:28]), format = "pandoc", digits = 2,  caption = 'Summary 4', align = "l")
 
 kable(summary(interests_dem[,29:33]), format = "pandoc", digits = 2,  caption = 'Summary 5', align = "l")
-
-
 ```
 
 &nbsp;
@@ -690,7 +688,7 @@ summary(pca_interests)
 
 &nbsp;
 
-**Let's take a look at the first biplot to demonstrate the summary above.** The figure plots the first two principal components and represents both the principal component scores (n = 878) and the loading vectors (p = 32) in a sigle biplot display. Thus the numbers in the biplot illustrate the individuals (i.e. principal component scores) and the arrows indicate the variables in the first two loading vectors. 
+**Let's take a look at the first biplot to demonstrate the summary above.** The figure plots the first two principal components and represents both the principal component scores (n = 878) and the loading vectors (p = 32) in a sigle biplot display. Thus the numbers in the biplot illustrate the individuals (i.e. principal component scores) and the arrows indicate the variables in the first two loading vectors. In this final assignment I'm going to concentrate on loading vectort, i.e. to combine variables to smaller amount of dimensions.  
 
 Above I concluded that the data of interests is still highly multidimensional after performing the PCA. Here I think that its even more evident after running the biplot which seems to be quite messy. However, we can interpret few things from the plot. If I concentrate to the loading vectors (i.e. the variables), the orange arrows and their closeness to other arrows implies the correlations between the variables. The closer the arrows are the more correlated they are with each other. For example the interest toward PC and Cars seem to be higly and positive correlated. Another phenomenon is that the orthogonal arrows suggest negative correlation between the variables. For example interest toward Cars and rPoetry (Poetry reading) share a negative correlation (r = -0.31)
 
@@ -702,7 +700,7 @@ To conclude thus far, the biplot shows more positive than negative correlation b
 
 ```{r, fig.height=13, fig.width=13, message=FALSE, warning=FALSE}
 
-biplot(pca_interests, cex = c(0.8, 1), col = c("dimgrey", "darkorange"))
+biplot(pca_interests, cex = c(0.8, 1.5), col = c("dimgrey", "orangered"))
 ```
 
 &nbsp;
@@ -715,7 +713,7 @@ There are two popular criteria to evaluate the proper amount of principal compon
 
 The Kaiser criterion suggests to retain dimensions with eigenvalues greater than one. Instead, the Scree test is a graphical method to plot the eigenvalues. Its criterion suggest to find a proper amount of dimensions when the smooth decrease of the line appears.
 
-**Let's take a look at the eigevalues first.** The table below consists also the variances which I interpreted earlier, thus I'm going to concentrate the eigenvalues. Note that I retained the values of first 12 dimension. Regarding the Kaiser criterion, i.e. eigenvalue > 1, it seems that 10 of the the printed dimensions could be meaningful. Let's take a look at the Scree test, if the results will be similar.
+**Let's take a look at the eigevalues first.** The table below consists also the variances which I interpreted earlier, thus I'm going to concentrate to the eigenvalues. Note that I retained the values of first 12 dimension. Regarding the Kaiser criterion, i.e. eigenvalue greater than 1, it seems that 10 of the the printed dimensions could be meaningful. Let's take a look at the Scree test, if the results will be similar.
 
 
 &nbsp;
@@ -724,7 +722,7 @@ The Kaiser criterion suggests to retain dimensions with eigenvalues greater than
 library(factoextra); library(knitr)
 
 eig.val <- get_eigenvalue(pca_interests)
-kable(round(eig.val[1:12,], digits = 3), align="c", caption = 'Eigenvalues and variances')
+kable(round(eig.val[1:12,], digits = 3), format = "pandoc", align="c", caption = "Eigenvalues and variances")
 ```
 
 
@@ -732,9 +730,9 @@ kable(round(eig.val[1:12,], digits = 3), align="c", caption = 'Eigenvalues and v
 
 <p class="text-warning">SCREE PLOT OF EIGENVALUES</p>
 
-**The Scree test** method returns a plot of the variances (y-axis) associated with the principal components (x-axis). The Scree plot can be useful to decide how many component to retain for further analysis.
+**The Scree test** method returns here a plot of the eigenvalues (y-axis) associated with the principal components (x-axis). The Scree plot can be useful to decide how many component to retain for further analysis.
 
-I retained the above suggested 10 dimensions for the purpose of the Scree plot below. But what does it imply? We can perceive that there are no obvious bendings to help us to make the decision. However, after seventh dimension the line becomes more steady. Thus I will propose that at least the last 3 dimensions could be irrelevant.
+I retained the above suggested 10 dimensions for the purpose of the Scree plot below. But what does it imply? We can perceive that there are no obvious bending(s) to help us to make the decision. However, after seventh dimension the line becomes more steady. Thus I will propose that at least the last 3 dimensions could be irrelevant.
 
 &nbsp;
 
@@ -771,13 +769,13 @@ fviz_screeplot(pca_interests, ncp=10, addlabels=TRUE, hjust = -0.2) + theme_gray
 
 &nbsp;
 
-The rotation measure in prcomp() provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. Accordin to this [stackexchange conversation](http://stats.stackexchange.com/questions/59213/how-to-compute-varimax-rotated-principal-components-in-r), the term "rotation" is slightly misleading concept, since it indicates more to Factor Analysis. The rotation (in Factor Analysis) is usually applied to loadings, not to eigenvectors of the covariance matrix, which is used to provide the loadings of prcomp(), as far as I know. 
+The rotation measure in prcomp() provides the principal component loadings. Each column of rotation matrix contains the principal component loading vector. According to this [stackexchange conversation](http://stats.stackexchange.com/questions/59213/how-to-compute-varimax-rotated-principal-components-in-r), the term "rotation" may be slightly misleading concept in this case and with the function I use here. The rotation, which often indicates to Factor Analysis, is usually applied to loadings, not to eigenvectors of the covariance matrix, which is used to provide the loadings of prcomp(), as far as I know. 
 
 &nbsp;
 
 <p class="text-warning">TABLE OF LOADINGS</p>
 
-Underneath we can see the table of principal component loadings. I printed the loadings of 10 dimension, since I couldn't make any strict decisions by means of the dimension retaining process. It seems that we have a lot of "noise" since most of the loadings are quite. Additionally, there is no clear structure or distinction where the variables load the most. For example the History loads to both 4th and 6th components. Politics loads to 3th and 5th dimensions. Some of the variables load more strongly to one dimension, e.g. Physics (to 2nd comp), PC (to 2nd comp), Economy (to 3rd comp), Biology and Chemistry (both to 3rd comp), and few others.  
+Underneath we can see the table of principal component loadings. I printed the loadings of 10 dimension, since I couldn't make any strict decisions in terms of the dimension retaining process. It seems that we have a lot of "noise" since part of the loadings are quite low. Additionally, there is no clear structure or distinction where the variables load the most. For example the History loads to both 4th and 6th components. Politics loads to 3th and 5th dimensions. Some of the variables load more strongly to one dimension, e.g. Physics (to 2nd comp), PC (to 2nd comp), Economy (to 3rd comp), Biology and Chemistry (both to 3rd comp), and few others. This may also be the result of the amount of printed dimension.
 
 Next I'm going to explore two different kind of biplot to help me go further. The first plot has the same structure and same features as the biplot presented earlier. Here I made a larger plot to examine the relationships more carefully.
  
@@ -789,7 +787,7 @@ Next I'm going to explore two different kind of biplot to help me go further. Th
 
 # Loadings restricted to 10 components
 rotation <- round(pca_interests$rotation[, 1:10], digits = 3)
-kable(rotation)
+kable(rotation, format = "pandoc")
 
 rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testing purposes
 ```
@@ -798,19 +796,19 @@ rotation2 <- round(pca2_interests$rotation[, 1:10], digits = 2) # Just for testi
 
 <p class="text-warning">ENLARGEMENT OF THE BASIC BIPLOT</p>
 
-Now the figure is larger and we can see for example the coordinate system. One feature of the biplot what I didn't mention earlier is that the lenght of the arrows measures the contribution of the variables by means of their loadings. 
+Now the figure is larger and we can see for example the coordinate system. One feature considering the biplot which I didn't mention earlier is that the lenght of the arrows measures the contribution of the variables by means of their loadings. 
 
-We can evaluate first the 2-dimensional presentation in terms of first and second dimension. It is evident that the Art, Theatre and Poetry reading (rPoetry) load the most to **the first dimension**. Also the Medicine, Biology and Psychology are pointing to the first dimension even though these might represent their own group or dimension regarding their meaning. The Poetry writing (wPoetry) and Dancing are also loading to the first dimension, but I think that the Dancing doesn't share the same features in a "real life". Then there are multiple variables with lower loading pointing to the first dimension, for example Religion and playing instruments.
+We can evaluate first the 2-dimensional presentation in terms of the first and the second dimension. It is evident that the Art, Theatre and Poetry reading (rPoetry) load mostly to **the first dimension**. Also the Medicine, Biology and Psychology are pointing to the first dimension even though these might represent their own group or dimension regarding their meaning. The Poetry writing (wPoetry) and Dancing are also loading to the first dimension. Then there are multiple variables with lower loadings pointing to the first dimension, for example Religion and Playing instruments.
 
-Then, considering **the second dimension**, the PC, Cars, Physics and SciTec (Science and Technology) are loading the most. Additionally, the Mathematics, sAdrealine (Adrenaline sports) and Internet are pointing to this dimension, even though I think that the Adrenaline Sports doesn't share the meaning with other variables.    
+Then, considering **the second dimension**, the PC, Cars, Physics and SciTec (Science and Technology) have the strongest loadings. Additionally, the Mathematics, sAdrealine (Adrenaline sports) and Internet are pointing to this dimension, even though I think that the Adrenaline Sports doesn't share the meaning with other variables.    
 
-Then if we look at the **different layers** regarding the leght from the centrum of the coordinate system, we can see for example that the Shopping, Celebrities, Socializing with friends and Pets could yield one dimension, even though their overall contribution is lower. 
+Then if we look at the **different layers** regarding the lenght from the centrum of the coordinate system, we can see for example that the Shopping, Celebrities, Socializing with friends and Pets could yield one dimension, even though their overall contribution is lower. 
 
-**Then there are some problematic variables** also in terms with my initial hypotheses. For example, variables considering some kind of sport, i.e. Outdoor activities, sLeisure, sCompetitive, sAdrenaline and maybe Dancing, are pointing to very different directions or contributing with very different amount, even thoug the sCompetitive and sAdrenaline are somewhat near with each other and may share a meaning. But these other "sportish" variables seem to differ, thus here's what I think: All of the variables are not mutually exclusive. For example, Outdoor activities, sLeisure (Sport and leisure activities) and even Dancing may already include to variable of Socialisizing with friend. Accordingly, I think that I'll try to extract at least the sLeisure and Outdoor Activities from the data before testing the second round of PCA.
+**Then there are some problematic variables** also in terms with my initial hypotheses. For example, variables considering some kind of sport, i.e. Outdoor activities, sLeisure, sCompetitive, sAdrenaline and maybe Dancing, are pointing to very different directions or contributing with very different amount, even thoug the sCompetitive and sAdrenaline are somewhat near with each other and may share a meaning. But these other "sportish" variables seem to differ, thus here's what I think: All of the variables may not be mutually exclusive. For example, Outdoor activities, sLeisure (Sport and leisure activities) and even Dancing may already contain the same features than the activity of Socialisizing with friends. Accordingly, I think that I'll try to extract at least the sLeisure and Outdoor Activities from the data and perform the Principal Component Analysis again.
 
-But before performing the second round, I have to consider **the rest of the puzzling variables**, which seem to be more complicated, including for example the Languages, Gardening and maybe Religion, Instruments and Economy. Especially the languages and Religion are problematic in a way that they can relate to any of these dimensions considering their meaning or they can be totally independent. The Gardening and Instruments can include at least to the artistic or socializing features and Economy may relate to Politics and Law. Thus, I think I'll try extract at least Languages and Religion.  
+But before performing the second round, I have to consider **the rest of the puzzling variables**, which seem to be more complicated, including for example the Languages, Gardening and maybe Religion, Instruments and Economy. Especially the languages and Religion are problematic in a way that they can relate to any of these dimensions considering their meaning or they can be totally independent. The Gardening and Instruments can share at least some artistic or socializing features while Economy may relate to Politics and Law. Thus, I think I'll try extract at least Languages and Religion.  
 
-Before the data wrangling, you can take a look at the biplots and figures of the variable contribution of different dimensions.
+Before the data wrangling and the second set of PCA, you can take a look at the biplots and figures in terms of the variable contribution to different dimensions.
 
 
 &nbsp;
@@ -829,7 +827,7 @@ biplot1
 <p class="text-warning">BIPLOT WITH FACTOMINER</p>
 
 
-For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the function and therefore I have some additional "testing codes" inside the chunk below. 
+For the more visual purposes I attached the FactoMiner and factoextra packages. FactoMiner has its own function for Principal Component Analysis, "PCA()". Note that I used the factoextra earlier to visualize the Scree plots but now it seems that the biplot visualization works better with its own function. For this reason I performed the Principal Component Analysis again. I wanted to understand some of the mathematics behind the function and therefore I have some additional "testing codes" inside the chunk below. [Here is some additional information considering the packages and the function](http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#at_pco=smlwn-1.0&at_si=58bbc17c84dcd355&at_ab=per-2&at_pos=0&at_tot=1).
 
 For some reason the method turns the arrows the other way round but it doesn't change the results. From this biplot you can observe basically the same interpretations as I wrote above but with additional coloring effects. Note that I have set the "midpoint" relative low to present the variation within this data.  
 
@@ -837,9 +835,8 @@ For some reason the method turns the arrows the other way round but it doesn't c
 
 
 ```{r, fig.height=7, fig.width=8, message=FALSE, warning=FALSE}
-library(FactoMineR); library(factoextra); library(knitr)
+library(FactoMineR); library(factoextra)
 
-# http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#at_pco=smlwn-1.0&at_si=58bbc17c84dcd355&at_ab=per-2&at_pos=0&at_tot=1
 
 PCA_interests <- PCA(interests, graph = FALSE)
 
@@ -847,7 +844,7 @@ eig.val2 <- PCA_interests$eig # Just verifying that this gives the same eigenval
 
 PCA.var <- PCA_interests$var # different results for variables
 
-# The squared loadings, i.e. variance^2
+# The squared loadings
 cos2.var <- PCA_interests$var$cos2 # These are the loadings, corresponding to rotate function in procomp()
 
 # Biplot of loadings
@@ -860,7 +857,11 @@ biplot2
 
 <p class="text-warning">VARIABLE CONTRIBUTION TO DIFFERENT DIMENSIONS</p>
 
-Here you can examine the varible contribution between different dimension and compare your interpretation with the one I wrote above. Note that the content of last dimensions have no meaningful order or sense. 
+Here we can examine the varible contribution between different dimensions. Note that the red dashed line on the graphs indicates the expected average contribution. For a given component, a variable with a contribution larger than this cutoff could be considered as important in contributing to the componen. [Stdha, How to reveal the most important variables in your data](http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#contributions-of-the-variables-to-the-principal-components).  
+
+We can see that the first four components may have some meaningful contents. The first dimension captures the artistic and human science variables. The second dimension catches mostly the technical variables. The third component seems to contain both scientific and societal features while the fourth dimension contain some leisure time activities.
+
+After the fourth component the dimensions seem to be quite meaningless regarding their rational account. Accordingly I think that my problems relate exactly to these variables with unclear structure. 
 
 &nbsp;
 
@@ -905,7 +906,11 @@ grid.arrange(int1, int2, int3, int4, int5, int6, int7, int8, int9, int10, ncol =
 
 &nbsp;
 
-# PART 2, Testing some assumptions
+# PCA Analysis, Round 2
+
+&nbsp;
+
+Earlier part I had some troubles to reveal the dimensional structure of my data. 
 
 &nbsp;
 
@@ -962,7 +967,7 @@ biplot3
 library(factoextra); library(knitr)
 
 eig.test1 <- get_eigenvalue(pca_testdata1)
-kable(round(eig.val[1:10,], digits = 3), align="c", caption = 'Eigenvalues and variances')
+kable(round(eig.val[1:10,], digits = 3), format = "pandoc", align="c", caption = "Eigenvalues and variances")
 ```
 
 &nbsp;
@@ -993,7 +998,7 @@ std_testdata2 <- data.Normalization(testdata2, type = "n1", normalization = "col
 &nbsp;
 
 
-```{r, warning=FALSE}
+```{r, message=FALSE, warning=FALSE}
 pca_testdata2 <- prcomp(std_testdata2)
 
 # Printing a summary of PCA
@@ -1042,14 +1047,12 @@ grid.arrange(test1, test2, test3, test4, test5, test6, ncol = 2, nrow =3)
 
 
 
+
+
+
 &nbsp;
 
 
-
-
-&nbsp;
-
-# PCA Analysis, Round 2
 
 &nbsp;
 
@@ -1082,7 +1085,7 @@ library(psych)
 # http://geog.uoregon.edu/GeogR/topics/pca.html
 
 interest_unrot <- principal(r = testdata2, nfactors = 5, rotate = "none")
-print.psych(interest_unrot, sort = T)
+print.psych(interest_unrot, sort = TRUE)
 ```
 
 
@@ -1090,7 +1093,7 @@ print.psych(interest_unrot, sort = T)
 &nbsp;
 
 
-
+T
 
 
 
@@ -1100,23 +1103,20 @@ print.psych(interest_unrot, sort = T)
 
 ## Variable contribution to different dimensions
 
-http://www.ic.unicamp.br/~wainer/cursos/1s2013/ml/Lecture18_PCA.pdf
+
 
 http://geog.uoregon.edu/GeogR/topics/pca.html
-
-http://www.sthda.com/english/wiki/principal-component-analysis-how-to-reveal-the-most-important-variables-in-your-data-r-software-and-data-mining#at_pco=smlwn-1.0&at_si=58bbc17c84dcd355&at_ab=per-2&at_pos=0&at_tot=1
-
 
 
 
 &nbsp;
 
-
+t
 
 &nbsp;
 
 ```{r, fig.height=6, fig.width=12, message=FALSE, warning=FALSE}
-library(psych)
+library(psych); library(qgraph)
 
 qg_pca1 <- qgraph.pca(testdata2, factor=5, posCol ="red", negCol="darkblue", layout="spring")
 ```
@@ -1132,15 +1132,13 @@ qg_pca2 <- qgraph.pca(testdata2, factors=5, rotation="varimax", posCol="darkmage
 
 &nbsp;
 
+https://www.packtpub.com/books/content/dimensionality-reduction-principal-component-analysis
+
 ```{r, message=FALSE, warning=FALSE}
 library(psych); library(GPArotation)
-interests_rot <- principal(r = testdata2, nfactors = 5, rotate = "varimax", scores = T)
+interests_rot <- principal(r = testdata2, nfactors = 5, rotate = "varimax", scores = TRUE)
 print.psych(interests_rot, sort = T)
 ```
-
-
-
-&nbsp;
 
 
 
