@@ -456,7 +456,7 @@ cor.mtest <- function(mat, ...) {
 
 # matrix of the p-value of the correlation
 p.mat <- cor.mtest(interests1)
-kable((p.mat[, 1:10]), format = "pandoc", digits = 3,  align="c", caption = 'p-values, Significance test of correlations')
+kable((p.mat[, 1:10]), format = "pandoc", digits = 3,  align="c", caption = "p-values, Significance test of correlations")
 
 # Plotting the correlations between first 10 variables along with the significance test
 col <- colorRampPalette(c("#BB4444", "#EE9988", "#FFFFFF", "#77AADD", "#4477AA"))
@@ -784,6 +784,7 @@ Next I'm going to explore two different kind of biplot to help me go further. Th
 &nbsp;
 
 ```{r, fig.width=8, message=FALSE, warning=FALSE}
+library(knitr)
 
 # Loadings restricted to 10 components
 rotation <- round(pca_interests$rotation[, 1:10], digits = 3)
@@ -910,48 +911,81 @@ grid.arrange(int1, int2, int3, int4, int5, int6, int7, int8, int9, int10, ncol =
 
 &nbsp;
 
-Earlier part I had some troubles to reveal the dimensional structure of my data. 
+Earlier part I had some troubles to reveal the dimensional structure of my data and for that I can figure out several reasons. First I think that data of interests contains some variables with no or very low relationship with other variables. If this is true, it means that it is impossible to create composite variables between this kind of variables. Secondly, I think that I didn't have the proper tools in terms of the dimension reduction. Thus in this chapter I adopted a new tool from [psych package](https://cran.r-project.org/web/packages/psych/) and its function called "principal" which is used to perform the Principal Componen Analysis. I also found nice materials and instruction to utilize its features for example [here](https://www.packtpub.com/books/content/dimensionality-reduction-principal-component-analysis). 
+
+However, the dimension revealing process was quite complicated because I had to work simultaneously with earlier information and with multiple estimators performed in this part. I could say that this second round has been highly explorative. But since its not convenient to print huge amount of tables I try to explain briefly what I did.
+
+**I have 2 test datasets** which I utilized to compare different variable droppings i.e. different compositions. Based on the first part I had an initial idea which variables may cause troubles. Note that I experimented more various combinations than you can see here. However, the first test data applies my first thoughts about variable dropping while the second data contains the final solution.
+
+**Then few words about the estimators, their values and principals** which I tried to hold on. In addition to eigenvalues I tried to keep track of communalities (h2) of each variable and variance proportion of each dimension. My treshold to communalities was about 0.30 (and more) to retain the variable and for variance about 5% (or more) to retain the dimension. Note that it is preferred if the variance proportion of each dimension would ascend rather to 10% and the cumulative variance of all dimensions to at least 70% but rather 80-90%. The latter is considered if we don't want loose too much information of original data. Futhermore and naturally, I tried to take into account the meanings of each dimension because it would be worthless to create components with no conjuctive features. 
+
+
 
 &nbsp;
 
 ## Extracting first set of variables
 
+&nbsp;
 
+First I reminded myself about the exact names of the variables and amount of dimensions which we can compare to data of extracted variables. In the first test dataset I dropped the variables which seemed to be the most irrelevant ones, i.e. Languages, Religion, Sport and leisure activities (sLeisure) and Outdoor Activities. I rationalized the reasons earlier but for a reminder the Languages and Religion didn't seem to have much relationships with other variables and I didn't figure out any features which could link them to some of the dimensions in terms of their meaning. Then the variables of sports and leisure activities didn't seem to be mutually exclusive. There were too many variables capturing some level of sport, socializing and leisure time activities and I think the participants in the survey may have understood the items differently.  
+
+Note that I performed here also the scaling and PCA analyses from FactoMiner and with prcomp. These are for visualizing purposes, since all of the functions don't fit together. 
+
+
+&nbsp;
+
+<p class="text-warning">CONTENTS OF ORIGINAL VS. FIRST TEST DATASET</p>
 
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr); library(clusterSim)
+library(dplyr); library(clusterSim); library(FactoMineR)
 
-# Printing the exact names of variables
+# Printing the dimensions and the exact names of variables
 dim(interests)
-names(interests) # for my own use
+names(interests)
 
 # Extracting the variables, 
 testdata1 <- dplyr::select(interests, -Languages, -Religion, -sLeisure, -Outdoor)
 dim(testdata1)
 names(testdata1)
 
-# Scaling the variables
+# Scaling the variables with clusterSim
 std_testdata1 <- data.Normalization(testdata1, type = "n1", normalization = "columns")
+pca_testdata1 <- prcomp(std_testdata1) # This is for to draw the figures of variable contribution
+PCA.testdata1 <- PCA(testdata1, graph = FALSE) # For drawing purposes, note "scale.unit = TRUE"
 ```
 
 &nbsp;
+
+## PCA with the first testing dataset
+
+&nbsp;
+
+First I perfomerd the PCA with different amount of components. Note that the list of variables is sorted by the order of dimensions, thus the table is more readable. I set the number of components to be 7 just to demonstrate few things. First we can see that PC1 captures variables from Art to Geography thus I think there are variables from two kind of content. The PC2 seems to include variables from PC to Mathematics so this seems to be correctly created. The PC3 captures variables from Chemistry to Politics. This might be correct or the Chemistry is an additional variable. PC4 includes variables from Shopping to Pets, thus feels correct. But then PC5 contains only Instruments, PC6 the rest of the variables and PC7 contains nothing. So, I think we have too many components which is also evident if we look at the variance of PC7, that is only 4%. 
+
+Then there are some other problems. The communality of Pets is way under 0.30 and the cumulative value of variance proportion is only 55%. If and when I reduce the number of components it affects simultaneously to these values if I don't make any changes in terms of the variable composition. For example when I reduced the number of components to be 6, the proportion of variance diminished to 51%. In addition there emerged new variables with too low values of communalities, including Gardening and Social.
+
+Finally I thought that 5 dimension feels the right number of components, since I don't think its much of dimension reduction if some component contains only 2 variables, which were true in terms of sComptetitive and sAdrenaline. In addition, the communalities of the latter variables suffered a lot when performing the PCA with 5 factors. 
+
+As you notice, I still have to make some changes in terms of the variable composition. Before that, you can take a look at the biplot of the first test data.  
 
 
 
 &nbsp;
 
 ```{r, message=FALSE, warning=FALSE}
-pca_testdata1 <- prcomp(std_testdata1)
+library(psych);
 
-# Printing a summary of PCA
-summary(pca_testdata1)
+interest_unrot <- principal(r = testdata1, nfactors = 7, rotate = "none")
+print.psych(interest_unrot, sort = TRUE)
 ```
 
 &nbsp;
 
+<p class="text-warning">BIPLOT OF THE FIRST TEST DATASET</p>
 
-```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
+
+```{r, fig.height=8, fig.width=9, message=FALSE, warning=FALSE}
 library(factoextra)
 
 biplot3 <- fviz_pca_var(pca_testdata1, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
@@ -960,15 +994,7 @@ biplot3
 ```
 
 
-&nbsp;
 
-
-```{r, message=FALSE, warning=FALSE}
-library(factoextra); library(knitr)
-
-eig.test1 <- get_eigenvalue(pca_testdata1)
-kable(round(eig.val[1:10,], digits = 3), format = "pandoc", align="c", caption = "Eigenvalues and variances")
-```
 
 &nbsp;
 
@@ -977,13 +1003,18 @@ kable(round(eig.val[1:10,], digits = 3), format = "pandoc", align="c", caption =
 &nbsp;
 
 
+Here I made multiple decisions including dropping as many as 10 variables based on the conclusions of the first testing data. This might be a lot but this was the only reasonable entirety which I managed to create, thus I'm not saying that it is the best or only solution that this data may reveal.
+
+&nbsp;
+
+<p class="text-warning">CONTENTS OF ORIGINAL VS. SECOND TEST DATASET</p>
 
 ```{r, message=FALSE, warning=FALSE}
-library(dplyr); library(clusterSim)
+library(dplyr); library(clusterSim); library(FactoMineR)
 
 # Printing the exact names of variables
 dim(interests)
-names(interests) # for my own use
+names(interests)
 
 # Extracting the variables, 
 testdata2 <- dplyr::select(interests, -Outdoor, -Languages, -Religion, -sLeisure, -Instruments, -Pets, -sCompetitive, -sAdrenaline, -Gardening, -Social)
@@ -992,157 +1023,189 @@ names(testdata2)
 
 # Scaling the variables
 std_testdata2 <- data.Normalization(testdata2, type = "n1", normalization = "columns")
+pca_testdata2 <- prcomp(std_testdata2) # For drawing purposes
+PCA.testdata2 <- PCA(testdata2, graph = FALSE) # For drawing purposes, note "scale.unit = TRUE"
 ```
 
+
+&nbsp;
+
+## PCA with the second test dataset
+
+&nbsp;
+
+Here we can notice both strenghts and weaknesses. To start from the streghts we can see that structure is now more clear. The data of interests has reduced from 32 variables to 5 rational dimensions. The PC1 contains variables from Theatre to Poetry writing and PC2 variables between Physics and Internet. PC3 captures variables from Chemistry to Geography while PC4 contains the rest, i.e. Shopping and Celebrities. It seems that the 5th component is unnecessary but I'm going to utilize the "Varimax rotation" which seems to be more applicable than I thought.
+
+Before the rotation I will conclude some points of the table below. Although the dimension structure is not finalized, we can conclude that most of the communalities suit quite well except for Geography. I'm not totally sure if I should remove this variable even though it otherwise fits well its suggested dimension after rotation. I take my chances and continue with this structure. Besides this the dimension specific eigenvalues (SS loadings) seem to be in a proper level, i.e. more than 1. 
+
+Then the last interpretation here, that is the real weakness, namely cumulative variance which happens to be only 55% instead of 70-90%. I could rise this value by increasing the number of components which would be very irrational idea because it would mess up the whole dimensional structure. Regarding I'm continuing with this.  
 
 &nbsp;
 
 
 ```{r, message=FALSE, warning=FALSE}
-pca_testdata2 <- prcomp(std_testdata2)
-
-# Printing a summary of PCA
-summary(pca_testdata2)
-```
-
-&nbsp;
-
-
-```{r, fig.height=8, fig.width=8, message=FALSE, warning=FALSE}
-library(factoextra)
-
-biplot4 <- fviz_pca_var(pca_testdata2, col.var="cos2") + scale_color_gradient2(low="white", mid="blue", high="red", midpoint=0.2) + theme_minimal()
-
-biplot4
-```
-
-
-&nbsp;
-
-
-```{r, fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
-library(factoextra); library(gridExtra)
-
-# Contributions of variables on PC1
-test1 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 1, top = 10)
-
-# Contributions of variables on PC2
-test2 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 2, top = 8)
-
-# Contributions of variables on PC3
-test3 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 3, top = 8)
-
-# Contributions of variables on PC4
-test4 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 4, top = 8)
-
-# Contributions of variables on PC5
-test5 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 5, top = 8)
-
-# Contributions of variables on PC6
-test6 <- fviz_pca_contrib(pca_testdata2, choice = "var", axes = 6, top = 8)
-
-# Printing all at once
-grid.arrange(test1, test2, test3, test4, test5, test6, ncol = 2, nrow =3)
-```
-
-
-
-
-
-
-&nbsp;
-
-
-
-&nbsp;
-
-Here I adopt an additional approach to better identify the variables which have very low contribution in terms of dimension reduction considering the Young People's Interests. I loaded the [psych package](https://cran.r-project.org/web/packages/psych/) and I'm going to use the "principal()" function to get more statistical results at once. The idea came from [this site](http://geog.uoregon.edu/GeogR/topics/pca.html) which is the same page from where I adpoted the graphic of correlation network. I'm also going to benefit [these instructions](http://www.ic.unicamp.br/~wainer/cursos/1s2013/ml/Lecture18_PCA.pdf) to perform the PCA with this new function.
-
-Note also that I'm going to use simultaneously this new and previous pca functions to draw graphics since they all don't fit with each other.
-
-First I introduce briefly the methods behind variable extraction. After that the purpose is to show the new structure and form the factor scores with respect to actually utilize the new dimensions for example for some form of regression analysis.
-
-&nbsp;
-
-## Performing PCA with principal()
-
-&nbsp;
-
-Below you can see many statistical results of the PCA which are basically same than earlier. Regarding to extract some variables and retain proper amount of dimensions, I had to work simultaneously with earlier information and two different estimator and adjust the number of dimensions and drop variables from the data one by one. Since its not convenient to print like 10 long tables, I try to explain shortly what I did. 
-
-Thus, I followed the values of communalities (h^2) and proportion of variance of each component. My tresholds were h^2 < 0.30 to drop variables and around 5% proportion of variance to retain dimensions. First I performed PCA with different numbers of component and located variables with especially low communalities. First variables to drop were Pets and sLeisure (Sport and leisure activities) and after that Social (Socializing with friends), Gardening and Religion. Note that the combination of values changes every time when you drop even one variable.
-
-While dropping the variables I followed the variance proportion of each dimension. Finally, after dropping the above mentioned variables I had to choose 6 dimensions instead of 7. This was because the variance proportion was too low in seventh dimension.
-
-
-&nbsp;
-
-<p class="text-warning">PCA RESULTS WITH 8 DIMENSIONS</p>
-
-
-```{r, message=FALSE, warning=FALSE}
-library(psych)
-# http://geog.uoregon.edu/GeogR/topics/pca.html
+library(psych); library(GPArotation)
 
 interest_unrot <- principal(r = testdata2, nfactors = 5, rotate = "none")
 print.psych(interest_unrot, sort = TRUE)
 ```
 
 
+&nbsp;
+
+
+<p class="text-warning">VARIABLE CONTRIBUTION WITH UNROTATED DATA</p>
+
+Here you can see more illustrative the variable contribution to each dimension with unrotated test datset2.
+
+&nbsp;
+
+```{r, fig.height=9, fig.width=10, message=FALSE, warning=FALSE}
+library(factoextra); library(gridExtra)
+
+# Contributions of variables on PC1
+test1 <- fviz_pca_contrib(PCA.testdata2, choice = "var", axes = 1, top = 10)
+
+# Contributions of variables on PC2
+test2 <- fviz_pca_contrib(PCA.testdata2, choice = "var", axes = 2, top = 8)
+
+# Contributions of variables on PC3
+test3 <- fviz_pca_contrib(PCA.testdata2, choice = "var", axes = 3, top = 8)
+
+# Contributions of variables on PC4
+test4 <- fviz_pca_contrib(PCA.testdata2, choice = "var", axes = 4, top = 8)
+
+# Contributions of variables on PC5
+test5 <- fviz_pca_contrib(PCA.testdata2, choice = "var", axes = 5, top = 8)
+
+
+# Printing all at once
+grid.arrange(test1, test2, test3, test4, test5, ncol = 2, nrow =3)
+```
+
+
+&nbsp;
+
+## PCA with rotated dataset
+
+&nbsp;
+
+Now we have our final and rotated PCA model including the principal component scores with a very clear structure constituting as following:
+
+
+<p class="text-warning">RC1, INTEREST TOWARD ARTISTIC AND THERAPEUTIC THEMES </p>
+* Art Exhibitions
+* Theatre
+* Poetry Reading
+* Poetry Writing 
+* Psychology
+* Read about [art and psychology](https://thepsychologist.bps.org.uk/volume-20/edition-2/personality-and-art)
+
+<p class="text-warning">RC3, INTEREST TOWARD ORGANIC AND INORGANIC SCIENCES</p>
+* Biology
+* Chemistry
+* Medicine
+
+<p class="text-warning">RC2, INTEREST TOWARD TECHNICAL AND MATHEMATICAL PROPERTIES</p>
+* PC
+* Physics
+* Mathematics
+* Science and Technology
+* Cars
+
+<p class="text-warning">RC5, INTEREST TOWARD SOCIETAL FACTORS</p>
+* Politics
+* Law
+* History
+* Geography
+* Economy
+
+<p class="text-warning">RC4, INTEREST TOWARD HAVING FUN IN LEISURE TIME </p>
+* Shopping
+* Celebrity lifestyle
+* Dancing
+
+
+&nbsp;
+
+```{r, message=FALSE, warning=FALSE}
+library(psych); library(GPArotation)
+interests_rot <- principal(r = testdata2, nfactors = 5, rotate = "varimax", scores = TRUE)
+print.psych(interests_rot, sort = TRUE)
+```
+
 
 &nbsp;
 
 
-T
 
 
 
+<p class="text-warning">GRAPH OF PRINCIPAL COMPONENT STRUCTURE</p>
 
-&nbsp;
+This and the second figure gives you a more visual look of 5-dimensional data structure.
 
-
-## Variable contribution to different dimensions
-
-
-
-http://geog.uoregon.edu/GeogR/topics/pca.html
-
-
-
-&nbsp;
-
-t
-
-&nbsp;
 
 ```{r, fig.height=6, fig.width=12, message=FALSE, warning=FALSE}
-library(psych); library(qgraph)
+library(qgraph)
 
+names(testdata2) # to finf out the variables behind the numbers
 qg_pca1 <- qgraph.pca(testdata2, factor=5, posCol ="red", negCol="darkblue", layout="spring")
 ```
 
 
 &nbsp;
 
+<p class="text-warning">ANOTHER GRAPH OF PRINCIPAL COMPONENT STRUCTURE</p>
+
 ```{r, fig.height=10, fig.width=12, message=FALSE, warning=FALSE}
 library(qgraph)
-names(std_testdata2)
+
 qg_pca2 <- qgraph.pca(testdata2, factors=5, rotation="varimax", posCol="darkmagenta", negCol="darkgreen")
+# http://geog.uoregon.edu/GeogR/topics/pca.html
 ```
 
 &nbsp;
 
-https://www.packtpub.com/books/content/dimensionality-reduction-principal-component-analysis
+
+## Principal Component Scores
+
+&nbsp;
+
+After finding the best suited components I'm intending to create the composite variables with principal component scores. First I verify that the scores are uncorrelated with each other and then I combine the scores to the new dataset called "hobbies".
+
+The table below suggests that the principal component scores are uncorrelated with a p-value equal or lower than 0.001. 
+
+&nbsp;
 
 ```{r, message=FALSE, warning=FALSE}
-library(psych); library(GPArotation)
-interests_rot <- principal(r = testdata2, nfactors = 5, rotate = "varimax", scores = TRUE)
-print.psych(interests_rot, sort = T)
+library(psych)
+hobbies <- interests_rot$scores
+round(cor(hobbies), 3)
+
+nrow(hobbies) == nrow(testdata2) # Verifying that the scores contains the same number of rows than the testdata2
+
+bound = cbind(testdata2, hobbies) # Appends the scores to the second test datset, which is now called hobbies
 ```
 
 
-
 &nbsp;
+
+
+
+
+```{r, message=FALSE, warning=FALSE}
+library(dplyr); library(tidyr)
+
+hobby <- data.frame(hobbies)
+class(hobby)
+
+hobby <- dplyr::rename(hobby, Art.therapeutic = RC1, Technics.math = RC2, Organic.sciences = RC3, Having.fun = RC4, Societal.factors = RC5)
+
+str(hobby)
+summary(hobby)
+```
+
 
 
 
